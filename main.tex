@@ -1,0 +1,200 @@
+%%%%%%% General Layout %%%%%%%
+
+
+\documentclass[a4paper, twoside, 11pt]{book}
+\raggedbottom % Deactivates the default in book-class, that latex always tries to fill a page with empty space
+\usepackage[top=5cm, bottom=4cm, left=3.5cm, right=3.5cm]{geometry} % Valid for titlepage, will be changed afterwards
+\usepackage[main=ngerman, english]{babel} % Main language is German, else English
+\usepackage[utf8]{inputenc} % German Umlaute with encoder for Windows
+\usepackage{listings} 
+\lstdefinestyle{myStyle}{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    frame=none,
+    numbers=none,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    backgroundcolor=\color{gray!10!white},
+}
+\lstset{style=myStyle}
+
+%%%%%%% Packages %%%%%%%
+
+\usepackage[skins]{tcolorbox}
+\usepackage{microtype} % Smoothes typesetting, e.g. no overlaying text
+\usepackage{xcolor} % Enables colored text (for colors see https://www.namsu.de/Extra/pakete/Xcolor.html)
+% [dvipsnames]
+\usepackage{datetime} % Current date and time
+\ddmmyyyydate % Change to German format
+\renewcommand{\dateseparator}{.} % replacing / with .
+\usepackage{amsmath} % Mathematical typesetting
+\usepackage{amsfonts} % Extended symbols, e.g. bold greek letters
+\usepackage{amssymb} % Further symbols, e.g. average-symbol
+\usepackage{mathtools} % Special math commands, like \mathclap
+% \usepackage{textcomp} % Upgreek letter
+\usepackage{enumerate} % Enumerating
+\usepackage{graphicx} % Graphics
+\usepackage[footnotesize, labelfont=bf]{caption} % Reduced font size in captions and label in bold,
+\usepackage{subcaption}
+
+\usepackage[section]{placeins} % Places figures and tables in their belonging chapter
+\usepackage{float} % Places the float at precisely the location in the LaTeX code with H
+\setcounter{secnumdepth}{3} % Numbers X levels
+% \setcounter{tocdepth}{1} % In TOC reduces layers to only one after the main chapter number
+% \usepackage{indentfirst} % Only first line of a section is indent
+\setlength{\parindent}{0pt} % Deactivates indent
+\usepackage[hyperfootnotes=false]{hyperref} % Allows linking formulas, citations etc.
+\hypersetup{hidelinks} % Deactivates colored frames around linked text
+\usepackage{multirow} % Allows to merge rows in tables
+\usepackage{multicol} % Allows to merge columns in tables
+\numberwithin{equation}{section} % The first number of a equation/caption is the number of chapter, the second number is ascending
+\numberwithin{table}{section}
+% \numberwithin{figure}{chapter}
+\usepackage{xparse}% Allows to create commands
+% Commands for up- and down arrows in equations
+\NewDocumentCommand{\overarrow}{O{=} O{\uparrow} m}{%
+  \overset{\makebox[0pt]{\begin{tabular}{@{}c@{}}#3\\[0pt]\ensuremath{#2}\end{tabular}}}{#1}
+}
+\NewDocumentCommand{\underarrow}{O{=} O{\downarrow} m}{%
+  \underset{\makebox[0pt]{\begin{tabular}{@{}c@{}}\ensuremath{#2}\\[0pt]#3\end{tabular}}}{#1}
+}
+\usepackage[ngerman]{cleveref} % When using \cref[label] "chapter", "section", "equation" etc. are automatically used before the number
+
+
+%%%%%%% Glossary for used variables %%%%%%%
+
+
+\usepackage[acronym, nonumberlist, nogroupskip, nopostdot, toc=true]{glossaries-extra}
+\setglossarystyle{super}
+\renewenvironment{theglossary}
+    {\centering\tablehead{}\tabletail{}
+     \begin{supertabular}{lp{2\glsdescwidth}}}
+    {\end{supertabular}}
+\makenoidxglossaries
+% Variablen zu Harmonischem Oszillator
+\newglossaryentry{gl:Gamma}{name={\text{$\Gamma$}},description={Abklingkonstante}}
+\newglossaryentry{gl:omega_0}{name={\text{$\omega_0$}},description={Resonanzfrequenz}}
+\newglossaryentry{gl:F}{name={\text{$F$}},description={Kraft}}
+\newglossaryentry{gl:t}{name={\text{$t$}},description={Zeit}}
+\newglossaryentry{gl:m}{name={\text{$m$}},description={Masse}}
+% Variablen zu Fadenpendel Experiment
+\newglossaryentry{gl:c}{name={\text{$c$}},description={Lichtgeschwindigkeit}}
+\newglossaryentry{gl:g}{name={\text{$g$}},description={Erdbeschleunigung}}
+\newglossaryentry{gl:l}{name={\text{$l$}},description={Fadenl\"ange}}
+\newglossaryentry{gl:T_Periode}{name={\text{$T_{\mathrm{Periode}}$}},description={Periodendauer}}
+% Variablen zu Éxperimenteller Messung
+\newglossaryentry{gl:x}{name={\text{$x$}},description={Messwert}}
+\newglossaryentry{gl:r}{name={\text{$r$}},description={Dynamic Range}}
+\newglossaryentry{gl:T}{name={\text{$T$}},description={Messzeit}}
+\newglossaryentry{gl:Deltat}{name={\text{$\Delta t$}},description={Messrate}}
+\newglossaryentry{gl:1durchT}{name={\text{$\frac{1}{T}$}},description={Spektrale Aufl\"osung}}
+\newglossaryentry{gl:1durch2Deltat}{name={\text{$\frac{1}{2 \Delta t}$}},description={Messbandbreite}}
+% Messstatistik 
+\newglossaryentry{gl:xtilde}{name={$\Tilde{x}$},description={erwarteter Wert}}
+\newglossaryentry{gl:e}{name={\text{$e$}},description={Fehler der Messung}}
+\newglossaryentry{gl:xoverline}{name={\text{$\overline{x}$}},description={empirischer Mittelwert}}
+\newglossaryentry{gl:deltax2}{name={\text{$\Delta_x^2$}},description={empirische Varianz}}
+\newglossaryentry{gl:deltax}{name={\text{$\Delta_x$}},description={empirische Standardabweichung}}
+% Wahrscheinlichkeitsdichteverteilungen
+\newglossaryentry{gl:xmode}{name={\text{$x_{\mathrm{mode}}$}},description={Modus}}
+\newglossaryentry{gl:xmode2}{name={\text{$x_{\mathrm{mode}}$}},description={Modus}}
+\newglossaryentry{gl:FWHM}{name={\text{FWHM}},description={Halbwertsbreite}}
+\newglossaryentry{gl:PDF}{name={\text{PDF}},description={Wahrscheinlichkeitsdichtefunktion}}
+\newglossaryentry{gl:var}{name={\text{var$(x)$}},description={Varianz}}
+\newglossaryentry{gl:mu}{name={\text{$\mu$}},description={Erwartungswert}}
+\newglossaryentry{gl:sigma}{name={\text{$\sigma$}},description={Standardabweichung}}
+
+
+\newglossaryentry{gl:A}{name={\text{$A$}},description={Amplitude}}
+\newglossaryentry{gl:omega}{name={\text{$\omega$}},description={Frequenz ($\omega = 2 \pi f$)}}
+\newglossaryentry{gl:k}{name={\text{$k$}},description={Federkonstante}}
+\newglossaryentry{gl:P}{name={\text{$P$}},description={Wahrscheinlichkeit}}
+\newglossaryentry{gl:Ai}{name={\text{$A_i$}},description={Ereignis}}
+\newglossaryentry{gl:PMF}{name={\text{PMF}},description={Wahrscheinlichkeitsmassefunktion}}
+% \newglossaryentry{gl:FWHM}{name={\text{FWHM}},description={Halbwertsbreite}}
+\newglossaryentry{gl:Mm}{name={\text{$M_m$}},description={\textit{m}-te Moment}}
+\newglossaryentry{gl:L}{name={\text{$L$}},description={Likelihood-Funktion}}
+\newglossaryentry{gl:PSD}{name={\text{PSD}},description={Spektrale Leistungsdichte ($S_{xx}$)}}
+\newglossaryentry{gl:DFT}{name={\text{DFT}},description={Diskrete Fourier-Transformation}}
+\newglossaryentry{gl:PS}{name={\text{PS}},description={Powerspektrum}}
+\newglossaryentry{gl:cov}{name={\text{cov}},description={Kovarianz}}
+\newglossaryentry{gl:rhoxy}{name={\text{$\rho_{xy}$}},description={Normalisierter Korrelationskoeffizient}}
+\newglossaryentry{gl:RxxDelta}{name={\text{$R_{xx}(\Delta)$}},description={Diskrete Autokovarianz}}
+\newglossaryentry{gl:rhoxx}{name={\text{$\rho_{xx}$}},description={Autokorrelationskoeffizient}}
+\newglossaryentry{gl:Rxxtau}{name={\text{$R_{xx}(\tau)$}},description={Kontinuierliche Autokovarianz}}
+\newglossaryentry{gl:deltat}{name={\text{$\delta t$}},description={Samplingzeit}}
+\newglossaryentry{gl:zeta}{name={\text{$\zeta$}},description={Zufallsvariable}}
+\newglossaryentry{gl:logl}{name={\text{$l$}},description={Log-Likelihood-Funktion}}
+\newglossaryentry{gl:epsilon}{name={\text{$\epsilon$}},description={Residuen}}
+\newglossaryentry{gl:H}{name={\text{$\boldsymbol{H}$}},description={Hesse-Matrix}}
+\newglossaryentry{gl:S_xx}{name={\text{$S_{xx}$}},description={PSD}}
+
+% Online-Notebooks
+\newcommand{\gitresource}[1]{\href{https://github.com/datenanalysephysik/skriptnotebooks/blob/master/#1}{#1}}
+
+\newcommand{\mr}{\mathrm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+% Titlepage
+\hypersetup{pageanchor=false}
+%%%% TITLEPAGE %%%%%%%%%%%%%%%
+\begin{titlepage}
+	
+	
+	\centering
+
+	\hrule height 1.5pt
+	\vspace{10pt}
+	{\Large \bfseries Vorlesungsskript \par}
+	\vspace{10pt}
+	{\huge\bfseries Datenanalyse in der Physik  \par}
+	\vspace{10pt}
+	\hrule height 1.5pt
+	
+	
+	\vspace{15mm}
+	
+	\begin{center}
+		{\Large Alexander Eichler, Martin Kroner, Carlos Cotrini \par 
+         \Large Laura V\"olker, Uwe von L\"upke, Mario Sauppe, G\"uney Tekin \par }
+		\vspace{15mm}
+      
+	
+		
+		
+		\vfill
+		% Bottom of the page
+		{\large ETH Zürich, FS 2023\par}
+	\end{center}
+\end{titlepage}
+
+% Table of Contents
+\newgeometry{top=2.7cm, bottom=2.5cm, right=2.5cm, left=2.5cm} 
+\hypersetup{pageanchor=true}
+\pagenumbering{Roman}
+
+\tableofcontents
+
+% Main Part
+\newpage
+\pagenumbering{arabic}
+
+\include{Chapters/Kapitel1}
+\include{Chapters/Kapitel2}
+\include{Chapters/Kapitel3}
+\include{Chapters/Kapitel4}
+\include{Chapters/Kapitel5und6}
+\include{Chapters/Kapitel7}
+
+
+\renewcommand*{\arraystretch}{1.2}% default is 1
+% \printnoidxglossary[type=main, title={Variablen}, sort=case]
+
+
+\end{document}

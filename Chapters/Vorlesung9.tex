@@ -1,0 +1,244 @@
+\section{Vorlesung 9: Fitten von nichtlinearen Funktionen}
+\label{sec:vl9}
+
+
+\subsection{Nichtlineare Sch\"atzung der kleinsten Quadrate}
+\label{subsec:vl9}
+
+Um die lineare Funktion $a_0 - a_1 x_i$ an einen gemessen Datensatz $y_1, y_2, ..., y_n$, gemessen als Funktion der unabh\"angigen Variable $x_1, x_2, ..., x_n$ zu fitten, haben wir die Summe der Abstandsquadrate (Residuen) minimiert, vgl. \cref{eq:vl8-24}. Im Allgemeinen heisst das also f\"ur eine Funktion $f(x, a_0, a_1, ..., a_m) = f(x, \boldsymbol{a})$ wir m\"ussen
+\begin{align}
+S = \sum_{i=1}^n w_i (y_i - f(x_i, \boldsymbol{a}) )^2
+\label{eq:vl9-1}
+\end{align}
+
+minimieren. Wir k\"onnen nun $S$ als Funktion von ``allen'' $\boldsymbol{a}$ berechnen. Das ergibt uns eine Fl\"ache im $m + 2$ dimensionalen Raum.
+
+\begin{center}
+    \textcolor{red}{Das Ziel ist nun das Minimum von $S$ zu finden. Da es im Allgemeinen keine geschlossene L\"osung gibt, sind iterative Ans\"atze notwendig.}
+\end{center}
+
+
+\subsubsection{Gradientenverfahren}
+\label{subsubsec:vl9-1}
+
+Wir starten mit einer initialen Sch\"atzung der Werte von $\boldsymbol{a}$: $\boldsymbol{a}_\mathrm{g}$ und bewegen uns auf der Fl\"ache $S$ entlang des steilsten Gradienten den wir aus der Linearisierung (Taylor-Entwicklung erster Ordnung) erhalten. Dieser Methode folgen wir iterativ zum Minimum von $S$:
+\begin{align}
+S \approx S(\boldsymbol{a}_\mathrm{g}) + \sum_{i=0}^m \frac{ \partial S }{ \partial a_i } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta a_i
+\label{eq:vl9-2}
+\end{align}
+
+mit $\Delta a_i = a_i - a_{i\mathrm{g}}$. In Vektorschreibweise ist das:
+\begin{align}
+S \approx S(\boldsymbol{a}_\mathrm{g}) + \Delta \boldsymbol{a}^T \nabla S\,.
+\label{eq:vl9-3}
+\end{align}
+
+Hierbei ist
+\begin{align}
+\nabla S =
+\begin{pmatrix}
+\frac{\partial S}{\partial a_0} \\
+\vdots \\
+\frac{\partial S}{\partial a_m}
+\end{pmatrix}
+\label{eq:vl9-4}
+\end{align}
+
+der Gradient von $S$. Damit ist die Korrektur von $\boldsymbol{a}_\mathrm{g}$ Richtung Minimum gegeben durch:
+\begin{align}
+\Delta a_i = - \alpha \frac{ \partial S }{ \partial a_i } \bigg|_{\boldsymbol{a}_\mathrm{g}},
+\label{eq:vl9-5}
+\end{align}
+
+wobei der Parameter $\alpha$ die ``Gr\"osse'' der Korrektur skaliert. Damit sind die neuen Werte f\"ur die Fitparameter:
+\begin{align}
+a_i = a_{i\mathrm{g}} + \Delta a_i\,.
+\label{eq:vl9-6}
+\end{align}
+
+Diese Prozedur wird wiederholt bis die Fitfunktion die Daten hinreichend gut beschreibt. Dies kann zum Beispiel erreicht sein, wenn der Gradient sehr klein wird. Das tats\"achliche Minimum ist erreicht wenn $\nabla S = 0$. Die initialen Sch\"atzwerte $\boldsymbol{a}_\mathrm{g}$ sowie der Parameter $\alpha$ m\"ussen m\"oglicherweise angepasst werden um die Konvergenz des Algorithmus zu erreichen.
+
+\begin{center}
+\textcolor{red}{Da die Schritte kleiner werden desto n\"aher wir dem Optimum kommen, m\"ussen wir $\alpha$ bei jedem Schritt anpassen.}
+\end{center}
+
+
+\subsubsection{Newtonverfahren}
+\label{subsubsec:vl9-2}
+
+Anstelle der einfachen Linearisierung von $S$ um $\boldsymbol{a}_\mathrm{g}$ (Taylor-Entwicklung erste Ordnung), k\"onnen wir auch den zweiten Term der Taylor-Entwicklung ber\"ucksichtigen:
+\begin{align}
+S \approx S(\boldsymbol{a}_\mathrm{g}) + \sum_{i=0}^m \frac{ \partial S }{ \partial a_i } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta a_i + \frac{1}{2} \sum_{i=0}^m \sum_{j=0}^m \frac{ \partial^2 S }{ \partial a_i \partial a_j } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta a_i \Delta a_j = S'(\Delta \boldsymbol{a}) \,.
+\label{eq:vl9-7}
+\end{align}
+
+Wir approximieren $S$ also durch einen Paraboloid. Der n\"achste Iterationsschritt ist gegeben durch das Minimum von $S'$. Das bedeutet, dass f\"ur alle $\Delta a_k \text{: } \frac{ \partial S' }{ \partial \Delta a_k} = 0$:
+\begin{align}
+\frac{ \partial S }{ \partial a_k } \bigg|_{\boldsymbol{a}_\mathrm{g}} + \sum_{i=0}^m \frac{ \partial^2 S }{ \partial a_k \partial a_i } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta \hat{a}_i = 0 \,.
+\label{eq:vl9-8}
+\end{align}
+
+Hierbei ist $\Delta \boldsymbol{\hat{a}}$ der Vektor mit den Korrekturen f\"ur die initialen Parameter. Dies k\"onnen wir in Matrixform schreiben:
+\begin{align}
+\underbrace{
+\begin{pmatrix}
+\frac{\partial^2 S}{\partial a_0^2}            & \cdots & \frac{\partial^2 S}{\partial a_0 \partial a_m} \\
+\vdots                                         & \ddots & \vdots                                         \\
+\frac{\partial^2 S}{\partial a_m \partial a_0} & \cdots & \frac{\partial^2 S}{\partial a_m^2}            
+\end{pmatrix}}_{\text{Hesse-Matrix } \gls{gl:H}}
+\begin{pmatrix}
+\Delta \hat{a}_0 \\
+\vdots           \\
+\Delta \hat{a}_m 
+\end{pmatrix}
+= -
+\underbrace{
+\begin{pmatrix}
+\frac{\partial S}{\partial a_0} \\
+\vdots                          \\
+\frac{\partial S}{\partial a_m}
+\end{pmatrix}}_{\text{Gradient } \boldsymbol{\nabla S}}
+\label{eq:vl9-9}
+\end{align}
+
+sowie auch den Ausdruck f\"ur $S'$:
+\begin{align}
+S' = S (\boldsymbol{a}_\mathrm{g}) + \Delta \boldsymbol{a}^T \nabla S + \frac{1}{2} \Delta \boldsymbol{a}^T \boldsymbol{H} \Delta \boldsymbol{a} \,.
+\label{eq:vl9-10}
+\end{align}
+
+Das heisst also:
+\begin{align}
+\boldsymbol{H} \Delta \boldsymbol{\hat{a}} = - \nabla S\,.
+\label{eq:vl9-11}
+\end{align}
+
+Damit erhalten wir f\"ur die Korrekturen zu den initialen Parametern:
+\begin{align}
+\Delta \boldsymbol{\hat{a}} = -\boldsymbol{H}^{-1} \nabla S\,.
+\label{eq:vl9-12}
+\end{align}
+
+Die neuen Parameter sind dann: $\boldsymbol{\hat{a}} = \boldsymbol{a}_\mathrm{g} + \Delta \boldsymbol{\hat{a}}$. Auch hier f\"ugen wir f\"ur bessere Konvergenz einen Skalierungsfaktor $(\alpha < 1)$ ein:
+\begin{align}
+\boldsymbol{\hat{a}} = \boldsymbol{a}_\mathrm{g} + \alpha \Delta \boldsymbol{\hat{a}}\,.
+\label{eq:vl9-13}
+\end{align}
+
+
+\subsubsection{Vergleich des Gradienten- und Newtonverfahren}
+\label{subsubsec:vl9-3}
+
+Wir berechnen die Korrektur als:
+
+\begin{align}
+\begin{split}
+\text{Gradientenverfahren:}\quad \quad \Delta \boldsymbol{\hat{a}} &= -\alpha \nabla S\,,\\
+\text{Newtonverfahren:}\quad \quad \Delta \boldsymbol{\hat{a}} &= -\alpha \boldsymbol{H}^{-1} \nabla S\,.
+\label{eq:vl9-14}
+\end{split}
+\end{align}
+
+Eine intuitive und einfache Verbesserung der Methode des Gradientenverfahrens ist also $\alpha$ dynamisch anzupassen, indem wir es mit der inversen Kr\"ummung von $S$ skalieren:
+\begin{align}
+\Delta \hat{a}_i = -\alpha \left( \frac{ \partial^2 S }{ \partial a_i^2 } \right)^{-1} \frac{ \partial S }{ \partial a_i }\,.
+\label{eq:vl9-15}
+\end{align}
+
+Grunds\"atzlich ist es w\"unschenswert die Vorteile von beiden Methoden zu kombinieren und ihre Nachteile zu kompensieren.
+
+
+\subsubsection{Marquardts Methode}
+\label{subsubsec:vl9-4}
+
+Wir wollen die Verfahren 1 und 2 kombinieren um schnelle Konvergenz in allen Regimen zu erreichen.
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Wenn wir weit weg sind vom Optimum (wenn die 2te Ableitung von $S$ gross ist) wollen wir ein konstantes $\alpha$ benutzen.
+        \item Wenn wir dem Optimum n\"aher kommen (wenn die 2te Ableitung von $S$ klein wird) m\"ochten wir die Korrektur mit der inversen Hesse-Matrix skalieren.
+\end{itemize}
+
+Eine Methode dies zu erreichen wurde von D. Marquardt vorgeschlagen, indem die Matrix $\boldsymbol{H}$ ersetzt wird durch:
+\begin{align}
+\boldsymbol{H}_{i,j}' =
+    \begin{cases}
+        \boldsymbol{H}_{i,j} (1 + \alpha) &i = j \\
+        \boldsymbol{H}_{i,j} &i \neq j 
+    \end{cases}\,.       
+\label{eq:vl9-16}
+\end{align}
+
+Wir benutzen $\boldsymbol{H}'$ um $\boldsymbol{\hat{a}}$ zu berechnen:
+\begin{align}
+\Delta \boldsymbol{\hat{a}} = - (\boldsymbol{H}')^{-1} \nabla S\,.
+\label{eq:vl9-17}
+\end{align}
+
+Falls $\alpha$ sehr gross wird, vereinfacht sich dies zu:
+\begin{align}
+\Delta \hat{a}_i = \frac{1}{ (1 + \alpha) } \left( \frac{ \partial^2 S }{ \partial a_i^2 } \right)^{-1} \frac{ \partial S }{ \partial a_i } \,.
+\label{eq:vl9-18}
+\end{align}
+
+Das ist sehr \"ahnlich wie unsere einfach Verbesserung des Gradientenverfahrens.
+
+
+\subsection{Unsicherheit der Fitparameter}
+\label{subsec:vl9-2}
+
+Mit diesen Methoden erhalten wir nicht automatisch die Kovarianzmatrix aus der Normalform, wie bei der linearen Minimierung der Summe der Abstandsquadrate. Aber wir k\"onnen die Kovarianzmatrix aus der Hesse-Matrix berechnen. Hierzu nehmen wir an, dass wir die Werte $\boldsymbol{\hat{a}}$, die $S$ minimieren, mit einer der vorher beschriebenen Methoden bestimmt haben:
+\begin{align}
+S_\text{min} = \sum_{i=0}^n w_i (y_i - f (x_i, \boldsymbol{\hat{a}}))^2\,.
+\label{eq:vl9-19}
+\end{align}
+
+Wir linearisieren $f$ um $\boldsymbol{\hat{a}}$ mittels einer Taylor-Entwicklung erster Ordnung:
+\begin{align}
+f(x, \boldsymbol{a}) \approx f(x, \boldsymbol{\hat{a}}) + \sum_{j=0}^m \frac{ \partial f (x, \boldsymbol{a}) }{ \partial a_j } \bigg|_{\boldsymbol{\hat{a}}} (a_j - \hat{a}_j) = f(x, \boldsymbol{\hat{a}}) + \sum_{j=0}^m \frac{ \partial f(x, \boldsymbol{a}) }{ \partial a_j } \Delta a_j\,,
+\label{eq:vl9-20}
+\end{align}
+
+mit $\Delta a_j = a_j - \hat{a}_j$ und von nun an werden alle Ableitungen an der Position $\boldsymbol{\hat{a}}$ ausgewertet. Hiermit k\"onnen wir $S$ absch\"atzen als:
+\begin{align}
+\begin{split}
+S \approx& \sum_{i=0}^n w_i \left( y_i - f(x_i, \boldsymbol{\hat{a}}) - \sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j \right)^2\\
+=& \underbrace{\sum_{i=0}^n w_i \left( y_i - f(x_i, \boldsymbol{\hat{a}}) \right)^2}_{= S_\text{min}} - 2 \underbrace{\sum_{i=0}^n \left( w_i \left( y_i - f(x_i, \boldsymbol{\hat{a}}) \right) \sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j \right)}_{= \frac{ \partial S }{ \partial \Delta a_j} \bigg|_{\Delta a_j = 0} = 0}\\
+&+ \sum_{i=0}^n w_i \biggl( {\underbrace{\sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j}_{\mathclap{= \sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j \sum_{k=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_k } \Delta a_k}}} \biggr)^2\\
+=& S_\text{min} + \sum_{j=0}^m \sum_{k=0}^m \Delta a_j \Delta a_k \sum_{i=0}^n \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_k }\\
+=& S_\text{min} + \Delta \boldsymbol{a}^T N \Delta \boldsymbol{a}\,.
+\label{eq:vl9-21}
+\end{split}
+\end{align}
+
+So haben wir das nichtlineare Problem auf ein lineares reduziert und k\"onnen die Methoden anwenden, die wir f\"ur den linearen Fall etabliert haben. Somit k\"onnen wir im Prinzip die Kovarianzmatrix $\boldsymbol{C} = \boldsymbol{N}^{-1}$ berechnen.\\[0.3cm]
+Um die explizite Berechnung von $N$ zu vermeiden, k\"onnen wir uns an \cref{eq:vl9-10} erinnern. Am Minimum von $S$, wo $\boldsymbol{a}_g = \boldsymbol{\hat{a}}$ und $\nabla S = 0$, wird das zu:
+\begin{align}
+S = S_\text{min} + \frac{1}{2} \Delta \boldsymbol{a}^T \boldsymbol{H} \Delta \boldsymbol{a}
+\label{eq:vl9-22}
+\end{align}
+
+und somit $\frac{1}{2} \Delta \boldsymbol{a}^T \boldsymbol{H} \Delta \boldsymbol{a} = \Delta \boldsymbol{a}^T \boldsymbol{N} \Delta \boldsymbol{a}$, was bedeutet, dass $\boldsymbol{N} = \frac{1}{2} \boldsymbol{H}$. Wir k\"onnen also die Kovarianzmatrix aus der Hesse-Matrix berechnen:
+\begin{align}
+\boldsymbol{C} = 2 \boldsymbol{H}^{-1}\,.
+\label{eq:vl9-23}
+\end{align}
+
+
+\subsection{Qualität des Fits}
+\label{subsec:vl9-3}
+
+Um zu evaluieren, wie gut der Fit die Daten beschreibt bietet es sich an die Residuen zu betrachten. Dazu berechnen wir $\epsilon_i =y_i - f(x_i, \boldsymbol{\hat{a}})$ für den gesamten Datensatz um die Modellparameter $\boldsymbol{\hat{a}}$ und $S$ zu minimieren. Idealerweise sollten die Abweichungen $\epsilon_i$ der gemessenen Werte $y_i$ von der Fitfunktion $f(x_i, \boldsymbol{\hat{a}})$ nur durch zufällige (statistische), unkorrelierte Fehler zustande kommen. In diesem Fall beschreibt unser Modell die Daten gut und die Voraussetzungen für die Berechnung der Unsicherheiten der Fitparameter (siehe \cref{eq:vl8-30}) sind erfüllt.\\
+Wenn die Residuen nicht zufällig und symmetrisch um die Null verteilt sind, sondern systematische Abweichungen und Korrelationen aufweisen, dann beschreibt das Modell die Daten nur unzureichend (Wobei hier kleine Abweichungen oft nicht vermieden werden können und in Kauf genommen werden müssen). Diese Abweichung kann durch systematische Fehler in der Messung hervorgerufen werden, die durch eine Optimierung des Messaufbaus bzw. durch Anpassung des Modells reduziert oder vermieden werden können. Andererseits kann auch das physikalische Modell nicht das richtige sein, um den gemessenen Effekt zu beschreiben. Dann muss das Modell erweitert, oder ein anderes Modell gewählt werden. Es ist auf jeden Fall zu beachten, dass die Unsicherheiten der Fitparameter unzuverlässig sind wenn die Residuen zu starke Korrelationen aufweisen.
+
+
+\subsection{Zusammenfassung}
+\label{subsec:vl9-4}
+
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Wir können für jede Funktion die Kostenfunktion $S$ (die Summe der Abstandsquadrate) definieren.
+        \item Minimieren von $S$ erlaubt uns die Funktionsparameter zu finden für die die Funktion die Daten am besten beschreibt.
+        \item Dazu folgen wir iterativ dem Gradienten von $S$ zum Minimum.
+        \item Die Unsicherheit der Fitparameter können wir mit Hilfe der Hesse-Matrix berechnen.
+        \item Die meisten Datenanalysewerkzeuge stellen effiziente und zuverlässige Implementationen dieser Methoden zu Verfügung, in Python z.B. ``lmfit''.
+\end{itemize}

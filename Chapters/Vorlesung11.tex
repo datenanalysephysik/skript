@@ -1,0 +1,129 @@
+\section{Vorlesung 11: Einf\"uhrung in das maschinelle Lernen}
+\label{sec:vl11}
+
+
+\subsection{Definition Begriffe}
+\label{subsec:vl11}
+
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item AI steht f\"ur ``Artificial Intelligence'' (k"unstliche Intelligenz): ``The science and engineering of building intelligent machines'' (John McCarthy).
+        \item ML steht f\"ur ``Machine Learning'' (maschinelles Lernen): Ein Unterfeld von AI, das Programme entwickelt, die Modelle mit Beispielen trainieren.
+        \item DL steht f\"ur ``Deep Learning'' (tiefes Lernen): Ein Unterfeld von ML, das neuronale Netze (``neural network'', NN) als Modelle benutzt.
+\end{itemize}
+
+Ein Ziel der Datenanalyse ist die Umwandlung von Daten in Wissen.\\[0.3cm]
+\textit{Beispiel: Maschinelles Lernen kann zum Erkennen von Krankheiten eingesetzt werden; beispielsweise kann andauernder Husten und Fieber die Folge einer Lungenentz\"undung sein (vereinfacht).}\\[0.3cm]
+Maschinelles Lernen verspricht die Automatisierung des Wissenserwerbs.
+
+
+\subsection{Entscheidungsb\"aume}
+\label{subsec:vl11-2}
+
+Ein Entscheidungsbaum stellt grafisch aufeinander aufbauende Entscheidungen, das heisst Entscheidungsregeln dar.\\[0.3cm]
+\textit{Beispiel: Frage: ``Fieber?'', Antwortm\"oglichkeiten: ``Ja'' oder ``Nein''. Wenn Antwort ``Ja'' n\"achste Frage: ``Husten?'', Antwortm\"oglichkeiten: ``Ja'' oder ``Nein''.}\\[0.3cm]
+Maschinelles Lernen kann f\"ur die Berechnung von Entscheidungsb\"aumen eingesetzt werden. Der Workflow maschinellen Lernens besteht aus f\"unf Schritten:
+\begin{enumerate}
+    \setlength\itemsep{0em}
+        \item Datensatz $D$
+        \item Modellauswahl $H$
+        \item Verlustfunktion $\mathcal{L}(D,f)$
+        \item Training $f^*$
+        \item Validierung
+\end{enumerate}
+
+Datensatz $D$ am Beispiel der Lungenentz\"undung:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c|c|c||c}
+\multicolumn{4}{c}{Features oder Merkmale} & Class Label                                                \\ 
+\textbf{Kopfweh} & \textbf{Bauchweh} & \textbf{Husten} & \textbf{Fieber} & \textbf{Lungenentz\"undung}  \\ \hline
+1                & 1                 & 1               & 1               & 1                            \\
+0                & 0                 & 1               & 1               & 1                            \\
+0                & 1                 & 0               & 1               & 0                            \\
+1                & 1                 & 1               & 0               & 0                            \\
+0                & 0                 & 0               & 1               & 0                 
+\end{tabular}
+\caption{}
+\label{tab:vl11-1}
+\end{table}
+
+Ein Modell $H$ ist die Menge aller Entscheidungsb\"aume mit einer bestimmten Tiefe, zum Beispiel Tiefe 3. Ein Entscheidungsbaum kann aus mehreren Pfaden und Knoten (Fragen) bestehen. Die Tiefe eines Entscheidungsbaums ist die Anzahl von Knoten im l\"angsten Pfad des Baumes. Beispielsweise hat ein Baum mit f\"unf Knoten in einem Pfad die Tiefe 5.\\[0.3cm]
+Bei der Auswahl eines Modells m\"ussen wir die Tiefe definieren. Mit ``underfitting'' ist allgemein ein Modell gemeint, das zu wenige Parameter aufweist, während ``overfitting'' auf ein Modell mit zu vielen Parametern verweist. Angewendet auf den Fall von Entscheidungsb\"aumen bezeichnet ``underfitting'' eine zu klein gew\"ahlte Tiefe, bei der es zu Fehlern kommt. Hingegen bezeichnet ``overfitting'' eine zu gross gew\"ahlte Tiefe, wenn eine kleinere Tiefe das selbe Resultat liefert (keine Fehler). Man muss daher nach den richtigen Werten f\"ur die Hyperparameter sprich Sch\"atzer, suchen, um die richtigen Muster erkennen.\\[0.3cm]
+Die Verlustfunktion $\mathcal{L}(D,f)$ gibt an, wie schlecht $f$ beim Vorhersagen der Labels der Beispiele in $D$ ist. Normalerweise benutzt man die 0-1 Verlustfunktion für das Training von Entscheidungsbäumen:
+\begin{align}
+\mathcal{L}(D,f) = \frac{| \{ (x,y) \in D: f(x) \neq y \} |}{ | D | } \in \left[ 0,1 \right]\,.
+\label{eq:vl11-1}
+\end{align}
+
+Das bedeutet:
+\begin{align}
+\mathcal{L}(D,f) = \frac{\text{Anzahl Beispiele in $D$ falsch klassifiziert}}{\text{Anzahl Beispiele in D}}\,.
+\label{eq:vl11-2}
+\end{align}
+
+%Man erh\"alt:
+%\begin{align}
+%f^* \approx argmin_{f \in H} \mathcal{L}(D,f)\,.
+%\label{eq:vl11-3}
+%\end{align}
+
+Die Verlustfunktion kann nur berechnet werden, nachdem die korrekten Labels durch eine alternative Methode verifiziert wurden.\\[0.3cm]
+Beim Training werden der Datensatz, das Modell und die Verlustfunktion verarbeitet. Die wissenschaftliche Arbeit mit maschinellem Lernen hat verschiedene Algorithmen entwickelt, um die Verlustfunktion zu minimieren, siehe die eingangs zitierte Literatur f\"ur weitere Details.\\[0.3cm]
+Bei der Validierung werden die Ergebnisse des final im Workflow erzeugten Datensatzes $D'$, also dem Ergebnis des Trainings, mit den Ergebnissen des urspr\"unglichen Datensatzes (\cref{tab:vl11-1}) verglichen:\\[0.3cm]
+Datensatz $D'$:
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c|c|c||c}
+\multicolumn{4}{c}{Features oder Merkmale} & Class Label                                                \\ 
+\textbf{Kopfweh} & \textbf{Bauchweh} & \textbf{Husten} & \textbf{Fieber} & \textbf{Lungenentz\"undung}  \\ \hline
+1                & 0                 & 1               & 0               & 0                            \\
+0                & 1                 & 1               & 1               & 1                            \\
+0                & 1                 & 1               & 0               & 0                            
+\end{tabular}
+\caption{}
+\label{tab:vl11-2}
+\end{table}
+
+
+\subsection{Lineare Regression}
+\label{subsec:vl11-8}
+
+Maschinelles Lernen erlaubt es, aus einem Modell die beste Formel zu auszuwählen, um einen Datensatz zu approximieren. In \cref{subsec:vl8-5} haben wir diese Methodik als Lineare Regression (``Fitting'') kennengelernt. Im Folgenden wird als Beispiel der Serotoninspiegel von Personen im Zusammenhang mit der Anzahl Schlafstunden betrachtet.
+
+Der Datensatz $D$ besteht aus $x$ Schlafstunden (in h) und dem Serotoninspiegel $y$ (in \textmu g/l):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c}
+x   & y   \\ \hline
+7   & 1.5 \\
+6.5 & 2.0 \\
+10  & 2.1 \\
+9   & 3.3 
+\end{tabular}
+\label{tab:vl11-3}
+\end{table}
+
+
+\subsubsection{Modellauswahl}
+\label{subsec:vl11-10}
+
+Es ist generell die Aufgabe des Wissenschaftlers, ein passendes Modell f\"ur ein Problem zu finden. In einem konkrete Fall k\"onnen beispielsweise folgende Modelle zur Verf\"ugung stehen:
+
+\begin{align}
+    \begin{split}
+        H &= \{ ax + b\text{:}\quad a, b \in \mathbb{R} \}\\
+        H'&= \{ ax^2 + bx + c\text{:}\quad a, b, c \in \mathbb{R} \}\\
+        H''&= \{ ax \log x + b \log x + cx + d\text{:}\quad a, b, c \in \mathbb{R} \}
+        \label{eq:vl11-4}
+    \end{split}
+\end{align}
+
+Die Verlustfunktion hat folgende Form:
+\begin{align}
+\mathcal{L}(D,f) = \frac{1}{|D|} \sum_{(x,y) \in D} (f(x) - y)^2 \quad \text{(mittlere quadratische Abweichung)}\,.
+\label{eq:vl11-5}
+\end{align}
+Dies ist nichts anderes als die wohlbekannte ``least squares'' Methode. Die lineare Regression ist also effektiv auch ein Beispiel f\"ur maschinelles Lernen.

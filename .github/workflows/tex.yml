@@ -1,0 +1,50 @@
+name: Build LaTeX document
+on: [push]
+jobs:
+  advanceAutoreleaseTag:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Advance autorelease tag
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}          
+        script: |
+          try {
+              await github.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: "tags/autorelease"
+              })
+          } catch (e) {
+            console.log("The autorelease tag doesn't exist yet: " + e)
+          }
+          await github.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: "refs/tags/autorelease",
+            sha: context.sha
+          })
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: main.pdf
+      - name: Upload artifact to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: main.pdf
+          tag_name: autorelease
+          draft: false
+          name: Automatisches Release
+          body: Dieses Release enthält die zuletzt gebaute Version.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

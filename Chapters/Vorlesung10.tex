@@ -1,0 +1,85 @@
+\section{Vorlesung 10: Filtern und Mitteln}
+\label{sec:vl10}
+
+
+\subsection{Rauschen in der PSD}
+\label{subsec:vl10}
+
+    Sei $x(t)$ eine Timetrace (gemessene Werte als Funktion der Zeit) und $S_{xx}(f)$ die zugehörige PSD definiert zwischen $f=0$ und $f_{max} = 500$\,Hz (``einseitig'', vgl. \cref{subsec:vl7-2}). Falls die PSD ungefähr weiss (``flach'') ist, können wir die Varianz gemäss dem Parseval-Theorem sehr einfach berechnen (vgl. \cref{subsec:vl7-3} und \cref{subsec:vl7-4}):
+    \begin{align}
+        \begin{split}
+            \sigma_x^2 &= \delta f \sum_{f = 0}^{f_{max}} S_{xx}(f)\\
+            &= \Bar{S}_{xx} f_{max}\,.
+        \label{eq:vl10-1}
+        \end{split}
+    \end{align}
+    
+Daraus sehen wir direkt, dass eine höhere Nyquist-Frequenz $f_{max}$ zu mehr Rauschen führt. Es kann daher von Vorteil sein, eine langsamere Messrate (Samplingrate) zu verwenden, um eine genauere Messung zu erhalten.
+    
+\begin{center}
+\textcolor{red}{In vielen Situationen gilt die Faustregel: Eine längere und/oder langsamere Messung ist genauer als eine kurze und schnelle Messung.}
+\end{center}
+
+
+\subsection{Filterarten}
+\label{subsec:vl10-2}
+
+Um verschiedene Frequenzanteile eines Signals herauszufiltern, kann man ``pass''-Filter einsetzen. Im Wesentlichen unterscheidet man drei Filterarten:
+\begin{itemize}
+\setlength\itemsep{0em}
+    \item Low-pass: Hohe Frequenzanteile werden abgeschw\"acht, niedrige Frequenzanteile werden transmittiert.
+    \item Band-pass: Frequenzanteile ausserhalb eines bestimmten Frequenzbereiches werden abgeschw\"acht, der Band-Frequenzbereich wird transmittiert.
+    \item High-pass: Niedrige Frequenzanteile werden abgeschw\"acht, hohe Frequenzanteile werden transmittiert.
+\end{itemize}
+
+%\textit{Beispiel: Es sei ein Signal mit einer Grundfrequenz von 100\,Hz geben das \"Uberlagerungen h\"oherer und niedriger Frequenzen aufweist (und daher von der Idealform eines Sinus abweicht). Ein Low-pass-Filter mit der Grenzfrequenz $f_{3\,\text{dB}} =$ 150\,Hz schw\"acht alle Frequenzen \"uber 150\,Hz ab, w\"ahrend Frequenzen unterhalb von 150\,Hz mit nahezu maximaler Amplitude durchgelassen werden. Dabei betr\"agt die Abschw\"achung bei 150 Hz 3\,dB. Dadurch wird das urspr\"ungliche Signal entsprechend ``gegl\"attet''. Hingegen transmittiert ein Band-pass-Filter mit $f_{band} =$ 100\,Hz beispielsweise nur einen Frequenzbereich von 50 - 150\,Hz.}\\[0.3 cm]
+%Die Ansprechzeit, sprich Wartezeit von Filtern ist direkt proportional zur Frequenz $f$:
+% \begin{align}
+    %\begin{split}
+       % \text{Low-/High-pass: } \tau_{av} &\approx \frac{1}{2 \pi f_{3\,\text{dB}}}\\
+        %\text{Band-pass: } \tau_{av} &\approx \frac{1}{\pi f_{3\,\text{dB}}}
+        %\label{eq:vl10-3}
+    %\end{split}
+%\end{align}
+
+Derartige Filter lassen sich digital als Algorithmen oder analog durch elektronische Bauteile implementieren. Die einfachsten Varianten sind:
+\begin{itemize}
+\setlength\itemsep{0em}
+    \item Low-pass: Widerstand und Kondensator
+    \item Band-pass: Spule, Kondensator und Widerstand (ein RLC Resonator)
+    \item High-pass: Kondensator und Widerstand
+\end{itemize}
+
+Wir betrachten Als Beispiel den typischen RC-Tiefpassfilter, der aus einem Widerstand $R$ in der Signalleitung und einer Kapazität $C$ zur Erdung besteht (siehe Zeichnung in Vorlesungs-Slides). Die Impedanzen (``komplexen Widerst\"ande'') der Elemente $R$ und $C$ sind in Abh\"angigkeit der Signalfrequenz $\omega$ gegeben als:
+\begin{align}
+    \begin{split}
+        Z_R &= R\\
+        Z_C &= \frac{1}{i \omega C}\,.
+        \label{eq:vl10-4}
+    \end{split}
+\end{align}
+
+Das Verh\"altnis $T_{filter}$ der Ein- und Ausgangsspannungen $V_{in} = I_{in} (Z_R + Z_C)$ bzw. $V_{out} = I_{in} Z_C$, l\"asst sich wie folgt bestimmen:
+\begin{align}
+    \begin{split}
+        T_{filter} &= \frac{|V_{out}|^2}{|V_{in}|^2}\\
+        &= \frac{|Z_C|^2}{|R + Z_C|^2}\\
+        &= \frac{1/(\omega C)^2}{R^2 + 1/(\omega C)^2}\\
+        &= \frac{1}{1 + (\omega R C)^2}\\
+        &= \frac{1}{1 + \omega^2 / \omega_{3\,\text{dB}}^2}\,.
+        \label{eq:vl10-5}
+    \end{split}
+\end{align}
+
+Hierbei ist $\omega_{3\,\text{dB}} = 1/RC$ die Frequenz, bei der $|V_{out}|^2$ den halben Wert von $|V_{in}|^2$ erreicht.\\[0.3 cm]
+Eine Filterung des Rauschens führt dazu, dass kleine Signale sichtbar werden. Durch Filter können auch Signale bei verschiedenen Frequenzen (``Farben'') getrennt werden. Viele Filtermethoden haben den Nachteil, dass die effektive Samplingrate reduziert wird.
+%Die digitale Implementierung hat folgende Form::
+%\begin{itemize}
+%\setlength\itemsep{0em}
+%    \item Low-pass: $y(n) = x(n) + x(n-1)$ (Fehler des Mittelwerts)
+%    \item Band-pass: $y(n) = \underbrace{L_1(n)}_{\text{Low-pass @ } f_1} + %\underbrace{H_2(n)}_{\text{High-pass @ } f_2}$
+%    \item High-pass: $y(n) = \underbrace{A(n)}_\text{All-pass} - \underbrace{L(n)}_\text{Low-pass}$
+%\end{itemize}
+
+
+%Es gilt: Reduziere die Unsicherheit (des gemessenen Wertes $S_{xx}$) für jeden Frequenzpunkt durch wiederholte Messungen. Wir erhalten einen ``Fehler des Mittelwertes'' für jeden Wert von $S_{xx} (f)$.

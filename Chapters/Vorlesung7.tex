@@ -1,0 +1,143 @@
+\section{Vorlesung 7: Die spektrale Leistungsdichte}
+\label{sec:vl7}
+
+
+\subsection{Komplexe Zahlen und Oszillationen}
+\label{subsec:vl7a}
+
+Im Folgenden benötigen wir Exponentialfunktionen mit komplexen Argumenten, um Oszillationen darzustellen. Wir erinnern uns an die folgenden Reihenentwicklungen:
+\begin{align}
+&e^{\phi} = 1 + \phi + \frac{\phi^2}{2!} + \frac{\phi^3}{3!} + ... \nonumber\\
+&\cos{\phi} = 1 - \frac{\phi^2}{2!} + \frac{\phi^4}{4!} - ...\nonumber\\
+&\sin{\phi} = \phi - \frac{\phi^3}{3!} + \frac{\phi^5}{5!} - ...\,.
+\label{eq:vl7a-1}
+\end{align}
+Hier nennen wir $\phi$ eine ``Phase''. Durch Einsetzen können wir überprüfen, dass ausserdem
+\begin{align}
+&e^{i\phi} = \cos{\phi} +i\sin{\phi}\,.
+\label{eq:vl7a-2}
+\end{align}
+Wenn die Phase linear von der Zeit abhängig ist, setzen wir $\phi = \omega t$ ein und sehen, dass
+\begin{align}
+&e^{i\omega t} = \cos{\omega t} +i\sin{\omega t}\,.
+\label{eq:vl7a-3}
+\end{align}
+Generell führen zeitabhängige reelle Argumente in der Exponentialfunktion entweder zu einem Wachstum oder einer Abnahme, je nach Vorzeichen. Imaginäre Argumente dagegen führen zu einer Oszillation. Die Form in \cref{eq:vl7a-3} ist sehr praktisch, um harmonische Oszillationen darzustellen, da man den Realteil der Funktion mit der Auslenkung $x(t)$ identifizieren kann und den Imaginärteil mit der entsprechenden zeitlichen Ableitung $\dot{x}/\omega$ (die Teilung durch $\omega$ ist nötig, um dieselbe Einheit wie für $x$ zu erhalten). Damit das Vorzeichen der Ableitung stimmt, benutzen wir oft
+\begin{align}
+&e^{-i\omega t} = \cos{\omega t} -i\sin{\omega t}\,.
+\label{eq:vl7a-4}
+\end{align}
+
+\subsection{Fouriertransformation}
+\label{subsec:vl7}
+
+Sei $x(t)$ eine Timetrace (d.h. gemessene Werte als Funktion der Zeit) und $R_{xx} (\tau)$ die zugehörige Autokovarianz (\cref{eq:vl6-10}), welche Information über die periodischen Signale in $x(t)$ zusammenfasst. Gibt es eine Möglichkeit, die in $R_{xx} (\tau)$ enthaltenen Frequenzen einfach auszulesen?
+
+\begin{center}
+\textcolor{red}{Fouriers Theorem: Jede integrierbare Funktion kann als Summe von trigonometrischen Funktionen dargestellt werden.}
+\end{center}
+
+Diese Theorem führt zur \textbf{Fouriertransformation}. Sei $F(x)$ eine integrierbare kontinuierliche Funktion. Dann ist $\tilde{F}(\xi)$ deren Fouriertransformierte (und umgekehrt). Es gilt:
+\begin{align}
+\tilde{F}(\xi)= \int_{-\infty}^{\infty} F(x) e^{-i 2 \pi \xi x}dx \nonumber\\
+{F}(x)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \tilde{F}(\xi) e^{i 2 \pi \xi x}d\xi\,.
+\label{eq:vl7-1a}
+\end{align}
+Im Fall von diskreten Signalen definieren wir analog die diskrete Fouriertransformation (DFT) für die Funktion $F(x)$:
+\begin{align}
+\tilde{F}(\xi)= \sum_{n=0}^{N} F(x) e^{-i 2 \pi \xi x} \Delta x \nonumber\\
+{F}(x)= \frac{1}{2\pi}\sum_{n=0}^{N} \tilde{F}(\xi) e^{i 2 \pi \xi x}\Delta\xi\,,
+\label{eq:vl7-1b}
+\end{align}
+wobei $\Delta x$ (bzw. $\Delta \xi$) die Schrittgrösse in der jeweiligen Variable ist. Man beachte, dass die rein mathematische Definition der DFT für eine einheitenlose Zahlenfolge $x_n$ einfacher aussieht:
+\begin{align}
+X_k = \sum_{n=0}^{N-1} x_n e^{-i 2 \pi k n/N}\,.
+\label{eq:vl7-1c}
+\end{align}
+Hier sind sowohl $x_n$ als auch die transformierte Zahlenfolge $X_k$ Zahlen ohne physikalische Bedeutung. Die Schrittgrösse, welche die Rolle einer diskreten Integrationsvariablen einnimmnt, reduziert sich hier auf $1$ und wird unsichtbar. Diese Formel kann also nicht direkt auf physikalische Signale mit Einheiten angewendet werden. In Python, MATLAB oder anderen Programmen, wo die Fouriertransformation mit Hilfe der ``fast Fourier transform'' FFT (einer effizienten Variante der DFT) berechnet wird, muss man daher das Resultat der FFT nachträglich mit der Schrittgrösse normieren.
+
+Die Fouriertransformierte ist generell komplexwertig, wobei die Phase der komplexen Zahl $\tilde{F}(\xi)$ (bei einem bestimmten Wert von $\xi$) der Phase des Signals entspricht. Der reelle Teil von $\tilde{F}(\xi)$ gibt also den Cosinus-Anteil an, der imaginäre Teil den Sinus-Anteil.
+
+\subsection{Power Spectral Density}
+\label{subsec:vl7-2}
+
+Berechnen wir von \cref{eq:vl6-10} die Fouriertransformation, erhalten wir die spektrale Leistungsdichte (power spectral density, \gls{gl:PSD}):
+
+\begin{align}
+S_{xx} (f) = \sum_{n=0}^{N} R_{xx} (\tau_n) e^{-i 2 \pi f \tau_n}\Delta \tau
+\label{eq:vl7-1}
+\end{align}
+mit der entsprechenden Rücktransformation
+\begin{align}
+R_{xx} (\tau) = \frac{1}{2 \pi} \sum_{n=0}^{N} S_{xx} (f_n) e^{i 2 \pi f_n \tau}\Delta f\,.
+\label{eq:vl7-2}
+\end{align}
+
+\begin{center}
+\textcolor{red}{
+Dieser Zusammenhang zwischen der Auto-Kovarianz und der spektralen Leistungsdichte ist bekannt als das Wiener-Khinchin Theorem.}
+\end{center}
+
+Alternativ kann man die PSD auch mit der folgenden Formel berechnen:
+\begin{align}
+S_{xx} (f) = \lim_{N \rightarrow \infty} \frac{ \delta t }{ N } \left| \sum_{n=0}^{N} x_n e^{-i 2 \pi f n \delta t} \right|^2 \,,
+\label{eq:vl7-3}
+\end{align}
+
+wobei $\delta t$ das Zeitintervall zwischen Messpunkten ist und $n \delta t = \tau$ gilt. Diese Formel ist oft numerisch effizienter und wird deshalb bevorzugt verwendet. Es gilt zu beachten, dass die Normalisierung $T$ anstelle von $\delta t/N$ sein kann, falls die Schrittweite $\delta t$ bereits in der Fouriertransformation beinhaltet ist (siehe Übungen).
+%\textit{Beispiel: Die PSD einer perfekten Sinuswelle hat einen Peak bei der Signalfrequenz und ist sonst \"uberall Null.}
+
+%\begin{center}
+%\textcolor{red}{Wir betrachten die Leistung (Power), also das Quadrat der diskreten Fourier-Transformation (\gls{gl:DFT}), da die Power unabh\"angig vom Vorzeichen und damit einfacher auszulesen ist.}
+%\end{center}
+
+%Weiterhin betrachten wir die spektrale Dichte anstatt dem Powerspektrum (\gls{gl:PS}, mit derselben Einheit wie $x^2$), da der PSD-Wert ($S_{xx}$) unabhängig von der Messzeit und oft relevanter als das Powerspektrum ist. Die Normierung mit $\delta t$ macht aus einem Powerspektrum eine PSD mit der Einheit $V^2$/Hz, $m^2$/Hz, $I^2$/Hz. Der gemessene Wert der PSD hängt nicht von der Frequenzauflösung ab (im Gegensatz zur PS). Eine lange und eine kurze Messung sollen dasselbe Resultat produzieren!
+
+
+\subsection{Eigenschaften der spektralen Leistungsdichte (PSD)}
+\label{subsec:vl7-3}
+
+%Ist der Zeitintervall zwischen Messpunkten $\delta t \ll 1/f_{signal}$, so wird die Signalfrequenz korrekt gemessen. Ist aber der Zeitintervall zwischen Messpunkten $\delta t > 1/f_{signal}$, kann die Signalfrequenz nicht korrekt gemessen werden und diesem Fall kommt es zum ``Aliasing''.
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Die PSD bildet das Spektrum der Leistung, welche im Gegensatz zur Amplitude der Welle nicht von der Wellenphase abhängt. Die PSD ist also überall positiv.
+        \item Die Normierung der PSD ist so gewählt, dass ihre numerische Integration über alle Frequenzen der Varianz $\sigma_x^2$ entspricht (siehe ``Parseval-Theorem'' in Sektion~\ref{subsec:vl7-4}). Deshalb muss die PSD Einheiten von $x^2/Hz$ haben. Im Gegensatz zum Leistungsspektrum, welches auch oft verwendet wird, ist der Wert der PSD an einer bestimmten Frequenz unabhängig von der Messzeit (abgesehen von statistischen Fehlern).
+        \item Die PSD ist generell für positive und negative Werte von $f$ bestimmt und symmetrisch um $f=0$. Oft wird nur der positive Teil der PSD gezeigt. Dann muss die PSD mit einem Faktor 2 multipliziert werden, um die Normierung zu erhalten. Es wird deshalb immer angegeben, ob man die ``single-sided'' oder ``double-sided PSD'' benutzt.
+        \item \textbf{Maximale Frequenz}: Die maximale Frequenz, die ohne Aliasing gesampelt werden kann, ist die sogenannte Nyquist-Frequenz:
+        \begin{align}
+        f_{max} = \frac{ 1 }{ 2 \delta t }\,.
+        \label{eq:vl7-4}
+        \end{align}
+        Signale höherer Frequenz können mit derselben Samplingrate nicht richtig interpretiert werden und erzeugen im Spektrum Spitzen bei falschen Frequenzwerten.
+        \begin{center}
+        \textcolor{red}{
+        Diese Limite für korrekt gemessene Frequenzen nennt man das Nyquist-Kriterium.}
+        \end{center}
+        \item \textbf{Frequenzaufl\"osung}: Frequenzen können unterschieden werden, wenn über die gesamte Messzeit $t_{total}=N\delta t$ mindestens eine volle Oszillation Unterschied entsteht. Damit erhalten wir die Aufl\"osung:
+        \begin{align}
+        \delta f  = \frac{ 1 }{t_{total}} = \frac{ 1 }{ N \delta t} = \frac{ 2 f_{max} }{ N }
+        \label{eq:vl7-6}
+        \end{align}
+        mit $N$ Punkten von $-f_{max}$ bis $+f_{max}$. Die Frequenzwerte, an denen die DFT ausgwertet wird, entsprechen einer ganzen Zahl $n$ mal der Aufl\"osung:
+        \begin{align}
+        f_n = n \times \delta f\,.
+        \label{eq:vl7-7}
+        \end{align}
+        \item Die PSD einer perfekten, unendlich lange gemessenen Sinuswelle hat einen einzelnen Peak bei der Wellenfrequenz und ist überall sonst gleich null. Perfektes weisses Rauschen hat über das gesamte Spektrum denselben Wert.
+\end{itemize}
+
+
+\subsection{Parseval-Theorem}
+\label{subsec:vl7-4}
+
+Die wichtige Normierungseigenschaft der PSD, welche einen Zusammenhang zwischen der Varianz einer Variable $x(t)$ und dessen PSD herstellt, ist bekannt als as Parseval-Theorem. Das Parseval-Theorem f\"ur den kontinuierlichen Fall lautet:
+\begin{align}
+\sigma_x^2 = \int_{- \infty}^\infty S_{xx} (f) df\,,
+\label{eq:vl7-8}
+\end{align}
+
+F\"ur den diskreten Fall (double-sided) entspricht dies:
+\begin{align}
+\sigma_x^2 = \delta f \sum_{f = -f_{max}}^{f_{max}} S_{xx} (f)\,.
+\label{eq:vl7-9}
+\end{align}

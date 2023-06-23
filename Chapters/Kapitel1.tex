@@ -1,0 +1,209 @@
+\chapter{Einführung in Python}
+\label{chap:py}
+
+\section{Warum Python?}
+\label{chap:py:sec:warumpython}
+
+\textbf{Python ist relativ einfach:} Die schlanke, leicht lesbare Syntax von Python macht die Sprache ideal zum Skripten für Datenauswertung.   \\
+
+\textbf{Python ist eine Interpretersprache:}
+Grundsätzlich muss jeder Programmier-Code zunächst in Maschinensprache übersetzt werden, damit der Prozessor die im Code enthaltenen Anweisungen ausführen kann. Dies kann entweder mittels Compiler oder Interpreter geschehen. Viele Sprachen wie zum Beispiel C++ arbeiten mit Compilern. Hierbei wird der gesamte Quellcode zunächst in Maschinensprache übersetzt.  Die dadurch generierte Datei (Executable) kann prinzipiell mehrmals ausgeführt werden.  Python hingegen ist eine Interpretersprache.  Ein Interpreter übersetzt den Quellcode zur Laufzeit, also Zeile für Zeile, ohne eine ausführbare Datei anzufertigen. Wird dabei in einer Zeile ein Fehler entdeckt, stoppt der Interpreter augenblicklich.  Das ist vor allem zum Debuggen von Code hilfreich.  \\
+
+\textbf{Python ist Open-Source:} Im Gegensatz zu z.B. MATLAB ist Python kostenlos (d.h. open-source) verfügbar. Dadurch hat sich eine grosse Nutzergemeinde entwickelt und es sind viele hilfreiche Zusatzpakete entstanden.  Zudem existiert online eine  ausführliche Dokumentation. Die Verwendung von Python ist auch nicht an eine zeitlich begrenzte Lizenz gebunden. \\
+
+\textbf{Python ist weit verbreitet:} In der Industrie und in wissenschaftlichen Laboren wird Python für zahlreiche Anwendungen genutzt. Sie können Ihr erworbenes Wissen also später direkt anwenden. \\
+
+
+\section{Anaconda und Jupyter Notebooks}
+\label{chap:py:sec:anaconda}
+
+Wir empfehlen, Anaconda als Python-Distribution zu verwenden. Anaconda kann unter \url{https://www.anaconda.com/products/distribution} installiert werden.  Mit Anaconda wird auch Jupyter Notebooks mitinstalliert; das ist eine web-basierte interaktive Umgebung, mit der Jupyter-Notebook-Dokumente erstellt werden können. In Jupyter Notebooks ist der Programmier-Code in sogenannte Zellen unterteilt, die entweder Kommentare (Markdown Typesetting) oder Code (Python) enthalten. Die Zellen können separat ausgeführt werden, so das beispielsweise eine zeitintensive Berechnung nicht jedes Mal wiederholt werden muss, um ein Detail an einem Plot zu ändern. 
+
+\section{Erste Schritte} \footnote{Zum Erlernen von Python sind zahlreiche Online Tutorials verfügbar. Siehe \href{https://www.w3schools.com/python/}{w3schools.com} 
+oder \href{https://realpython.com/jupyter-notebook-introduction/}{realpython.com}. Auch die Dokumentationen der einzelnen Bibliotheken, wie etwa \href{https://numpy.org/doc/stable/user/quickstart.html}{numpy.org}
+oder \href{https://matplotlib.org/stable/tutorials/introductory/pyplot.html}{matplotlib.org} können hilfreich sein.}
+
+\label{chap:py:sec:ersteschritte}
+
+\begin{center}
+\begin{tcolorbox}[enhanced,width=6in,center upper,
+    fontupper=\large,drop fuzzy shadow southwest,
+    colframe=blue!50!black,colback=blue!10]
+Für dieses Unterkapitel ist ein Jupyter-Notebook verfügbar. Siehe  \gitresource{Python.ipynb}
+\end{tcolorbox}
+\end{center}
+
+\subsection{Bibliotheken} 
+Eine Bibliothek ist eine Sammlung von Funktionen oder Klassen, die eine Programmiersprache um weitere Befehle erweitert.
+Zusätzlich zur generell verfügbaren Standardbibliothek können in Python-Skripten weitere Bibliotheken importiert werden. Im Rahmen dieser Vorlesung ist vor allem die numpy-Bibliothek relevant, die Datenstrukturen zur Handhabung von Vektoren und Matrizen sowie Funktionen für numerische Berechnungen bietet. Sie kann mit dem Befehl
+\begin{lstlisting}[language = Python]
+import numpy as np
+\end{lstlisting}
+importiert werden. Hierbei ist \textit{np} das Alias, unter dem im folgenden Code numpy-Funktionen aufgerufen werden können -- so spart man sich das ständige tippen von ``numpy'' vor jedem Befehl. Zum Beispiel kann der in der numpy-Bibliothek gespeicherte Wert von $\pi$ aufgerufen werden als
+\begin{lstlisting}[language = Python]
+np.pi 
+\end{lstlisting}
+Des Weiteren werden wir zur Darstellung von Daten die matplotlib-Bibliothek verwenden, die das Plotten von Daten in einfachen Scatterplots oder Histogrammen mit wenigen Befehlen ermöglicht. Häufig wird nur das Pyplot-Submodul der Bibliothek importiert. 
+\begin{lstlisting}[language = Python]
+import matplotlib.pyplot as plt
+\end{lstlisting}  
+
+\subsection{Datentypen und Variablen} 
+
+\textbf{Wichtige Eingebaute Datentypen} \\
+Die untenstehende Tabelle liefert einen Überblick über die wichtigsten Datentypen, die mit der Standardbibliothek von Python verfügbar sind. Einige dieser Datentypen (z.B. Ganzzahlen, Gleitkommazahlen und Strings) kennen Sie sicherlich schon von anderen Programmiersprachen. Vor allem die etwas komplizierteren Datentypen unterscheiden sich allerdings je nach Programmiersprache (z.B. ist in MATLAB der sogenannte cell-array ein Datentyp, der in Python nicht verfügbar ist). 
+
+\begin{longtable} {p{4cm}|p{2cm}|p{5cm}|p{4cm}}
+\textbf{Datentyp} &  \textbf{Abkürzung} & \textbf{Beispiel}  & \textbf{Informationen} \\  \hline\hline
+Ganzzahl (engl: Integer) & int & \begin{lstlisting}[language = Python]
+4
+\end{lstlisting} \\  \hline
+Gleitkommazahl (engl: Floating-Point Number) &  float & \begin{lstlisting}[language = Python]
+4.0
+\end{lstlisting} \\  \hline
+Kopmplexe Zahl (engl: Complex Number) &  complex & \begin{lstlisting}[language = Python]
+4 + 4j
+\end{lstlisting} \\  \hline
+Boolean &  bool & \begin{lstlisting}[language = Python]
+False
+\end{lstlisting} \\  \hline
+Null &  NoneType &   \begin{lstlisting}[language = Python]
+None
+\end{lstlisting} & \\  \hline
+String & str & \begin{lstlisting}[language = Python]
+"hello"
+\end{lstlisting} \\  \hline
+Liste (List)  & list & \begin{lstlisting}[language = Python]
+['John',  30, [1.85, 70]]
+\end{lstlisting}
+ &  \\  \hline
+Tupel (Tuple) & tuple & 
+\begin{lstlisting}[language = Python]
+('John', 30, [1.85, 70] )
+\end{lstlisting}
+ & Sehr ähnlich zu Listen (z.B. erfolgt das Auslesen einzelner Elemente mit analogem Syntax), allerdings mit dem entscheidenden Unterschied, dass Tupel unveränderliche (sogenannte immutable) Objekte sind; d.h. es können nicht einzelne Elemente eines Tupel verändert werden!  \\  \hline
+Wörterbuch (Dictionary) & dict &
+\begin{lstlisting}[language = Python]
+{'name': 'John' , 'Alter' : 30 , 'Masse' : [1.85, 70] }
+\end{lstlisting}
+& Assoziative Listen; die Indizes sind hier keine Zahlen, sondern Stichwörter (Keywords)
+\end{longtable}
+Wie wir im Folgenden sehen werden, können wir den Datentyp eines Objekts jederzeit sehr einfach mit der sogenannten type-Funktion überprüfen. \\
+
+
+\textbf{Zuweisung von Variablen} \\
+In vielen Programmiersprachen, wie zum Beispiel C++, müssen Variablen zunächst mit einem entsprechenden Datentyp deklariert werden, bevor eine Zuweisung erfolgen kann.  In Python verhält sich das anders. Hier ist der Datentyp nicht an die Variable gebunden, sondern an deren Wert. Variablen können daher direkt zugewiesen werden und der Datentyp des zugewiesenen Wertes kann dynamisch aktualisiert werden.  Das folgende, einfache Beispiel weist der Variable $A$ den Wert 5 zu. 
+\begin{lstlisting}[language = Python]
+A = 5 
+\end{lstlisting}  
+Wir können nun mit der type-Funktion überprüfen, von welchem Datentyp die Variable $A$ ist
+\begin{lstlisting}[language = Python]
+type(A)
+\end{lstlisting}  
+und erhalten den Output $<\mathrm{class} \hspace{0.5cm} ´int´>$, $A$ wurde also automatisch als Integer gesetzt. Wenn wir A hingegen wiefolgt definieren:
+\begin{lstlisting}[language = Python]
+A = 5.0
+\end{lstlisting}  
+wird A automatisch als Gleitkommazahl deklariert, der Output unserer Typ-Prüfung wäre $<\mathrm{class} \hspace{0.5cm} ´float´>$.  In Jupyter Notebooks sind Variablen-Definitionen global, d.h. sobald die entsprechende Zelle ausgeführt wird ist die Variable im gesamten Notebook verfügbar. Es ist somit auch möglich, Variablen in einer weiteren Zelle einfach zu überschreiben. \\
+
+
+\textbf{Arrays} \\
+Wir werden im Rahmen dieser Vorlesung Daten hauptsächlich als numpy-Arrays speichern und nicht als die in der Standardbibliothek von Python verfügbaren Listen. Numpy Arrays sind Vektoren beliebiger Dimensionalität. Sie können mit einem einfachen Befehl generiert werden. Beispielsweise können wir einen eindimensionalen Vektor definieren, der die Zahlen ``1,2,3,4'' enthält, und ihn der Variable $a$ zuweisen mittels
+\begin{lstlisting}[language = Python]
+a = np.array([1, 2, 3, 4]) # ein-dimensionaler Array
+\end{lstlisting}  
+Analog können wir auch mehrdimensionale Arrays definieren, zum  Beispiel einen zweidimensionalen Array mit zwei Zeilen und vier Spalten 
+\begin{lstlisting}[language = Python]
+b = np.array([[1, 2, 3, 4], [5, 6, 7, 8]]) # zwei-dimensionaler Array
+\end{lstlisting}  
+Die Dimensionalität (engl: Shape) eines Arrays kann sehr einfach als Tupel ausgelesen werden. \begin{lstlisting}[language = Python]
+print(b.shape)
+\end{lstlisting}
+Im Falle von unserem Array $b$ wäre der Output dieses Befehls  $(2,4)$. Häufig ist es praktisch, Numpy Arrays einer vorgegebenen Dimensionalität $(m,n)$ zu generieren, die nur Nullen der Einsen enthalten. 
+\begin{lstlisting}[language = Python]
+a = np.zeros(4) # eindimensionaler Array mit Nullen
+b = np.ones((4,2)) # zwei-dimensionaler Array mit Einsen
+\end{lstlisting}
+Ebenfalls können gleichmässig verteilte Zahlenwerte über ein gewisses Intervall generiert werden (im unten stehenden Beispiel 5 Werte zwischen 0 und 10).  
+\begin{lstlisting}[language = Python]
+c = np.linspace(0,10, 5)
+\end{lstlisting}
+Spezifische Elemente von Arrays können mit den entsprechenden Indizes in eckigen Klammern aufgerufen werden. Die Indizierung von Arrays beginnt (genau wie in C++) bei 0, das erste Element vom oben definierten Array $a$ können wir deshalb auslesen mittels
+\begin{lstlisting}[language = Python]
+print(a[0])
+\end{lstlisting}
+Das letzte Element eines Arrays kann mit dem Index -1 aufgerufen werden.
+Ebenfalls können ganze Bereiche von Arrays aufgerufen werden, indem wir den ersten und letzten Index des Bereiches mit Doppelpunkt getrennt angeben.
+\begin{lstlisting}[language = Python]
+print(a[0:2])
+\end{lstlisting} 
+
+
+\textbf{Zusatz für interessierte Studenten: Pass By Assignment} \\
+ Vom Programmieren in anderen Sprachen kennen Sie möglicherweise bereits die Konzepte \textit{pass by reference} und  \textit{pass by value}. Python verwendet stattdessen \textit{pass by assignment}. Abhängig vom Objekt-Typ ergeben sich damit die gleichen Resultate, die auch mit \textit{pass by reference} und  \textit{pass by value} erzielt worden wären. Für sogenannte  \textit{immutable} Objekt-Typen (also z.B. int, float, bool, str, tuple und complex) ist das Resultat von \textit{pass by assignment} identisch zu \textit{pass by value}. Im Falle von sogenannten  \textit{mutable} Objekt-Typen (also z.B. list, set und dict) können wir dasselbe Resultat wie bei \textit{pass by reference} erzielen, solange wir nur die Inhalte (content) der Objekte modifizieren.    \\
+
+
+\subsection{Schleifen und Funktionen}
+
+\textbf{For-Loops} \\
+Während viele Programmiersprachen sogenannte Schleifen (engl: Loops) über Sonderzeichen (z.B. geschweifte Klammern) definieren, müssen diese in Python durch Einrückung erzeugt werden. Während das zu Beginn vielleicht ein wenig umständlich erscheinen mag, verbessert es vor allem in längeren und komplexeren Code-Abschnitten die Übersichtlichkeit. Der folgende Beispielcode beschreibt einen einfachen For-Loop, der über über alle Elemente unseres numpy-Arrays $c$ läuft und diese ausgibt (``ausdruckt''). 
+\begin{lstlisting}[language = Python]
+for ci in c:
+    print(ci)
+\end{lstlisting}
+Das print-Statement ist im For-Loop enthalten, da die entsprechende Zeile eingerückt ist. Eine mögliche Alternative, die genau dieselbe Funktion erfüllt wie der obige For-Loop, wäre:
+\begin{lstlisting}[language = Python]
+for i, ci in enumerate(c):
+    print(c[i])
+\end{lstlisting}
+
+\textbf{Funktionen} \\
+Funktionen sind ein fundamentales Werkzeug beim Schreiben von Code. Im Folgenden wollen wir eine kleine Einführung zu Funktionen in Python geben. Sie ist gezielt einfach und kurz gehalten, beinhaltet aber alles, was Sie für den Start benötigen.  Die Definition einer Python-Funktion beginnt mit 'def', gefolgt vom Funktionsnamen und, falls benötigt, den zu übergebenden Argumenten in der Klammer. Analog zu for-Schleifen ist der zur Funktion gehörende Code dadurch definiert, dass er eingerückt ist. 
+\begin{lstlisting} [language = Python]
+def funcion_name(parameter1, parameter2, keywordargument=initialvalue):
+    """Docstring"""
+    #some code
+     return return_value1, return_value2
+\end{lstlisting}
+ Dabei können parameter1, parameter2 und keywordargument beliebige Datentypen sein, z.B. int, np.ndarray oder str. Der Unterschied zwischen keywordargument und parameter1 oder parameter2 ist, dass die Parameter die Reihe nach zugewiesen werden (das erste Argument wird dem ersten Parameter zugewiese usw.), während Keyword Arguments auch über das Keyword zugewiesen werden können. Zusätzlich können Keyword Arguments einen Standardwert haben (in unserem pseudo-Code wäre dieser Wert initialvalue). Das return Statement ist nur notwendig, wenn man einen Wert zurückgeben will, und kann ansonsten weggelassen werden. Es können eine oder mehrere mit Kommas separierte Variablen ausgegeben werden und sie können beliebige Datentypen annehmen. Eine Besonderheit von Python-Funktionen ist, dass sie auch auf Variablen ausserhalb der Funktionsdefinition zugreifen können. Dies kann ein verlockend einfacher Weg sein, um Variablen an eine Funktion zu übergeben.  Es ist aber ratsam, die benötigten Variablen über die Funktionsdefinition zu übergeben. Besonders bei verschachtelten Codes kann es schnell vorkommen, dass eine Funktion nicht mehr richtig funktioniert, weil eine Variable ausserhalb der Funktionsdefinition geändert wurde.
+
+
+
+\subsection{Laden und Speichern von Dateien} 
+
+Häufig wollen wir Daten analysieren, die mit einem Computerprogramm oder mit einem Messgerät aufgenommen worden sind und die in einer Datei vorliegen. In diesen Dateien können die Daten in verschiedenen Formen gespeichert sein. Das Dateiformat  ist üblicherweise in der Endung des Namens der Datei charakterisiert.  Wir beschränken uns hier ausschliesslich auf Textdateien (d.h. Endung .txt), in denen die Daten im ASCII-Format vorliegen. Den Inhalt dieser Dateien wollen wir in Python laden und einer Variable (z.B. einem Array) zuweisen. Nach der Analyse wollen wir diese Daten wiederum in einer neuen Datei abspeichern. \\
+
+Der Inhalt einer Messdaten-Datei besteht üblicherweise aus einem Header mit Metadaten und den Messdaten selbst. Der Header ist dazu da, die Messung zu beschreiben, so dass man später nachvollziehen kann, zu welchem Experiment die Daten gehören. Ausserdem enthält er normalerweise eine Erklärung zur Struktur der Daten, z.B. was die einzelnen Zeilen und Spalten bedeuten. Beim Laden der Daten müssen wir den Header überspringen. Der folgende Beispielcode generiert zunächst einen kleinen Datensatz, speichert diesen einmal ohne und einmal mit Header ab und liest die entsprechenden Files dann wieder ein.
+
+\begin{lstlisting}[language = Python]
+x1 = np.linspace(0, 2, 101)
+y1 = x1**2
+
+np.savetxt('DataOut.txt', (x1, y1), delimiter = ',') # ohne Header
+np.savetxt('DataOutHeaded.txt', (x1, y1), delimiter = ',', header='Beispieldatei') # mit Header
+
+(x2, y2) = np.loadtxt('DataOut.txt', delimiter = ',')
+(x3, y3) = np.loadtxt('DataOutHeaded.txt', delimiter = ',', skiprows =1)
+\end{lstlisting}
+
+
+
+\textit{Achtung:} Um auf eine Datei zugreifen zu können, müssen wir ihren Speicherort in der Verzeichnisstruktur des Computers kennen. Im einfachsten Fall liegt die Datei in unserem Arbeitsverzeichnis, dem sogenannten \textit{current working directory}, in dem auch die Datei mit unserem Programmcode abgespeichert ist. Den Pfad zu unserem Arbeitsverzeichnis können wir sehr einfach mit dem unten stehenden Code herausfinden.  
+\begin{lstlisting}[language = Python]
+import os
+#Ermitteln des current working directory und sofortige Ausgabe
+print(os.getcwd())
+\end{lstlisting}
+Wenn unsere Text-Datei, auf die wir zugreifen können, in unserem Arbeitsverzeichnis liegt, können wir sie direkt laden. Falls die Datei an einem Speicherort ausserhalb unseres Arbeitsverzeichnisses gespeichert ist, müssen wir den Pfad zu diesem Speicherort berücksichtigen und den folgenden modizifierten Code verwenden.
+\begin{lstlisting}[language = Python]
+#in der Datei Data.txt sind unsere Daten abgespeichert
+#der Pfad zu dieser Datei ist in der Variable path gespeichert 
+np.loadtxt(os.path.join(path, 'DataOut.txt'))
+\end{lstlisting}
+
+
+
+
+%\subsection{Plotten von Daten} 
+
+

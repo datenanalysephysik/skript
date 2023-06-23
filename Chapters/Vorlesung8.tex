@@ -1,0 +1,448 @@
+\section{Vorlesung 8: Maximum Likelihood}
+\label{sec:vl8}
+
+
+\subsection{Likelihood-Funktion}
+\label{subsec:vl8}
+
+Wir haben gesehen, dass eine einzelne Messung äquivalent ist zu einer Ziehung einer Zufallszahl aus einer Wahrscheinlichkeitsverteilung. Die Wahrscheinlichkeitsverteilung einer Zufallsvariable \gls{gl:zeta} ist:
+\begin{align}
+f(\zeta, a_0, a_1, ..., a_m) = f (\zeta, \boldsymbol{a})\,.
+\label{eq:vl8-1}
+\end{align}
+
+Hierbei ist $\boldsymbol{a}$ ein Vektor der die Wahrscheinlichkeitsverteilung parametrisiert. F\"ur mehrere Variablen schreiben wir: 
+\begin{align}
+f(\zeta_0, \zeta_1, ..., \zeta_n, a_0, a_1, ..., a_m) = f (\boldsymbol{\zeta}, \boldsymbol{a}).\,
+\label{eq:vl8-2}
+\end{align}
+
+In einem Experiment sind die Werte der $a_i$ unbekannt, aber wir kennen (aus der Messung) einige $\zeta_i$, zum Beispiel messen wir die Werte $\zeta_i = x_i$. Also k\"onnen wir schreiben:
+\begin{align}
+f(x_0, x_1, ..., x_n, \boldsymbol{a}) = f(\boldsymbol{x, a}) \overset{\text{def}}{=} L (\boldsymbol{x,a})\,.
+\label{eq:vl8-3}
+\end{align}
+
+\begin{center}
+\textcolor{red}{Hierbei ist $L$ die Likelihood-Funktion. In der Likelihood-Funktion sind die $x_i$ bekannt und die $a_i$ sind die Variablen.}
+\end{center}
+
+\textit{Beispiel: Wir messen zwei unabh\"angige Datenpunkte $x_1$ und $x_2$ aus einer Gaussverteilung:}
+\begin{align}
+f(\zeta, a_0, a_1) = \frac{1}{ \sqrt{ 2 \pi a_1 } } \exp \left( - \frac{1}{2} \frac{ (\zeta - a_0)^2 }{ a_1 } \right)\,.
+\label{eq:vl8-4}
+\end{align}
+
+\textit{Die Parameter $a_0$ (der Erwartungswert) und $a_1$ (die Varianz) sind unbekannt. Da die Messungen unabh\"angig sind, ist die gemeinsame Wahrscheinlichkeitsverteilung:}
+\begin{align}
+L(x_1, x_2, a_0, a_1) = f(x_1, x_2, a_0, a_1) = f(x_1, a_0, a_1)f(x_2, a_0, a_1) = \frac{1}{ 2 \pi a_1 } \exp \left( - \frac{1}{2} \frac{ \sum_{i=1}^2 (x_i - a_0)^2 }{ a_1 } \right)\,.
+\label{eq:vl8-5}
+\end{align}
+
+In diesem Beispiel sieht die Likelihood-Funktion der Wahrscheinlichkeitsverteilung sehr \"ahnlich. Aber Vorsicht:
+
+\begin{center}
+\textcolor{red}{Die Likelihood-Funktion ist \textbf{keine} Wahrscheinlichkeitsverteilung.}
+\end{center}
+
+Insbesondere ist sie nicht normiert.\\[0.3cm]
+\textit{Beispiel: Wir haben einen Satz von Widerst\"anden mit einer unbekannten Toleranz. Wir nehmen an, dass die Widerstandswerte normalverteilt sind. F\"ur $n$ Datenpunkte $\boldsymbol{x} = (x_1, x_2, ..., x_n)$ gilt dann:}
+\begin{align}
+L(\boldsymbol{x}, a_0, a_1) =  \prod_{i = 1}^n f(x_i, a_0, a_1) = \left( \frac{1}{ 2 \pi a_1 } \right)^\frac{n}{2} \exp \left( - \frac{1}{2} \frac{ \sum_{i=1}^n (x_i - a_0)^2 }{ a_1 } \right)\,.
+\label{eq:vl8-6}
+\end{align}
+
+\textit{Wir berechnen die Likelihood-Funktion f\"ur ``alle'' Werte von $a_0$ und $a_1$. Wir finden die maximale Likelihood f\"ur eine Verteilung bei $\hat{a}_0 = 100\,\Omega$ und $\sqrt{\hat{a}_1} = 5\,\Omega$.\\
+In diesem Fall, weil die Daten normalverteilt sind, h\"atten wir auch die Ausdr\"ucke f\"ur die Absch\"atzung von Erwartungswert und Standardabweichung benutzen k\"onnen. Aber die Analyse der Likelihood-Funktion funktioniert auch bei beliebigen anderen Verteilungen.}
+
+
+\subsection{Maximum Likelihood}
+\label{subsec:vl8-2}
+
+Der genaue Wert der Likelihood-Funktion ist nicht besonders aussagekr\"aftig. Aber die Likelihood-Funktion beinhaltet Information \"uber die Parameter der Wahrscheinlichkeitsverteilung. Daher sind Werte von $\boldsymbol{a}$, die eine grosse Likelihood haben, zu bevorzugen.\\[0.3cm]
+Wir k\"onnen Likelihoods \"uber ihr Verh\"altnis vergleichen:
+\begin{align}
+LR = \frac{L(\boldsymbol{x,a})}{L(\boldsymbol{x,b})}\,.
+\label{eq:vl8-7}
+\end{align}
+
+Dies ist das Verh\"altnis der ``Wahrscheinlichkeiten'', dass die Parameter $\boldsymbol{a}$ und $\boldsymbol{b}$ die gemessenen Daten erkl\"aren. Insbesondere wollen wir die Werte f\"ur $\boldsymbol{a}$ finden, die die Likelihood-Funktion maximieren.
+
+\begin{center}
+    \textcolor{red}{Die ist das sogenannte \textbf{Maximum Likelihood}-Prinzip.}
+\end{center}
+
+Wir beginnen wieder mit gaussverteilten Daten $\boldsymbol{x} = (x_1, x_2, ..., x_n)$. Die zugrundeliegende Likelihood-Funktion ist:
+\begin{align}
+f(\zeta, a_0, a_1) = \frac{1}{ \sqrt{2 \pi a_1} } \exp \left( - \frac{1}{2} \frac{ (\zeta - a_0)^2 }{ a_1 } \right)\,.
+\label{eq:vl8-8}
+\end{align}
+
+Die Parameter $a_0$ (der Erwartungswert) und $a_1$ (die Varianz) sind wieder unbekannt und wir wollen diese Werte absch\"atzen. Die kombinierte Likelihood-Funktion ist dann das Produkt der einzelnen Likelihood-Funktionen:
+\begin{align}
+L(\boldsymbol{x}, a_0, a_1) =  \left( \frac{1}{ 2 \pi a_1 } \right)^\frac{n}{2} \exp \left( - \frac{1}{2} \frac{ \sum_{i=1}^n (x_i - a_0)^2 }{ a_1 } \right)\,.
+\label{eq:vl8-9}
+\end{align}
+
+Wir sind ausschliesslich an den Werten von $a_0$, $a_1$ interessiert die diese Funktionen maximieren, aber nicht am Wert des Maximums. Wir k\"onnen also den Logarithmus nehmen:
+\begin{align}
+\gls{gl:logl}(x, a_0, a_1) = - \frac{n}{2} \ln{ ( 2 \pi a_1 ) } - \frac{1}{2} \frac{ \sum_{i=1}^n (x_i - a_0)^2 }{ a_1 }\,.
+\label{eq:vl8-10}
+\end{align}
+
+\begin{center}
+    \textcolor{red}{Dies ist die sogenannte \textbf{Log-Likelihood-Funktion}.}
+\end{center}
+
+Damit l\"asst sich leichter rechnen.\\
+Wir wollen also die Log-Likelihood-Funktion (\cref{eq:vl8-10}) maximieren. Also berechnen wir die Ableitung von $l$ nach $a_0$ und $a_1$ an dem Stellen $\hat{a}_0$ und $\hat{a}_1$ und setzen diese gleich Null, sodass $\hat{a}_0$ und $\hat{a}_1$ dann die Werte sind die $l$ maximieren:
+\begin{align}
+\begin{split}
+\frac{ \partial l }{ \partial a_0 } &= \frac{ \partial }{ \partial a_0 } \bigg|_{\hat{a}_0, \hat{a}_1} - \frac{n}{2} \ln{ ( 2 \pi a_1 ) } - \frac{1}{2} \frac{ \sum_{i=1}^n (x_i - a_0)^2 }{ a_1 } = 0\,,\\
+\rightarrow 0 &= \frac{1}{ \hat{a}_1} \sum_{i = 1}^n (x_i - \hat{a}_0)\,,\\
+&=  \frac{1}{ \hat{a}_1} \left( \sum_{i = 1}^n x_i - n \hat{a}_0 \right)\\
+\text{Der Erwartungswert:}\quad \quad \rightarrow \hat{a}_0 &= \frac{1}{n} \sum_{i = 1}^n x_i\\
+\label{eq:vl8-11}
+\end{split}
+\end{align}
+und:
+\begin{align}
+\begin{split}
+\frac{ \partial l }{ \partial a_1 } &= \frac{ \partial }{ \partial a_1 } \bigg|_{\hat{a}_0, \hat{a}_1} - \frac{n}{2} \ln{ ( 2 \pi a_1 ) } - \frac{1}{2} \frac{ \sum_{i=1}^n (x_i - a_0)^2 }{ a_1 } = 0\,,\\
+\rightarrow 0 &= - \frac{n}{2}\frac{1}{ \hat{a}_1 } + \frac{1}{ 2 \hat{a}_1^2 }\sum_{i = 1}^n (x_i - \hat{a}_0)^2\,,\\
+\text{Die Varianz:}\quad \quad \quad \quad \quad \enspace
+\rightarrow \hat{a}_1 &= \frac{1}{n} \sum_{i = 1}^n (x_i - \hat{a}_0)^2\,.
+\label{eq:vl8-12}
+\end{split}
+\end{align}
+
+Bemerkung: Der Wert der Varianz hat einen Bias im Vergleich zu dem Wert f\"ur die empirische Varianz.
+
+
+\subsection{Der gewichtete Mittelwert}
+\label{subsec:vl8-3}
+
+Wir betrachten nun ein h\"aufiges Szenario. Wir messen mit einer uns bekannten und charakterisierten Messapparatur. Das heisst die Messunsicherheit (die Standardabweichung) $\sigma_i$ jeder Messung ist bekannt. Wir messen den Datensatz $\boldsymbol{x} = (x_1, x_2, ..., x_n)$ und wollen den Mittelwert bestimmen.\\
+Die zugrundeliegende Likelihood-Funktion jeder Messung ist:
+\begin{align}
+f_i(\zeta_i, \sigma_i, a) = \frac{1}{ \sqrt{2 \pi } \sigma_i} \exp \left( - \frac{1}{2} \frac{ (\zeta - a)^2 }{ \sigma_1^2 } \right)\,.
+\label{eq:vl8-13}
+\end{align}
+
+Damit is die Likelihood-Funktion:
+\begin{align}
+L(\boldsymbol{x,\sigma}, a) = \prod_{i=1}^n \frac{1}{ \sqrt{2 \pi } \sigma_i} \exp \left( - \frac{1}{2} \frac{ (x_i - a)^2 }{ \sigma_i^2 } \right)
+\label{eq:vl8-14}
+\end{align}
+
+und die Log-Likelihood-Funktion:
+\begin{align}
+l(x,\sigma, a) = \sum_{i=1}^n \ln \left( \frac{1}{ \sqrt{2 \pi } \sigma_i} \right) - \frac{1}{2} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 }\,.
+\label{eq:vl8-15}
+\end{align}
+
+Wir bestimmen das Maximum:
+\begin{align}
+\begin{split}
+\frac{ \partial l }{ \partial a } \bigg|_{\hat{a}} &= \frac{ \partial }{ \partial a } \bigg|_{\hat{a}} \left( - \frac{1}{2} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 } \right) = 0\,,\\
+\rightarrow \sum_{i=1}^n \frac{ x_i - \hat{a} }{ \sigma_i^2 } &=  \sum_{i=1}^n \frac{ x_i }{ \sigma_i^2 } - \hat{a} \sum_{i=1}^n \frac{ 1 }{ \sigma_i^2 }\,,\\
+\rightarrow \hat{a} &= \frac{ \sum_{i=1}^n \frac{ x_i }{ \sigma_i^2 } }{ \sum_{i=1}^n \frac{ 1 }{ \sigma_i^2 } } \underarrow[=][\uparrow]{\text{\footnotesize Hier definieren wir das Gewicht der einzelnen Messwerte als $w_i = \frac{1}{\sigma_i^2}$.}} \frac{ \sum_{i=1}^n w_i x_i }{ \sum_{i=1}^n w_i \,}.
+\label{eq:vl8-16}
+\end{split}
+\end{align}
+
+Letzteres ist der \textbf{gewichtete Mittelwert.}
+
+
+\subsection{Die Methode der kleinsten Quadrate}
+\label{subsec:vl8-4}
+
+Bisher haben wir die Likelihood-Funktion maximiert um Parameter zu bestimmen, die die Wahrscheinlichkeitsverteilung (PDF) eines Datensatzes beschreiben. Insbesondere die Log-Likelihood-Funktion ist einfach zu maximieren wenn die PDF eine Gaussverteilung ist. In diesem Fall ist die Maximierung der Log-Likelihood-Funktion \"aquivalent zur Minimierung des Abstandsquadrats der einzelnen Messpunkte zum Erwartungswert (also dem Modell). Dies ist die Methode der kleinsten Quadrate:
+\begin{align}
+\frac{ \partial l }{ \partial a } \bigg|_{\hat{a}} &= \frac{ \partial }{ \partial a } \bigg|_{\hat{a}} \left( - \frac{1}{2} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 } \right) = 0\,.
+\label{eq:vl8-17}
+\end{align}
+
+Wir definieren $S = \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 }$ und damit schreiben wir:
+\begin{align}
+\frac{ \partial S }{ \partial a } \bigg|_{\hat{a}} &= \frac{ \partial }{ \partial a } \bigg|_{\hat{a}} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 } = 0\,.
+\label{eq:vl8-18}
+\end{align}
+
+Bemerkung: Wenn die $\sigma_i$ bekannt sind, dann ist dies \"aquivalent zur Minimierung von $\chi^2$ und damit ist $S = \chi^2$. Das ist jedoch oft nicht der Fall, wir bleiben also zun\"achst bei $S$.
+
+
+\subsection{Lineares Fitten von Polynomen}
+\label{subsec:vl8-5}
+
+\subsubsection{Fitten einer Ausgleichsgeraden}
+\label{subsubsec:vl8}
+
+Wir haben die Werte $y_1, y_2, ..., y_n$ als Funktion der Kontrollparameter $x_1, x_2, ..., x_n$ gemessen. Die $x_i$ haben keine Unsicherheit, w\"ahrend die Unsicherheiten der $y_i$ durch $\sigma_i$ gegeben sind. Das bedeutet, dass die Wahrscheinlichkeit, dass der Wert $y$ gemessen wird gegeben ist durch:
+\begin{align}
+f(y) \sim \exp \left( - \frac{ (y - \mu)^2 }{ 2 \sigma^2 } \right)\,,
+\label{eq:vl8-19}
+\end{align}
+
+wobei beide Werte $y$ und $\sigma$ von $x$ abh\"angen. Ausserdem nehmen wir an, dass $\mu = a_0 + a_1 x$, also dass die Erwartungswerte von $y$ linear von $x$ abh\"angen. Wir wollen die Werte von $a_0$ und $a_1$ finden, die die Daten am besten wiedergeben. Das heisst:
+\begin{align}
+f(y) \sim \exp \left( - \frac{ (y - a_0 - a_1 x_i)^2 }{ 2 \sigma_i^2 } \right)
+\label{eq:vl8-20}
+\end{align}
+
+ist die Wahrscheinlichkeitsverteilung der $y_i$. Dann ist die Likelihood-Funktion f\"ur jeden Datenpunkt:
+\begin{align}
+L(x_i, y_i, \sigma_i, a_0, a_1) \sim \exp \left( - \frac{ (y_i - a_0 - a_1 x_i)^2 }{ 2 \sigma_i^2 } \right)
+\label{eq:vl8-21}
+\end{align}
+
+und die kombinierte Log-Likelihood-Funktion:
+\begin{align}
+l(\boldsymbol{x, y, \sigma}, a_0, a_1) = - \frac{1}{2} \sum_{i=1}^n \frac{ (y_i - a_0 - a_1 x_i)^2 }{ \sigma_i^2 } + C
+\label{eq:vl8-22}
+\end{align}
+
+mit einer Konstanten $C$. Wir benutzen wieder die Gewichte $w_i$ und damit ist:
+\begin{align}
+l(\boldsymbol{x, y, w}, a_0, a_1) = - \frac{1}{2} \sum_{i=1}^n w_i (y_i - a_0 - a_1 x_i)^2 + C\,.
+\label{eq:vl8-23}
+\end{align}
+
+Wir k\"onnen die besten Absch\"atzungen f\"ur $a_0$ und $a_1$ finden, indem wir die partiellen Ableitungen von $l$ nach $a_0$ und $a_1$ gleich Null setzen. Da die Unsicherheiten einer Normalverteilung zugrunde liegen, k\"onnen wir auch die gewichtete Summe der Abstandsquadrate (der Residuen) minimieren:
+\begin{align}
+S  = \sum_{i=1}^n w_i (y_i - a_0 - a_1 x_i)^2\,.
+\label{eq:vl8-24}
+\end{align}
+
+\begin{center}
+    \textcolor{red}{Die Residuen sind die Abst\"ande der gemessenen Datenpunkte vom Modell.}
+\end{center}
+
+Wir haben also zwei Gleichungen:
+\begin{align}
+\begin{split}
+\frac{ \partial S }{ \partial a_0 } &= - 2 \sum_{i = 1}^n w_i (y_i - \hat{a}_0 - \hat{a}_1 x_i) = 0\,,\\
+\frac{ \partial S }{ \partial a_1 } &= - 2 \sum_{i = 1}^n w_i x_i (y_i - \hat{a}_0 - \hat{a}_1 x_i) = 0\,,
+\label{eq:vl8-25}
+\end{split}
+\end{align}
+
+mit den L\"osungen:
+\begin{align}
+\begin{split}
+\hat{a}_0 &= \frac{ \sum w_i x_i^2 \sum w_i y_i - \sum w_i x_i \sum w_i x_i y_i }{ \sum w_i \sum w_i x_i^2 - (\sum w_i x_i)^2 }\,,\\
+\hat{a}_1 &= \frac{ \sum w_i \sum w_i x_i y_i - \sum w_i x_i \sum w_i y_i }{ \sum w_i \sum w_i x_i^2 - (\sum w_i x_i)^2 }\,.
+\label{eq:vl8-26}
+\end{split}
+\end{align}
+
+Wir k\"onnen das auch in Matrixform schreiben (die sogenannte Normalform):
+\begin{align}
+\begin{pmatrix}
+\sum w_i     & \sum w_i x_i   \\
+\sum w_i x_i & \sum w_i x_i^2
+\end{pmatrix}
+\begin{pmatrix}
+\hat{a}_0 \\
+\hat{a}_1
+\end{pmatrix}
+&= 
+\begin{pmatrix}
+\sum w_i y_i \\
+\sum w_i x_i y_i
+\end{pmatrix}\,,\\
+\intertext{}
+\boldsymbol{N \hat{a}} = \boldsymbol{Y}\,,
+\label{eq:vl8-28}
+\end{align}
+
+mit der L\"osung:
+\begin{align}
+\boldsymbol{\hat{a}} = \boldsymbol{N^{-1} Y}\,.    
+\label{eq:vl8-28-2}
+\end{align}
+
+
+\subsubsection{Fitten eines Polynoms \texorpdfstring{$m$}{m}-ter Ordnung}
+\label{subsubsec:vl8-2}
+
+Dies kann nun sehr einfach auf Polynome beliebiger Ordnung erweitert werden: $y = a_0 + a_1 x + a_2 x^2 + ... + a_m x^m$ und hat dann folgende explizite Form:
+\begin{align}
+\begin{pmatrix}
+\sum w_i       & \sum w_i x_i       & \cdots & \sum w_i x_i^m     \\
+\sum w_i x_i   & \sum w_i x_i^2     & \cdots & \sum w_i x_i^{m+1} \\
+\vdots         & \vdots             & \ddots & \vdots             \\
+\sum w_i x_i^m & \sum w_i x_i^{m+1} & \cdots & \sum w_i x_i^{2m}  
+\end{pmatrix}
+&
+\begin{pmatrix}
+\hat{a}_0 \\
+\hat{a}_1 \\
+\vdots    \\
+\hat{a}_m
+\end{pmatrix}
+= 
+\begin{pmatrix}
+\sum w_i y_i       \\
+\sum w_i x_i y_i   \\
+\vdots             \\
+\sum w_i x_i^m y_i
+\end{pmatrix}\,,\\
+\intertext{}
+\boldsymbol{N \hat{a}} = \boldsymbol{Y}\,,
+\label{eq:vl8-29}
+\end{align}
+
+ebenfalls mit der L\"osung:
+\begin{align}
+\boldsymbol{\hat{a}} = \boldsymbol{N^{-1} Y}\,.    
+\label{eq:vl8-29-2}
+\end{align}
+
+
+\subsubsection{Unsicherheiten der Fitparameter}
+\label{subsubsec:vl8-3}
+
+Auf diese Weise k\"onnen wir die beste Absch\"atzung der Modellparameter $\boldsymbol{a}$ bestimmen. Aber wir wollen auch wissen wie zuverl\"assig diese Werte sind; wir m\"ochten \textbf{Varianz} und \textbf{Kovarianz} wissen. Das Polynom berechnet mit den $\hat{a}$, wird nicht durch alle Datenpunkte gehen. Also k\"onnen wir schreiben:
+\begin{align}
+y_i = \hat{a}_0 + \hat{a}_1 x_i + ... + \hat{a}_m x_i^m + \epsilon_i\,,
+\label{eq:vl8-30}
+\end{align}
+
+wobei \gls{gl:epsilon}$_i$ der Abstand ist, den der $i$-te Punkt von der gefitteten Funktion hat: \textbf{Die Residuen}. Wir nehmen an, dass die Unsicherheiten der $y_i$ durch zuf\"allige Fehler zustande kommen und normalverteilt sind. Dann sind die $\epsilon_i$ unkorreliert und ihr Erwartungswert ist Null:
+\begin{align}
+\langle \epsilon_i \rangle = 0 \quad \langle \epsilon_i, \epsilon_j \rangle = \sigma_i^2 \delta_{ij}\,.
+\label{eq:vl8-31}
+\end{align}
+
+Wir definieren die Vektoren:
+\begin{align}
+\boldsymbol{y} = 
+\begin{pmatrix}
+y_1    \\
+y_2    \\
+\vdots \\
+y_n
+\end{pmatrix}\quad
+\boldsymbol{\epsilon} = 
+\begin{pmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots     \\
+\epsilon_n
+\end{pmatrix}\quad
+\boldsymbol{a} = 
+\begin{pmatrix}
+a_1    \\
+a_2    \\
+\vdots \\
+a_n
+\end{pmatrix}\,
+\label{eq:vl8-32}
+\end{align}
+
+und die Matrizen:
+\begin{align}
+\boldsymbol{X} = 
+\begin{pmatrix}
+1      & x_1    & \cdots & x_1^m  \\
+1      & x_2    & \cdots & x_2^m  \\
+\vdots & \vdots & \ddots & \vdots \\
+1      & x_n    & \cdots & x_n^m  \\
+\end{pmatrix}\quad
+\boldsymbol{W} = 
+\begin{pmatrix}
+w_1    & \cdots & \cdots & 0      \\
+\vdots & w_2    & \cdots & \vdots \\
+\vdots & \vdots & \ddots & \vdots \\
+0      & \cdots & \cdots & w_n    \\
+\end{pmatrix}\,.
+\label{eq:vl8-33}
+\end{align}
+
+Damit wird \cref{eq:vl8-30} zu:
+\begin{align}
+\boldsymbol{y} = \boldsymbol{X} \boldsymbol{a} + \boldsymbol{\epsilon}\,.
+\label{eq:vl8-34}
+\end{align}
+
+Wir k\"onnen wieder die Normalmatrix und den gewichteten Ergebnisvektor finden:
+\begin{align}
+\boldsymbol{N} = \boldsymbol{X}^T \boldsymbol{W X} \quad \text{und} \quad \boldsymbol{Y} = \boldsymbol{X}^T \boldsymbol{W y}\,.
+\label{eq:vl8-35}
+\end{align}
+
+Der Ausdruck f\"ur $S$, die gewichtete Summe der Quadrate der Residuen ist dann:
+\begin{align}
+S = ( \boldsymbol{y} - \boldsymbol{ X a } )^T \boldsymbol{W}( \boldsymbol{y} - \boldsymbol{X a )}\,.
+\label{eq:vl8-36}
+\end{align}
+
+Die Normalform hat folgende Gestalt:
+\begin{align}
+( \boldsymbol{X}^T \boldsymbol{WX} ) \boldsymbol{a} = ( \boldsymbol{X}^T \boldsymbol{Wy} )
+\label{eq:vl8-37}
+\end{align}
+
+mit der L\"osung:
+\begin{align}
+\boldsymbol{\hat{a}} = ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{Wy}\,.
+\label{eq:vl8-38}
+\end{align}
+
+Die Unsicherheiten der Parameter $\boldsymbol{\hat{a}}$ sind gegeben durch deren Varianz:
+\begin{align}
+\hat{\sigma}_i^2 = \langle ( \hat{a}_i - a_i )^2 \rangle
+\label{eq:vl8-39}
+\end{align}
+
+und Kovarianz:
+\begin{align}
+\hat{\sigma}_{ij} = \langle ( \hat{a}_i - a_j ) ( \hat{a}_j - a_i ) \rangle
+\label{eq:vl8-40}
+\end{align}
+
+relativ zu den (unbekannten) tats\"achlichen Werten $\boldsymbol{a}$. Das k\"onnen wir auch als Matrix schreiben (die Kovarianz):
+\begin{align}
+\boldsymbol{C} = 
+\begin{pmatrix}
+\hat{\sigma}_i^2  & \cdots & \hat{\sigma}_{0m} \\
+\vdots            & \ddots & \vdots            \\
+\hat{\sigma}_{m0} & \cdots & \hat{\sigma}_m^2  
+\end{pmatrix}
+= \langle ( \boldsymbol{\hat{a}} - \boldsymbol{a} )( \boldsymbol{\hat{a}} - \boldsymbol{a} )^T \rangle \,.
+\label{eq:vl8-41}
+\end{align}
+
+Mit den Ausdr\"ucken und Definitionen die wir eingef\"uhrt haben finden wir:
+\begin{align}
+\boldsymbol{C} = \left\langle \left( ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon} \right) \left( ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon} \right)^T \right\rangle 
+\label{eq:vl8-42}
+\end{align}
+
+und mit $\langle \boldsymbol{ \epsilon \epsilon}^T \rangle  = \boldsymbol{W}^{-1} $ wird das zu:
+\begin{align}
+\boldsymbol{C} = ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} = \boldsymbol{N}^{-1}\,.
+\label{eq:vl8-43}
+\end{align}
+
+Bemerkung: Tat\"achlich sind die $\sigma_i$ nicht gut genug bekannt. Das heisst $\sigma_i \neq \langle \epsilon_i^2 \rangle$. Das kann korrigiert werden und man findet nach langer Rechnung:
+\begin{align}
+\boldsymbol{C} = \frac{ \hat{S}_\text{min} }{ n - m -1 } \boldsymbol{N}^{-1}\,.
+\label{eq:vl8-44}
+\end{align}
+
+Hierbei ist $\hat{S}_\text{min} = \sum_{i=1}^n w_i ( y_i - \hat{a}_0 - \hat{a}_1 x_i - ... \hat{a}_m x_i^m)^2$, der minimale Wert von $S$ ausgewertet f\"ur die Werte von $\boldsymbol{\hat{a}}$.
+
+
+\subsection{Zusammenfassung}
+\label{subsec:vl8-6}
+
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Wahrscheinlichkeitsverteilungen beschreiben die Wahrscheinlichkeiten von m\"oglichen Ergebnissen von Zufallsexperimenten.
+        \item Wir maximieren die (Log-)Likelihood-Funktion um die wahrscheinlichsten Werte f\"ur die Parameter der Wahrscheinlichkeitsverteilung zu finden.
+        \item Die Likelihood-Funktion ist nicht normiert und somit selbst keine Wahrscheinlichkeitsverteilung.
+        \item Wir k\"onnen Polynome $m$-ter Ordnung fitten, indem wir die Normalmatrix $\boldsymbol{N}$ berechnen.
+        \item Die Unsicherheit (Varianz und Kovarianz) der Fitparameter ist gegeben durch die Kovarianzmatrix $\boldsymbol{C} = \boldsymbol{N}^{-1}$.
+\end{itemize}

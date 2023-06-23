@@ -1,0 +1,301 @@
+\section{Vorlesung 4: Bayesscher vs. Frequentistischer Ansatz}
+\label{sec:vl4}
+
+
+
+
+\subsection{Wahrscheinlichkeitsverteilungen}
+\label{subsec:vl4-4}
+
+Wenn es viele m\"ogliche Ergebnisse eines Experiments gibt, schreiben wir diese als \gls{gl:Ai}. Wenn jedes m\"ogliche Ergebnis von den \gls{gl:Ai} abgedeckt wird, dann ist $P ( A_i )$ eine Wahrscheinlichkeitsverteilung mit:
+\begin{align}
+P ( A_i ) \geq 0
+\label{eq:vl4-11}
+\end{align}
+und
+\begin{align}
+\sum_i P ( A_i ) = 1\,.
+\label{eq:vl4-12}
+\end{align}
+
+F\"ur einen diskreten Satz von Ereignissen $A_i$ nennen wir das auch eine Wahrscheinlichkeitsmassefunktion (probability mass function, \gls{gl:PMF}). Falls das Ergebnis des Experiments eine kontinuierliche Zufallsvariable $x$ ist, dann ist $f ( x )$ eine Wahrscheinlichkeitsdichteverteilung, wenn:
+\begin{align}
+f ( x ) \geq 0
+\label{eq:vl4-13}
+\end{align}
+und 
+\begin{align}
+\int_{-\infty}^{+\infty} f ( x ) dx = 1\,.
+\label{eq:vl4-14}
+\end{align}
+
+Dies nennen wir eine Wahrscheinlichkeitsdichtefunktion \gls{gl:PDF} (vgl. \cref{subsec:vl2-5}).
+Die Wahrscheinlichkeit, dass das Ergebnis $x$ in einem Intervall zwischen $a$ und $b$ liegt, ist:
+\begin{align}
+P ( a \leq x \leq b ) = \int_a^b f ( x ) dx\,.
+\label{eq:vl4-15}
+\end{align}
+
+\begin{center}
+\textcolor{red}{Achtung: $f ( x )$ ist nicht die Wahrscheinlichkeit, dass $x$ auftritt!}
+\end{center}
+
+\textit{Beispiel: Die Dirac-$\delta$-Funktion erf\"ullt alle Eigenschaften einer \gls{gl:PDF}:}
+\begin{align}
+f ( x ) = \delta ( x ) = 
+    \begin{cases}
+        \infty,& x = 0\\
+        0,& x \neq 0
+    \end{cases}       
+\label{eq:vl4-16}
+\end{align}
+
+\begin{center}
+\textcolor{blue}{Von nun an werden immer kontinuierliche Wahrscheinlichkeitsverteilungen angenommen.}
+\end{center}
+
+
+\subsection{Charakteristiken von Wahrscheinlichkeitsverteilungen}
+\label{subsec:vl4-5}
+
+Generell wird eine \gls{gl:PDF} durch ihre funktionale Form $f ( x )$ beschrieben. Manchmal ist es n\"utzlich oder ausreichend, die \gls{gl:PDF} durch ihre wichtigsten Eigenschaften zu charakterisieren.
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item \textbf{Mode}: Der Wert von $x$, bei dem die PDF ihr Maximum erreicht. F\"ur eine PDF mit einem einzigen Maximum gilt: 
+        \begin{align}
+        x_{mode}: \frac{d f ( x )}{dx} \bigg|_{x_{mode}} = 0\,.
+        \label{eq:vl4-17}
+        \end{align}
+        \item \textbf{Median}: Die Mitte der PDF:
+        \begin{align}
+        \frac{1}{2} = \int_{-\infty}^{x_{median}} f ( x ) dx\,.
+        \label{eq:vl4-18}
+        \end{align}
+        \item \textbf{\gls{gl:FWHM}}: Die Halbwertsbreite (full width at half maximum) der PDF:
+        \begin{align}
+        f ( a ) = f ( b ) = \frac{1}{2} f ( x_{mode} ) \text{; FWHM} = b - a\,.
+        \label{eq:vl4-19}
+        \end{align}
+\end{itemize}
+
+
+\subsection{Momente einer Wahrscheinlichkeitsverteilung}
+\label{subsec:vl4-6}
+
+Dar\"uber hinaus sind f\"ur viele PDFs ihre Momente \gls{gl:Mm} definiert. Das $m$-te Moment ist:
+\begin{align}
+M_m = \int_{-\infty}^{+\infty} x^m f (x) dx\,.
+\label{eq:vl4-20}
+\end{align}
+
+\textit{Beispiel:}
+\begin{align}
+\begin{split}
+\text{\textit{Das 0-te Moment:}}  & \quad M_0 = \int_{-\infty}^{+\infty} f ( x ) dx = 1\,,\\
+\text{\textit{Das 1-te Moment:}}  & \quad M_1 = \int_{-\infty}^{+\infty} x f ( x ) dx \quad \rightarrow \text{\textit{Der Mittelwert}}\,.
+\end{split}
+\label{eq:vl4-21}
+\end{align}
+
+Bemerkung: Nicht jede PDF hat einen Mittelwert, zum Beispiel die Cauchy- oder Lorentzverteilung.\\[0.3 cm]
+Dar\"uber hinaus ist das $m$-te zentrale Moment einer PDF definiert als:
+\begin{align}
+\Tilde{M}_m = \langle ( x - M_1 )^m \rangle\,.
+\label{eq:vl4-22}
+\end{align}
+
+Damit ist die Varianz einer PDF gegeben durch das zweite zentrale Moment:
+\begin{align}
+\sigma^2 = \langle ( x - M_1)^2 \rangle = \langle x^2 \rangle - \langle x \rangle^2 = M_2 - M_1^2\,.
+\label{eq:vl4-23}
+\end{align}
+
+Das dritte Moment quantifiziert die ``Schiefe'' und das vierte Moment die ``W\"olbung'' der PDF.\\[0.3 cm]
+Es ist hilfreich, die momenterzeugende Funktion zu definieren:
+\begin{align}
+M ( \zeta ) = \int_{-\infty}^{+\infty} \exp ( \zeta x ) f ( x ) dx\,.
+\label{eq:vl4-24}
+\end{align}
+
+Um dies etwas besser zu verstehen, betrachten wir die Taylorreihe von $\exp ( \zeta x )$:
+\begin{align}
+\begin{split}
+M ( \zeta ) & = \int_{-\infty}^{+\infty} \left( 1 + \zeta x + \frac{ \zeta^2 x^2 }{ 2! } + \cdots \right) f ( x ) dx\\
+& = M_0 + \zeta M_1 + \frac{ \zeta^2 }{ 2! } M_2 + \cdots \,.
+\end{split}
+\label{eq:vl4-25}
+\end{align}
+
+F\"ur eine normierte Wahrscheinlichkeisverteilung gilt $M_0$ = 1. H\"ohere Momente $m \geq 1$ k\"onnen iterativ aus der Ableitung der momenterzeugenden Funktion berechnet werden:
+\begin{align}
+M_m = \frac{ \partial^m M ( \zeta ) }{ \partial \zeta^m} \bigg|_{\zeta = 0}\,.
+\label{eq:vl4-26}
+\end{align}
+
+
+\subsection{Charakteristische Funktion einer Wahrscheinlichkeitsverteilung}
+\label{subsec:vl4-7}
+
+Dar\"uber hinaus ist es hilfreich, die charakteristische Funktion einer Wahrscheinlichkeitsverteilung $f ( x )$ zu definieren:
+\begin{align}
+\phi ( \nu ) = \int_{-\infty}^{+\infty} \exp ( i \nu x) f ( x ) dx.
+\label{eq:vl4-27}
+\end{align}
+
+Hierbei ist $i = \sqrt{ - 1 }$ die imagin\"are Einheit. Die charakteristische Funktion ist die inverse Fouriertransformierte der Wahrscheinlichkeitsverteilung. Die Fourier-Trans\-formation werden wir in der Vorlesung zur Spektralanalyse genauer kennenlernen.\\[0.3cm]
+Wir k\"onnen die Exponentialfunktion wieder erweitern:
+\begin{align}
+\begin{split}
+\phi ( \nu ) & = \int_{-\infty}^{+\infty} \left( 1 + i \nu x + \frac{ 1 }{ 2! } ( i \nu )^2 x^2 + \frac{ 1 }{ 3! } ( i \nu )^3 x^3 + \cdots \right) f ( x ) dx\\
+& = 1 + i \nu M_1 + \frac{ 1 }{ 2 ! } ( i \nu )^2 M_2 + \frac{ 1 }{ 3! } ( i \nu )^3 M_3 + \cdots\,.
+\end{split}
+\label{eq:vl4-28}
+\end{align}
+
+Ausserdem k\"onnen wir \"uber die Fouriertransformation aus $\phi ( \nu )$ die Wahrscheinlichkeitsverteilung $f ( x )$ berechnen:
+\begin{align}
+f ( x ) = \frac{ 1 }{ 2 \pi } \int_{-\infty}^{+\infty} \exp ( -i \nu x ) \phi ( \nu ) d \nu\,.
+\label{eq:vl4-29}
+\end{align}
+
+Die Kombination dieser beiden Ergebnisse ergibt:
+\begin{align}
+f ( x ) = \frac{ 1 }{ 2 \pi } \int_{-\infty}^{+\infty} \exp ( -i \nu x ) \left( 1 + i \nu M_1 + \frac{ 1 }{ 2 ! } ( i \nu )^2 M_2 + \frac{ 1 }{ 3! } ( i \nu )^3 M_3 + \cdots \right)  d \nu\,.
+\label{eq:vl4-30}
+\end{align}
+
+Dies ist ein wichtiges und bemerkenswertes Ergebnis!
+
+\begin{center}
+\textcolor{red}{Wir k\"onnen aus den Momenten (die wir zum Beispiel aus der Messung bestimmen k\"onnen) die Wahrscheinlichkeitsverteilung berechnen.}
+\end{center}
+
+
+\subsection{Zusammenfassung 1}
+\label{subsec:vl4-8}
+
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Eine Wahrscheinlichkeitsdichtefunktion oder Wahrscheinlichkeitsverteilung ist eine positive, normierte Funktion, die die Verteilung der Wahrscheinlichkeit einer Zufallsvariablen beschreibt.
+        \item Falls die Zufallsvariable nur diskrete Werte annehmen kann, nennen wir die Verteilungsfunktion eine \textcolor{red}{Probability Mass Function - PMF}.
+        \item Falls die Zufallsvariable kontinuierliche Werte annehmen kann, nennen wir die Verteilungsfunktion eine \textcolor{red}{Probability Density Function - PDF}.
+        \item Die Momente einer Wahrscheinlichkeitsverteilung k\"onnen mit der momenterzeugenden Funktion berechnet werden.
+        \item \"Uber die charakteristische Funktion ist die Wahrscheinlichkeitsverteilung vollst\"andig \"uber ihre Momente definiert.
+\end{itemize}
+
+
+\subsection{Bayessche Datenanalyse}
+\label{subsec:vl4-9}
+
+Soweit erhalten wir die PDF aus wiederholten Messungen und die Wahrscheinlichkeit des Ergebnisses ist dann gegeben durch dessen gemessene Frequenz. Das ist ist der sogenannte frequentistische Ansatz der Datenanalyse.\\[0.3 cm]
+Aber was bedeutet hier eigentlich Wahrscheinlichkeit und Wahrscheinlichkeitsverteilung?\\[0.3 cm]
+Ein gemessener Parameter hat ja einen tats\"achlichen (unbekannten) Wert. Der Bayessche Ansatz der Datenanalyse fasst Wahrscheinlichkeiten nicht als Frequenzen auf, sondern als Plausibilit\"at: Wie sehr denken wir das etwas wahr ist basierend auf der Datenlage? Somit beruht die Bayessche Datenanalyse auf bedingten Wahrscheinlichkeiten und insbesondere auf dem Satz von Bayes:
+\begin{align}
+P ( B | A) = \frac{ P ( A | B ) P ( B )}{ P ( A ) }\,.
+\label{eq:vl4-31}
+\end{align}
+
+Um diese auf ein Experiment anzuwenden definieren wir mit:
+
+\begingroup
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{table}[H]
+\begin{tabular}{l|l}
+Die gemessenen Daten des Experiments                                        & $A \rightarrow D$                                 \\
+\multirow{2}{*}{\shortstack[l]{Ein endlicher Satz von Ergebnissen die wir\\
+mithilfe der Daten unterscheiden m\"ochten}}                                & \multirow{2}{*}{$B \rightarrow B_1, ..., B_n$} \\
+                                                                            &                                                   \\
+Unser gesamtes zus\"atzliches Wissen (wird oft vernachl\"assigt)            & I 
+\end{tabular}
+\end{table}
+\endgroup
+\begin{align}
+P ( B_i | D, I ) = \frac{ P ( D | B_i, I) P ( B_i | I )}{ P ( D | I ) }\,.
+\label{eq:vl4-32}
+\end{align}
+
+Wenn $D$ impliziert, dass eines der $B_i$ eintritt, dann ist die Wahrscheinlichkeit, dass $D$ eintritt:
+\begin{align}
+P ( D ) = \sum_k P ( D | B_k ) P ( B_k )\,.
+\label{eq:vl4-33}
+\end{align}
+
+Weiterhin gilt:
+\begin{align}
+P ( B_i | D ) = \frac{ P ( D | B_i) P ( B_i )}{ P ( D ) }\,.
+\label{eq:vl4-34}
+\end{align}
+
+% \begin{align}
+% P ( B_i | D ) = \frac{ \textcolor{orange}{P ( D | B_i)} \textcolor{blue}{ P ( B_i )}}{ \textcolor{violet}{ P ( D ) }}
+% \label{eq:vl4-34}
+% \end{align}
+
+Hierbei ist $P ( B_i )$ ist die Wahrscheinlichkeit, dass $B_i$ eintritt basierend auf unserem urspr\"unglichen (\textit{prior}) Wissen (vor der Durchf\"uhrung des Experiments). Es ist die sogenannte Prior Probability Distribution. Die neuen Daten erscheinen in $P ( D | B_i )$, der Wahrscheinlichkeitsverteilung, $D$ zu messen, wenn $B_i$ eintritt. Dies ist im Prinzip eine Likelihood-Funktion \gls{gl:L} wie wir sie später genauer kennen lernen werden. Hier nur soviel: eine Likelihood Funktion ist im Gegensatz zu einer PDF keine Funktion der $D$, sondern der $B_i$. $P ( D )$ garantiert die Normalisierung, sodass $P ( B_i | D )$ eine PDF ist.\\[0.3cm]
+F\"ur eine kontinuierliche PDF schreiben wir:
+\begin{align}
+f_1 ( B | D ) = \frac{ L ( D | B) f_0 ( B )}{ \int L ( D | B ) f_0 ( B ) dB }\,.
+\label{eq:vl4-35}
+\end{align}
+
+\textit{Beispiel: Nehmen wir an es gibt eine Infektionskrankheit mit einer Inzidenzrate von 100. Das bedeutet, dass von 100000 Menschen 100 infiziert sind, oder 0.1\,\%. Um festzustellen ob jemand infiziert ist existiert ein Test. Die urspr\"ungliche Wahrscheinlichkeit (vor dem Test), dass eine Person infiziert ist:}
+\begin{align}
+\begin{split}
+P ( \text{infected} ) & = 0.001\,,\\
+P ( \text{healthy} ) & = 0.999\,.
+\end{split}
+\label{eq:vl4-36}
+\end{align}
+
+\textit{Person $X$ l\"asst sich testen und der Test ist positiv. Was ist die Wahrscheinlichkeit, dass $X$ tats\"achlich infiziert ist? \\[0.3cm]
+Nehmen wir an, dass der Test sehr gut ist und in 99\,\% der F\"alle das korrekte Ergebnis liefert:}
+\begin{align}
+\begin{split}
+P ( \text{positive$|$infected} ) & = 0.99\,,\\
+P ( \text{negative$|$infected} ) & = 0.01\,,\\
+& \\
+P ( \text{positive$|$healthy} ) & = 0.01\,,\\
+P ( \text{negative$|$healthy} ) & = 0.99\,.
+\end{split}
+\label{eq:vl4-37}
+\end{align}
+
+\textit{Man w\"are versucht zu sagen 99\,\%, basierend auf der Genauigkeit des Tests. Nach dem letzten Satz von Bayes:}
+\begin{align}
+P( \text{infected$|$positive} ) =  \frac{ P( \text{positive$|$infected} ) P( \text{infected} ) }{ P( \text{positive$|$infected} ) P( \text{infected} ) + P( \text{positive$|$healthy} ) P( \text{healthy} ) } = 0.1\,,
+\label{eq:vl4-38}
+\end{align}
+
+\textit{ist die Wahrscheinlichkeit, dass $X$ infiziert ist ``nur'' 10\,\%. Person $X$ l\"asst sich erneut testen und der Test ist wieder positiv. Unsere urspr\"ungliche Informaiton beinhaltet nun das Ergebnis des ersten Tests:}
+\begin{align}
+\begin{split}
+P ( \text{infected} ) & = 0.1\,,\\
+P ( \text{healthy} ) & = 0.9
+\end{split}
+\label{eq:vl4-39}
+\end{align}
+
+\textit{Damit wird:}
+\begin{align}
+P( \text{infected$|$positive} ) =  \frac{ P( \text{positive$|$infected} ) P( \text{infected} ) }{ P( \text{positive$|$infected} ) P( \text{infected} ) + P( \text{positive$|$healthy} ) P( \text{healthy} ) } = 0.92\,.
+\label{eq:vl4-40}
+\end{align}
+
+\textit{Die Wahrscheinlichkeit, dass $X$ infiziert ist, ist nun also 92\,\%.}\\[0.3cm]
+Der Ansatz der Bayesschen Datenanalyse l\"asst nun sehr elegant unser urspr\"ungliches Wissen in die Datenanalyse einfliessen. So k\"onnen wir auch anhand einer einzelnen Messung eine Aussage machen.\\
+Mit Aussagen basierend auf der Frequenz von Ereignissen m\"ussten wir eine grosse Statistik ``erfinden'' um zum gleichen Schluss zu kommen. Des Weiteren k\"onnen wir unsere Analyse um weitere Messergebenisse erweitern, bis wir mit der Pr\"azision des Ergebnisses zufrieden sind.
+
+
+\subsection{Zusammenfassung 2}
+\label{subsec:vl4-11}
+
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Bayessche Datenanalyse ist eine elegante Methode insbesondere aus kleinen Datens\"atzen sinnvolle Informationen zu extrahieren.
+        \item Bayessche Datenanalyse erlaubt uns auf elegante Weise unser urspr\"ungliches Wissen in die Analyse mit einfliessen zu lassen.
+        \item Das Ergebnis der Bayessche Datenanalyse h\"angt potenziell sehr stark von der Wahl der \textit{Priors} ab.
+        \item Generell (f\"ur grosse Datens\"atze) sollte der frequentistische und Bayes-Ansatz die gleichen Ergebnisse liefern.
+        \item Wir sollten nicht naiv oder ohne nachzudenken eine Datenanalysemethode anwenden, sondern immer \"uberlegen was wir wissen, was wir messen und was wir erreichen wollen. Dann sollten wir die geeignete Methode w\"ahlen.
+\end{itemize}
+

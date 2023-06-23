@@ -1,0 +1,73 @@
+\section{Vorlesung 13: Ensembles und unsupervised learning}
+\label{sec:vl13}
+
+\subsection{K-means-Methode}
+\label{subsec:vl13}
+
+Wir nehmen einen Datensatz an, der aus vielen einzelnen Datenpunkten besteht. Unser Ziel ist es die Datenpunkte in $K$ ``Cluster'' zusammenzufassen (``clustering''), um die Datenpunkte maschinell in sinnvolle Kategorien einzuteilen. Dazu berechnen wir zwei Dinge:
+
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Schwerpunkt (``centroid''): Der Mittelwert aller Datenpunkte innerhalb eines Clusters.
+        \item Zuordnungen: Jeder Datenpunkt wird dem n\"achsten Schwerpunkt zugeordnet.
+\end{itemize}
+
+Die Schwerpunkte werden durch Minimierung einer geeigneten Verlustfunktion gefunden. Dazu benachteiligt (``penalize'') diese die Summe der quadrierten Abstände zwischen jedem Punkt und seinem nächsten Schwerpunkt. Es kann gezeigt werden, dass die Verlustfunktion minimiert wird, wenn jeder Schwerpunkt im Massenschwerpunkt eines jeden Clusters liegt.\\[0.3cm]
+Die Verlustfunktion kann wie folgt formalisiert werden:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Sei $K \in \mathbb{N}$ fest. Es gibt die Anzahl der Cluster an, die wir berechnen wollen.
+        \item Sei $X = \{ x_1, x_2, ..., x_n\} \subseteq \mathbb{R}^d$ eine Menge von Datenpunkten.
+        \item Seien $\{\theta_1, \theta_2, ..., \theta_K\} \subseteq \mathbb{R}^d$ die Schwerpunkte.
+        \item Sei $c$: $\mathbb{R}^d \rightarrow \{1, 2, ..., K\} $ die Zuordnung. Beobachte, dass $c(x) = l$, falls $\theta_l$ der n\"achste Schwerpunkt von $x$ ist. Somit ist $\theta_{c(x_i)}$ der n\"achste Schwerpunkt zu $x_i$.
+\end{itemize}
+
+Die Verlustfunktion lautet somit:
+\begin{align}
+\mathcal{L} (X, \theta_1, ..., \theta_K, c) = \sum_{i \leq n} || x_i - \theta_{c(x_i)}||^2\,.
+\label{eq:vl13-1}
+\end{align}
+
+% Intuitiv kann ein K-means-Algorithmus mit folgenden Schritten beschrieben werden:
+% \begin{itemize}
+%     \setlength\itemsep{0em}
+%         \item Initialisierung der Schwerpunkte nach dem Zufallsprinzip.
+%         \item Aktualisierung der Zuordnung.
+%         \item Aktualisierung der Schwerpunkte als Mittelwerte.
+% \end{itemize}
+
+Formal besteht ein K-means-Algorithmus aus folgenden Schritten:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Gegeben: $\{ x_1, x_2, ..., x_n\} \subseteq \mathbb{R}^d$.
+        \item Initialisierung der Schwerpunkte nach dem Zufallsprinzip. F\"ur jedes $j \leq K$ definiere $\theta_j$ durch die Wahl eines Werts nach dem Zufallsprinzip von $\mathbb{R}^d$.
+        \item Aktualisierung der Zuordnung. F\"ur $x \in \mathbb{R}^d$ definiere $c(x) = argmin_j ||x-\theta_j||$.
+        \item Aktualisierung der Schwerpunkte als Mittelwerte. F\"ur $j \leq K$ definiere $\theta_j = \frac{1}{|S_j|} \sum_{x \in S_j} x$, wobei $S_j$ der Satz aller Punkte ist, die dem Cluster $j$ durch $c$ zugeordnet sind.
+        \item Gehe zur\"uck zu ``Aktualisierung der Zuordnung'' und wiederhole den Vorgang so lange, bis sich die Schwerpunkte nicht mehr ver\"andern.
+\end{itemize}
+
+Es kann formal gezeigt werden, dass K-means immer konvergieren. Eine Visualisierung kann sich hier \url{https://www.naftaliharris.com/blog/visualizing-k-means-clustering/} angeschaut werden.\\[0.3cm]
+Folgende Anmerkungen sind zu beachten:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item K-means bestimmt nicht die Anzahl $K$ der Cluster. Dies ist ein Hyperparameter, der vorgegeben werden muss.
+        \item K-means ist empfindlich gegenüber der Initialisierung.
+        \item Wie üblich muss man sehr vorsichtig sein, um nicht zu überfitten (``overfit''), wenn man $K$ zu gross w\"ahlt.  Wenn zum Beispiel $K$ so gross wird wie die Anzahl der Datenpunkte, dann f\"uhrt die Minimierung der Clusterzuordnung dazu, dass jeder Datenpunkt einen eigenem Cluster zugeordnet wird. %Das Kreuzvalidierungsverfahren mit der Verlustfunktion wird kein \"Uberfitten detektieren, da die Verlustfunktion 0 wird, wenn jedem Datenpunkt ein eigener Cluster zugeordnet wird. Als L\"osung muss eine Verlustfunktion verwendet werden, die auch die Anzahl der verwendeten Cluster benachteiligt. Zum Beispiel definieren wir eine hinreichend grosse Konstante $\lambda > 0$ und nutzen dann:
+        %\begin{align}
+        %\mathcal{L} (X, \theta_1, ..., \theta_K, c) + %\lambda e^K\,.
+        %\label{eq:vl13-2}
+        %\end{align}
+\end{itemize}
+
+
+\subsection{Principal Component Analysis}
+\label{subsec:vl13-2}
+
+Mehr Merkmale in einem Datensatz vergr\"ossern drastisch den Suchbereich f\"ur Trainingsalgorithmen. Diese werden dadurch langsamer und schlechter. Zum Beispiel liefert eine logistische Regression zu Brustkrebs unter Verwendung aller Merkmale eine Genauigkeit von 0.93. Hingegen wird einen Genauigkeit von 0.96 erreicht, wenn man einen sorgfältig zusammengestellten Satz von 6 Merkmalen w\"ahlt. F\"ur Letzteres kann die ``Principal component analysis'' (PCA) verwendet werden: Es sei wiederum eine Menge von Datenpunkten $\{ x_1, x_2, ..., x_n\} \subseteq \mathbb{R}^d$ mit $d < D$ gegeben. Es soll nun ein Unterraum $\mathcal{H} \subseteq \mathbb{R}^D$ mit der Dimension $d$ so berechnet werden, so dass die Projektionen von $x_1, x_2, \ldots, x_n$ auf $\mathcal{H}$ so verstreut auf $\mathcal{H}$ wie m\"oglich sind. Mit einer geeigneten Wahl von $d$ ist eine Verringerung der Dimensionen m\"oglich, ohne signifikanten Qualtit\"atsverlust der Daten. Damit laufen Trainingsalgorithmen schneller und liefern bessere Ergebnisse. Ausserdem k\"onnen Daten visualisiert werden.
+
+
+\subsection{Beispiel zur Anwendung von K-means und PCA}
+\label{subsec:vl13-3}
+
+Die MNIST-Datenbank (``Modified National Institute of Standards and Technology'') stellt handgeschriebene Zahlen in Bildern mit 28 Pixel $\cdot$ 28 Pixel zur Verf\"ugung. Jedes Bild ist mit der dargestellten Zahl kommentiert und kann als Vektor in $\mathbb{R}^{784}$ ($28 \cdot 28 = 784$) dargestellt werden.\\
+Wir wenden PCA auf die Bilder an, um sie in Punkte in $\mathbb{R}^{2}$ zu \"uberf\"uhren. Auf diese Punkte wenden wir K-means mit 10 Clustern an. Ein Beispielcode steht hier \url{https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html} zu Verf\"ugung. K-means hat 10 Cluster entdeckt, wobei jeder Cluster mehr oder weniger all Repr\"asentationen erfasst, die zu einer Ziffer geh\"oren. Durch die Verwendung von PCA und K-means konnten wir einen Klassifikator für Ziffern ohne jegliche \"Uberwachung erstellen.

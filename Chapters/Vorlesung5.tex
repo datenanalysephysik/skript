@@ -1,0 +1,348 @@
+\section{Vorlesung 5: Wahrscheinlichkeitsverteilungen}
+\label{sec:vl5}
+
+
+\subsection{Einf\"uhrung Wahrscheinlichkeitsverteilungen}
+\label{subsec:vl5}
+
+Wir haben gesehen, dass das Ergebnis einer Messung zufallsverteilt ist. Wenn wir eine Variable $x$ messen, dann ist die Wahrscheinlichkeit, dass das Ergebnis der Messung in einem Bereich $ a \leq x \leq b $ liegt, gegeben durch:
+\begin{align}
+P(  a \leq x \leq b ) = \int_a^b f (x) dx.
+\label{eq:vl5-1}
+\end{align}
+
+Dabei beschreibt die Funktion $f (x)$ die Wahrscheinlichkeitsverteilung der Messergebnisse. Die Funktion $f$ ist uns unbekannt. Das Ziel des Experiments und der Datenanalyse ist es, $f$ so genau wie möglich zu bestimmen, um Aussagen über das Messergebnis zu machen, wie zum Beispiel:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Mittelwert
+        \item Unsicherheit (Standardabweichung)
+        \item ...
+\end{itemize}
+
+Kenntnisse über das Experiment und die Messapparatur erlaubt es uns, Annahmen über die Funktion $f$ zu machen. So haben wir bereits die Normalverteilung kennengelernt:
+\begin{align}
+f (x) = \frac{ 1 }{ \sqrt{ 2 \pi } \sigma } \exp \left( - \frac{ (x - \mu)^2 }{ 2 \sigma^2} \right)\,.
+\label{eq:vl5-2}
+\end{align}
+
+Im Folgenden werden wir ein paar gebräuchliche Verteilungen kennenlernen.
+
+
+\subsection{Binomialverteilung}
+\label{subsec:vl5-2}
+
+Wir nehmen an, wir messen eine Variable $x$, die genau zwei Werte $u$ und $d$ annehmen kann (Beispiele: Münzwurf: Kopf oder Zahl, oder ein Spin: $+ \frac{1}{2} \hbar$, $- \frac{1}{2} \hbar$). Jede Durchführung des Experiments ist unabhängig von den vorherigen Ergebnissen. Dann ist:
+\begin{align}
+\begin{split}
+P (u) &= p\,,\\
+P (d) = q &= 1 - p \,.
+\end{split}
+\label{eq:vl5-3}
+\end{align}
+
+Wir messen ein System aus $n$ Spins, damit ist die Gesamtzahl der möglichen Zustände $2^n$ und die Wahrscheinlichkeit für einen einzelnen Zustand $\Psi_i$ mit $k$ Spins im Zustand $u$ gegeben durch:
+\begin{align}
+P (\Psi_i) = p^k q^{n-k}\,.
+\label{eq:vl5-4}
+\end{align}
+
+Es gibt viele verschiedene Zustände $\Psi_i$ mit $k$ Spins im Zustand $u$. Die Anzahl der Zustände mit gleicher Spinkonfiguration ist durch den Binomialkoeffizienten gegeben: $i = 1 ... m$ mit:
+\begin{align}
+m = \begin{pmatrix} n\\ k \end{pmatrix} \equiv \frac{ n! }{ k! (n - k)! }\,.
+\label{eq:vl5-5}
+\end{align}
+
+Damit ist die Wahrscheinlichkeit, für irgendeinen Zustand $\Psi$ mit $k$ Spins im Zustand $u$ gegeben durch:
+\begin{align}
+P (\Psi) = \begin{pmatrix} n\\ k \end{pmatrix} p^k q^{n-k}\,.
+\label{eq:vl5-6}
+\end{align}
+
+Als Wahrscheinlichkeitsverteilung muss dies natürlich normiert sein:
+\begin{align}
+\sum_{k = 0}^n \begin{pmatrix} n\\ k \end{pmatrix} p^k q^{n-k} = 1\,.
+\label{eq:vl5-7}
+\end{align}
+
+Das ist das 0-te Moment der Verteilung. Nehmen wir an, wir messen eine Variable $y$, die uns die Zahl der Spins
+im Zustand $u$ liefert, also $y = k$, dann ist der Erwartungswert dieser Variable gegeben durch das 1-ste Moment.\\[0.3cm]
+Um den Mittelwert zu berechnen, erinnern wir uns an den Ausdruck zur Berechnung des $m-$ten Moments:
+\begin{align}
+M_m = \sum_{k = 0}^n k^m \begin{pmatrix} n \\ k \end{pmatrix} p^k q^{n-k} \,.
+\label{eq:vl5-8}
+\end{align}
+
+Die einfachste Methode, die Momente zu berechnen ist ähnlich zu der Methode der momenterzeugenden Funktion:
+\begin{center}
+\textcolor{red}{
+Für eine normierte Wahrscheinlichkeitsverteilung gilt $M_0 = 1$ und höhere Momente $m \geq 1$ können iterativ aus der Ableitung der momenterzeugenden Funktion berechnet werden:
+\begin{align}
+M_m = \frac{ \partial^m M (\zeta) }{ \partial \zeta^m} \bigg|_{\zeta = 0}\,.
+\label{eq:vl5-9}
+\end{align}}
+\end{center}
+
+Wir berechnen die Ableitung wie folgt:
+\begin{align}
+\begin{split}
+\frac{ \partial M_m }{ \partial p } &= \frac{ \partial }{ \partial p } \left( \sum_{k = 0}^n k^m \begin{pmatrix} n \\ k \end{pmatrix} p^k (1 - p)^{n-k} \right)\\
+&= \sum_{k = 0}^n k^{m + 1} \begin{pmatrix} n \\ k \end{pmatrix} p^{k - 1} (1 - p)^{n - k} - \sum_{k = 0}^n k^m (n - k) \begin{pmatrix} n \\ k \end{pmatrix} p^k (1 - p)^{n - k - 1}\\
+&= \frac{1}{p} \sum_{k = 0}^n k^{m + 1} \begin{pmatrix} n \\ k \end{pmatrix} p^k q^{n - k} - \frac{n}{q} \sum_{k = 0}^n k^m \begin{pmatrix} n \\ k \end{pmatrix} p^k q^{n - k} + \frac{1}{q} \sum_{k = 0}^n k^{m + 1} \begin{pmatrix} n \\ k \end{pmatrix} p^k q^{n - k}\\
+&= \frac{1}{p} M_{m + 1} - \frac{n}{1} M_m + \frac{1}{q} M_{m + 1}.
+\label{eq:vl5-10}
+\end{split}
+\end{align}
+
+Wir berechnen die höheren Momente aus:
+\begin{align}
+M_{m + 1} = n p M_m + p q \frac{ \partial M_m }{ \partial p } \,.
+\label{eq:vl5-11}
+\end{align}
+
+Mit $M_0 = 1$ folgt:
+\begin{align}
+M_1 = n p M_0 + p q \frac{ \partial M_0 }{ \partial p } = np\,.
+\label{eq:vl5-12}
+\end{align}
+
+Hierbei ist der Mittelwert $\langle y \rangle = M_1 = np$. F\"ur das zweite Moment folgt:
+\begin{align}
+M_2 = n p M_1 + p q \frac{ \partial M_1 }{ \partial p } = np(np) + pq \frac{ \partial }{ \partial p } (np) = n^2 p^2 + npq \,.
+\label{eq:vl5-13}
+\end{align}
+
+Somit kann die Standardabweichung berechnet werden zu:
+\begin{align}
+\sigma^2 = M_2 - M_1^2 = n p q \,,
+\label{eq:vl5-14}
+\end{align}
+
+also:
+\begin{align}
+\sigma \approx \sqrt{n}.
+\label{eq:vl5-15}
+\end{align}
+
+F\"ur die Varianz folgt entsprechend:
+\begin{align}
+\text{var}(y) = npq \,.
+\label{eq:vl5-16}
+\end{align}
+
+Aus wiederholten Messungen der Variable $y$ und den daraus ermittelten Mittelwert $ \langle y \rangle $ und Varianz $ \text{var} (y) $ können wir also zum Beispiel die Anzahl der Spins im System sowie die Wahrscheinlichkeit, dass ein Spin im Zustand $u$ ist, berechnen. Für makroskopische Systeme ist jedoch $n$ sehr gross und somit werden Präzisionsexperimente notwendig, um $ \sqrt{n} $ messen zu können.
+
+
+\subsection{Poisson-Verteilung}
+\label{subsec:vl5-3}
+
+Die Poisson-Verteilung ist ein Grenzfall der Binomialverteilung für sehr seltene Ereignisse.\\[0.3 cm]
+\textit{Beispiel: Photonenstatistik in einem Laserstrahl.\\[0.3cm]
+Wir senden einen Laserstrahl auf einen Einzelphotonendetektor und zählen Photonen die in einem Zeitintervall $\tau$ detektiert werden. Dies wiederholen wir für $n$ aufeinanderfolgende Zeitintervalle $\tau$. Wenn $\tau$ sehr kurz ist, werden wir in den meisten Fällen kein Photon messen. Die Anzahl der gemessenen Photonen pro Zeitintervall $\tau$ ist $k$.\\[0.3cm]
+Also das heisst:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Die Anzahl der Messungen $n$ ist sehr gross.
+        \item Die Anzahl der Ereignisse pro Messung $k$ ist klein, insbesondere $n \gg k$.
+        \item Die Wahrscheinlichkeit für ein Event $p$ ist sehr klein $(p \rightarrow 0)$.
+\end{itemize}}
+
+Also ist die Wahrscheinlichkeit, $k$ Ereignisse in einer Messung zu finden:
+\begin{align}
+P(k) = \lim_{n \gg k} \begin{pmatrix} n \\ k \end{pmatrix} p^k (1 - p)^{n - k} = \lim_{n \gg k} \frac{ n! }{ k! (n - k)! } p^k (1 - p)^{n - k} = \frac{ n^k }{ k! } p^k (1 - p)^n\,.
+\label{eq:vl5-17}
+\end{align}
+
+Wir setzen $\mu = np$ (der Mittelwert der Binomialverteilung) und finden:
+\begin{align}
+P(k) = \frac{ \mu^k }{ k! } \left( (1 - p)^{\frac{1}{p}} \right)^\mu \,.
+\label{eq:vl5-18}
+\end{align}
+
+Mit $\lim_{p \rightarrow 0} (1 - p)^{\frac{1}{p}} = e^{-1}$ erhalten wir die Poisson-Verteilung:
+\begin{align}
+P(k) = \frac{ \mu^k }{ k! } \exp(-\mu) \,.
+\label{eq:vl5-19}
+\end{align}
+
+Es ist leicht zu zeigen, dass die Poisson-Verteilung bereits normiert ist, also $M_0 = 1$:
+\begin{align}
+ M_{m + 1} = \mu M_m + \mu \frac{ \partial M_m }{ \partial \mu }
+\label{eq:vl5-20}
+\end{align}
+
+und somit f\"ur den Mittelwert:
+\begin{align}
+ M_1 = \mu M_0 + \mu \frac{ \partial M_0 }{ \partial \mu } = \mu\,.
+\label{eq:vl5-21}
+\end{align}
+
+F\"ur die Varianz ergibt sich:
+\begin{align}
+M_2 = \mu M_1 + \mu \frac{ \partial M_1 }{ \partial \mu } = \mu^2 + \mu\,,\\
+\sigma^2 =  M_2 - M_1^2 = \mu\,.
+\label{eq:vl5-22}
+\end{align}
+
+Wir vermuten, dass die Poisson-Verteilung in \cref{eq:vl5-19} für grosse $\mu$ in die Normalverteilung (Gaussverteilung) übergeht. Um dies zu zeigen definieren wir: $\epsilon = k - \mu$. Damit folgt:
+\begin{align}
+\begin{split}
+ P (\epsilon) &= \frac{ \mu^{\mu + \epsilon} }{ (\mu + \epsilon)! } \exp (-\mu)\\
+ &= \frac{ \mu^\mu }{ \mu! } \exp (-\mu) \left( \frac{ \mu }{ \mu + 1 } \frac{ \mu }{ \mu + 2 } \cdots \frac{ \mu }{ \mu + \epsilon } \right) \,.
+\label{eq:vl5-24}
+\end{split}
+\end{align}
+
+F\"ur grosse $\mu$ gilt: $\mu! = \sqrt{2 \pi \mu} \mu^\mu \exp(-\mu)$ (Sterlingsformel). Also:
+\begin{align}
+\lim_{\mu \gg 1} \frac{ \mu^\mu }{ \mu! } \exp (-\mu) = \frac{ \mu^\mu \exp ( -\mu ) }{ \sqrt{2 \pi \mu} \mu^\mu \exp(-\mu) } = \frac{ 1 }{ \sqrt{ 2 \pi \mu} }.
+\label{eq:vl5-25}
+\end{align}
+
+Das Produkt in der Klammer von \cref{eq:vl5-24} kann berechnet werden zu:
+\begin{align}
+\begin{split}
+\left( \frac{ \mu }{ \mu + 1 } \frac{ \mu }{ \mu + 2 } \cdots \frac{ \mu }{ \mu + \epsilon } \right) &= \exp \left( - \ln \left( \frac{ \mu + 1 }{ \mu } \frac{ \mu + 2 }{ \mu } \cdots \frac{ \mu + \epsilon }{ \mu } \right) \right)\\
+&\underarrow[=][\uparrow]{\text{\footnotesize Da: $\ln \left( \frac{\mu + x}{\mu} \right) = \ln \left( 1 + \frac{x}{\mu} \right) \approx \frac{x}{\mu}$.}} \exp \left( - \frac{1}{\mu} ( 1 + 2 + \cdots + \epsilon ) \right)\\
+&= \exp \left( - \frac{ \epsilon (\epsilon + 1) }{ 2 \mu } \right)\\
+&\approx \exp \left( - \frac{ \epsilon^2 }{ 2 \mu } \right)\,.
+\label{eq:vl5-26}
+\end{split}
+\end{align}
+
+Damit erhalten wir die Gaussverteilung:
+\begin{align}
+P (\epsilon) = \frac{ 1 }{ \sqrt{ 2 \pi \mu } } \exp \left( - \frac{ \epsilon^2 }{ 2 \mu } \right)\,.
+\label{eq:vl5-27}
+\end{align}
+
+Mit $\mu = \sigma^2$ ergibt sich:
+\begin{align}
+P (\epsilon) = \frac{ 1 }{ \sqrt{ 2 \pi } \sigma } \exp \left( - \frac{ \epsilon^2 }{ 2 \sigma^2 } \right)
+\label{eq:vl5-28}
+\end{align}
+
+und schlussendlich:
+\begin{align}
+P (k) = \frac{ 1 }{ \sqrt{ 2 \pi } \sigma } \exp \left( - \frac{ (k - \mu)^2 }{ 2 \sigma^2 } \right)\,.
+\label{eq:vl5-29}
+\end{align}
+
+\begin{center}
+\textcolor{red}{Im Allgemeinen geht jede Wahrscheinlichkeitsverteilung für eine grosse Anzahl an Samples in eine Gaussverteilung über. Das ist die Aussage des zentralen Grenzwertsatzes.}
+\end{center}
+
+
+\subsection{Zentraler Grenzwertsatz}
+\label{subsec:vl5-4}
+
+Sei $x$ der Mittelwert einer Stichprobe $ \{ z_i, i = 1 ... n \}$, wobei die $z_i$ gem\"ass einer arbitr\"aren Wahrscheinlichkeitsverteilung mit Mittelwert $\mu$ und Varianz $\sigma_z^2$ verteilt sind:
+\begin{align}
+x = \frac{1}{n} \sum_{i = n}^n z_i\,.
+\label{eq:vl5-30}
+\end{align}
+
+Dann wird sich die Wahrscheinlichkeitsverteilung der $x$ für grosse $n$ einer Gaussverteilung annähern:
+\begin{align}
+f(x) = \frac{ 1 }{ \sqrt{ 2 \pi } \sigma_x } \exp \left( - \frac{ (x - \mu)^2 }{ 2 \sigma_x^2 } \right)\,,
+\label{eq:vl5-31}
+\end{align}
+
+wobei $\sigma_x^2 = \frac{ \sigma_z^2 }{ n }$.
+
+\begin{center}
+\textcolor{red}{Der zentrale Grenzwertsatz ist ein Grund, warum die Gaussverteilung von so fundamentaler Bedeutung ist. Insbesondere ist dies der Grund, warum die Annahme von Gauss-verteilten Unsicherheiten in der Physik so gut funktioniert. Dies gilt natürlich nur für zufällige Fehler.}
+\end{center}
+
+
+\subsection{Herschels Herleitung der Gaussverteilung}
+\label{subsec:vl5-5}
+
+Wir wollen nun einen anderen Ansatz betrachten, wie wir die Gaussverteilung motivieren können.\\[0.3cm]
+Herschel wollte die Positionen $(x, y)$ von Himmelskörpern bestimmen. Die Fehler in den beiden Koordinaten $x$ und $y$ sollten als unabhängig angenommen werden, sodass die Verteilung der Fehler in $x$ und $y$ gegeben ist durch:
+\begin{align}
+f_1(x)f_2(y)dxdy \,.
+\label{eq:vl5-32}
+\end{align}
+
+Wir nehmen weiter an, dass die Unsicherheit der Position vom Winkel $\theta$ unabhängig sein soll, also sollte die Verteilungsfunktion eine Funktion des Radius $r$ sein:
+\begin{align}
+g(r)dxdy = f_1(x)f_2(y)dxdy \,.
+\label{eq:vl5-33}
+\end{align}
+
+Daraus folgt:
+\begin{align}
+g(r) = f_1(x)f_2(y)
+\label{eq:vl5-34}
+\end{align}
+
+und:
+\begin{align}
+\frac{ \partial g(r) }{ \partial \theta } = f_1(x) \frac{ \partial f_2(y) }{ \partial \theta } + f_2(y) \frac{ \partial f_1(x) }{ \partial \theta } \,.
+\label{eq:vl5-35}
+\end{align}
+
+Wir transformieren in Polarkoordinaten:
+\begin{align}
+\begin{split}
+x &= r \cos (\theta)\,,\\[5pt]
+y &= r \sin (\theta)\,,\\[5pt]
+\frac{ \partial f_1(x) }{ \partial \theta } &= \frac{ \partial f_1(x) }{ \partial x } \frac{ \partial x }{ \partial \theta } = -y \frac{ \partial f_1 (x) }{ \partial x }\,,\\[5pt]
+\frac{ \partial f_2(y) }{ \partial \theta } &= \frac{ \partial f_2(y) }{ \partial y } \frac{ \partial y }{ \partial \theta } = x \frac{ \partial f_2 (y) }{ \partial y }\,.
+\label{eq:vl5-36}
+\end{split}
+\end{align}
+
+Und finden so:
+\begin{align}
+x f_1(x) \frac{ \partial f_2(y) }{ \partial y } - y f_2(y) \frac{ \partial f_1(x) }{ \partial x } = 0 \,.
+\label{eq:vl5-37}
+\end{align}
+
+Da $x$ und $y$ unabh\"angig sind, gilt:
+\begin{align}
+\frac{ 1 }{ x f_1(x) } \frac{ \partial f_1(x) }{ \partial x } = K = \frac{ 1 }{ x f_2(y) } \frac{ \partial f_2(y) }{ \partial y } \,,
+\label{eq:vl5-38}
+\end{align}
+
+wobei $K$ eine Konstante ist. Wir k\"onnen nun berechnen:
+\begin{align}
+\begin{split}
+\frac{ \partial f_1(x) }{ f_1(x) } &= Kx \partial x\,,\\
+\rightarrow \ln f_1(x) &= \frac{1}{2} K x^2 + C\,,\\
+\rightarrow f_1(x) &\approx \exp \left( \frac{1}{2} K x^2\right)\,.
+\label{eq:vl5-39}
+\end{split}
+\end{align}
+
+Da $f_1(x)$ normierbar sein soll, muss $K$ negativ sein und wir definieren: $k = - \frac{1}{\sigma^2}$.
+
+\begin{center}
+\textcolor{red}{
+Damit erhalten wir f\"ur die unnormierte Verteilungsfunktionen $f_1(x)$ und $f_2(y)$ die Gaussverteilung:
+\begin{align}
+\begin{split}
+f_1(x) &\approx \exp \left( - \frac{1}{2} \frac{ x^2 }{ \sigma^2 } \right)\,,\\
+f_2(y) &\approx \exp \left( - \frac{1}{2} \frac{ y^2 }{ \sigma^2 } \right)\,.
+\label{eq:vl5-40}
+\end{split}
+\end{align}}
+\end{center}
+
+Dabei haben wir ausschliesslich Unabh\"angigkeit und Zuf\"alligkeit angenommen.
+
+\subsection{Zusammenfassung}
+\label{subsec:vl5-6}
+
+Verteilungsfunktionen:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Binomialverteilung: Verteilung einer Variable die genau zwei verschiedene Werte annehmen kann.
+        \item Poisson-Verteilung: Verteilung der H\"aufigkeit von seltenen Ereignissen.
+        \item Gaussverteilung: Normalverteilung von unabh\"angigen und zuf\"alligen Zufallsvariablen.
+\end{itemize}
+Zentraler Grenzwertsatz:
+\begin{itemize}
+    \setlength\itemsep{0em}
+        \item Die Verteilung der Mittelwerte von grossen Stichproben und Zufallsvariablen n\"ahern sich der Gaussverteilung an. Unabh\"angig davon welche Verteilung der einzelnen Zufallsvariable zugrunde liegt.
+\end{itemize}

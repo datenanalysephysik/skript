@@ -1,0 +1,53 @@
+\subsection{Sch\"atzen von Parametern}
+\label{subsec:vl4-10}
+
+Um den Wert eines Parameters $a$ zu sch\"atzen, verwenden wir den Ausdruck:
+\begin{align}
+f_1 ( a | D ) = \frac{ L ( D | a ) f_0 ( a ) }{ \int L ( D | a ) f_0 ( a ) dB}\,.
+\label{eq:vl4-41}
+\end{align}
+
+Hierbei repr\"asentiert der \textit{Prior} $f_0 ( a )$ unser gesamtes Wissen \"uber $a$ bevor wir die Daten $D$ messen. Weiterhin ist $L ( D | a )$ die Likelihood von $a$ gegeben $D$. Das Ergebnis $f_1 ( a | D )$ ist die Posterior-Wahrscheinlichkeitsverteilung von $a$ gegeben $D$ (beachte: $f_0 \neq f_1$). \\
+Wenn die Daten aus mehreren Messungen $x\text{\textit{:} } x_1, \cdots, x_n$ mit ihren Unsicherheiten $\sigma\text{\textit{:} }  \sigma_1, \cdots, \sigma_n$ bestehen, benutzen wir die Vektorschreibweise\footnote{Vektoren sind \textbf{fett} geschrieben}:
+\begin{align}
+f_1 ( a | \boldsymbol{x, \sigma} ) = \frac{ L ( \boldsymbol{x, \sigma} | a ) f_0 ( a ) }{ \int L ( \boldsymbol{x, \sigma} | a ) f_0 ( a ) dB}\,.
+\label{eq:vl4-42}
+\end{align}
+
+Das Ergebnis ist die PDF von $a$. Typischerweise wollen wir die PDF durch charakteristische Parameter wie den Mittelwert und die Standardabweichung beschreiben:
+\begin{align}
+\begin{split}
+\hat{a} = \langle a \rangle & = \int a f_1 ( a | D ) da\,,\\
+\sigma_{\hat{a}}^2 = \langle a^2 \rangle - \langle a \rangle^2 & \text{, mit } \langle a^2 \rangle = \int a^2 f_1 ( a | D ) da\,.
+\end{split}
+\label{eq:vl4-43}
+\end{align}
+
+\textit{Beispiel: Wir wollen einen Parameter $d$ messen. Aus vorhergegangenen Messungen haben wir die Absch\"atzung: $\mu \pm \sigma_0$. Wir nehmen einen Gaussschen Prior an:}
+\begin{align}
+f_0 ( d ) = \frac{ 1 }{ \sqrt{ 2 \pi } \sigma_0 } \exp \left( - \frac{ 1 }{ 2 } \frac{ ( d - \mu_0 )^2 }{ \sigma_0^2 } \right)\,.
+\label{eq:vl4-44}
+\end{align}
+
+\textit{Wir messen $d_1 \pm \sigma_{d_{1}}$, damit wird die Likelihood-Funktion:}
+\begin{align}
+L ( d_1, \sigma_{d_{1}} | d ) = \frac{ 1 }{ \sqrt{ 2 \pi} \sigma_{d_{1}} } \exp \left( - \frac{ 1 }{ 2 } \frac{ ( d_1 - d )^2 }{ \sigma_{d_{1}}^2 } \right)\,.
+\label{eq:vl4-45}
+\end{align}
+
+\textit{Die nicht normierte Posterior PDF ist dann:}
+\begin{align}
+f_1 ( d | d_1, \sigma_{d_{1}}) \approx L ( d_1, \sigma_{d_{1}} | d ) f_0 ( d ) = \frac{ 1 }{ \sqrt{ 2 \pi} \sigma_1 } \exp \left( - \frac{ 1 }{ 2 } \frac{ ( d_1 - \mu_1 )^2 }{ \sigma_{1}^2 } \right)\,.
+\label{eq:vl4-46}
+\end{align}
+
+\textit{Dabei sind:}
+\begin{align}
+\begin{split}
+\mu_1 &= \frac{ \sigma_{d_{1}}^2 \mu_0 + \sigma_0^2 d_1 }{ \sigma_0^2 + \sigma_{d_{1}}^2 },\\
+\sigma_1^2 &= \frac{ \sigma_0^2 \sigma_{d_{1}}^2 }{ \sigma_0^2 + \sigma_{d_{1}}^2 }\,.
+\end{split}
+\label{eq:vl4-47}
+\end{align}
+
+\textit{Auch wenn das Ergebnis keine PDF ist da es nicht normiert ist, k\"onnen wir als Ergebnis den Mittelwert und die Standardabweichung von $f_1$ extrahieren.}
