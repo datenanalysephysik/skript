@@ -552,11 +552,11 @@ Wir betrachten nun den etwas komplizierteren Fall, in dem unsere Zielgrösse $f(
 \begin{split}
 \sigma_f^2 = \frac{1}{N-1} \sum_{n=1}^N (f_n - \overline{f})^2 = \frac{1}{N-1}\sum_{n=1}^N \left( \frac{\partial \overline{f}}{\partial x} (x - \overline{x}) + \frac{\partial \overline{f}}{\partial y} (y - \overline{y})\right)^2  \\
 =  \frac{1}{N-1}\sum_{n=1}^N \left[ \left(\frac{\partial \overline{f}}{\partial x}\right)^2 (x - \overline{x})^2 + \left(\frac{\partial \overline{f}}{\partial y}\right)^2 (y - \overline{y})^2 + 2\frac{\partial \overline{f}}{\partial x}\frac{\partial \overline{f}}{\partial y}(x - \overline{x})(y - \overline{y})\right] \\
-= \left(\frac{\partial \overline{f}}{\partial x}\right)^2\sigma_x^2 +  \left(\frac{\partial \overline{f}}{\partial y}\right)^2\sigma_y^2 + 2\frac{\partial \overline{f}}{\partial x}\frac{\partial \overline{f}}{\partial y}\sigma_{xy}
+= \left(\frac{\partial \overline{f}}{\partial x}\right)^2\sigma_x^2 +  \left(\frac{\partial \overline{f}}{\partial y}\right)^2\sigma_y^2 + 2\frac{\partial \overline{f}}{\partial x}\frac{\partial \overline{f}}{\partial y}\sigma_{xy}^2
 \end{split}
 \label{eq:Gauss2D}
 \end{align}
-Wie aus Gleichung \ref{eq:Gauss2D} ersichtlich wird, hängt der Fehler der Zielgrösse im mehrdimensionalen Fall zusätzlich zu den Varianzen der einzelnen Messgrössen ($\sigma_x\sigma_y$) auch noch von der sogenannten Kovarianz $\sigma_{xy}$ ab, die wir im folgenden Kapitel \ref{chap:korrelation:sec:kovarianz} noch genauer betrachten wollen. Den in Gleichung \ref{eq:Gauss2D} erhaltenen Ausdruck können wir auch unter Verwendung der sogenannten Kovarianzmatrix schreiben als:
+Wie aus Gleichung \ref{eq:Gauss2D} ersichtlich wird, hängt der Fehler der Zielgrösse im mehrdimensionalen Fall zusätzlich zu den Varianzen der einzelnen Messgrössen ($\sigma_x\sigma_y$) auch noch von der sogenannten Kovarianz $\sigma_{xy}^2$ ab, die wir im folgenden Kapitel \ref{chap:korrelation:sec:kovarianz} noch genauer betrachten wollen. Den in Gleichung \ref{eq:Gauss2D} erhaltenen Ausdruck können wir auch unter Verwendung der sogenannten Kovarianzmatrix schreiben als:
 \begin{align}
 \sigma_f^2 = (\partial_x, \partial_y)f \begin{pmatrix}
 \sigma_x^2 & \sigma_{xy}^2 \\
