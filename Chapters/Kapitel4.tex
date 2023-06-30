@@ -98,7 +98,10 @@ Man beachte, dass die rein mathematische Definition der DFT für eine einheitenl
 X_k = \sum_{n=0}^{N-1} x_n e^{-i 2 \pi k n/N}\,.
 \label{eq:vl7-1c}
 \end{align}
-Hier sind sowohl $x_n$ als auch die transformierte Zahlenfolge $X_k$ Zahlen ohne physikalische Bedeutung. Die Schrittgrösse, welche die Rolle einer diskreten Integrationsvariablen einnimmnt, reduziert sich hier auf $1$ und wird unsichtbar. Diese Formel kann also nicht direkt auf physikalische Signale mit Einheiten angewendet werden. In Python, MATLAB oder anderen Programmen, wo die Fouriertransformation mit Hilfe der ``fast Fourier transform'' FFT (einer effizienten Variante der DFT) berechnet wird, muss man daher das Resultat der FFT nachträglich mit der Schrittgrösse normieren.
+Hier sind sowohl $x_n$ als auch die transformierte Zahlenfolge $X_k$ Zahlen ohne physikalische Bedeutung. Die Schrittgrösse, welche die Rolle einer diskreten Integrationsvariablen einnimmnt, reduziert sich hier auf $1$ und wird unsichtbar. Diese Formel kann also nicht direkt auf physikalische Signale mit Einheiten angewendet werden. In Python, MATLAB oder anderen Programmen, wo die Fouriertransformation mit Hilfe der ``fast Fourier transform'' FFT (einer effizienten Variante der DFT) berechnet wird, muss man daher das Resultat der FFT nachträglich mit der Schrittgrösse normieren. Generell ist immer Vorsicht geboten, wenn man einen Software-Algorithmus zum ersten Mal verwendet, da die Normierung nicht immer gleich implementiert ist. Im numpy-Paket von Python entspricht beispielsweise die funktion numpy.fft in unserer Notation nicht $X(f_n)$, sondern $NX(f_n)$. Man berechnet dann den spektralen Koeffizienten $X(f_n)$ einer Messreihe $x(t)$ mit dem folgenden Code: 
+\begin{lstlisting}[language = Python]
+X = np.fft.fft(x)/N # Fourierkoeffizient von x(t) mit N Messwerten
+\end{lstlisting}
 
 Die Fouriertransformation kann entweder nur für positive (einseitig, single-sided) oder für positive und negative Frequenzen (zweiseitig, double-sided) definiert werden. In der zweiseitigen DFT eines Signals mit $N$ Punkten in der Zeit liegen im Frequenzraum ebenfalls $N$ Punkte vor, die zwischen den maximalen Frequenzen $\pm f_{max}$ (siehe unten) verteilt sind. Negative Frequenzen haben keine zusätzliche Bedeutung; die Fouriertransformation ist symmetrisch im Realteil (bzw. antisymmetrisch im Imaginärteil). Aus diesem Grund werden die negativen Frequenzanteile oft weggelassen und man erhält $N/2$ Punkte zwischen null und $f_{max}$.
 
@@ -153,7 +156,11 @@ S_{xx} (f) = \frac{\Delta_t}{N} \left| \sum_{k=0}^{N-1} x(t_k) e^{-i 2 \pi f_n t
 N \left| X(f_n) \right|^2 \,,
 \label{eq:vl7-3}
 \end{align}
-
+Mit Python lässt sich die PSD beispielsweise so berechnen:
+\begin{lstlisting}[language = Python]
+X = np.fft.fft(x)/N # Fourierkoeffizient von x(t) mit N Messwerten
+psd = dt * N * np.abs(X)**2
+\end{lstlisting}
 
 
 % \begin{figure}[htbp]
