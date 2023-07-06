@@ -127,7 +127,7 @@ plt.vlines(mean - np.sqrt(var), 0, np.max(occurrence)/A )
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{Figures/messfehler1.pdf}
-\caption{Statistische Analyse einer Messung von \gls{gl:g}. \textbf{Links:} Gemessene Datenpunkte (graue Punkte) als Funktion der Zeit $t$. Die Kanten der ``Bins'' sind als horizontale Linien indiziert. Aufgrund der limitierten vertikalen Auflösung der Messung arbeiten wir mit einer relativ geringen Anzahl von Bins.  \textbf{Links:} Das resultierende Histogramm der Stichprobe. Die Anzahl der Messergebniss pro Bin wurden für diese Darstellung bereits der Anzahl der Datenpunkte $N$ normalisiert, sodass die Summe aller Histogrammwerte 1 ergibt. Der erwartete Wert \gls{gl:xtilde} für die Erdbeschleunigung, sowie empirischer Mittelwert und empirische Standardabweichung sind eingezeichnet. }
+\caption{Statistische Analyse einer Messung von \gls{gl:g}. \textbf{Links:} Gemessene Datenpunkte (graue Punkte) als Funktion der Zeit $t$. Die Kanten der ``Bins'' sind als horizontale Linien indiziert. Aufgrund der limitierten vertikalen Auflösung der Messung arbeiten wir mit einer relativ geringen Anzahl von Bins.  \textbf{Rechts:} Das resultierende Histogramm der Stichprobe. Die Anzahl der Messergebniss pro Bin wurden für diese Darstellung bereits der Anzahl der Datenpunkte $N$ normalisiert, sodass die Summe aller Histogrammwerte 1 ergibt. Der erwartete Wert \gls{gl:xtilde} für die Erdbeschleunigung, sowie empirischer Mittelwert und empirische Standardabweichung sind eingezeichnet. }
 \label{fig:messfehler1}
 \end{figure}
 %  Die Anzahl der Messergebniss pro Bins wurden für diese Darstellung bereits mit dem Produkt aus Anzahl der Datenpunkte $n$ und Bin-Breite normalisiert.
@@ -135,7 +135,7 @@ plt.vlines(mean - np.sqrt(var), 0, np.max(occurrence)/A )
 \section{Wahrscheinlichkeitsverteilungen}
 \label{chap:fehler:sec:frequentistisch}
 
-Im bisherigen Verlauf dieses Kapitels haben wir gelernt, wie wir zufällige Messfehler anhand der wiederholten Durchführung einer Messung charakterisieren können. Ein wichtiges Resultat dieser Analyse war hierbei das diskrete Hisogramm der Ereignishäufigkeiten (siehe Fig.~\ref{fig:messfehler1}), die wir intuitiv als Wahrscheinlichkeiten, die entsprechenden Werte für unsere Messgrösse zu erhalten, interpretiert haben.  Im Folgenden wollen wir diesen Zusammenhang systematischer ergründen und hierzu den frequentistischen Wahrscheinlichkeitsbegriff und Wahrscheinlichkeitsverteilungen diskutieren.  Ein alternativer Ansatz zur Interpretation von Wahrscheinlichkeiten, die sogenannte Bayesische Datenanalyse, wird in Kapitel \ref{chap:estimation:sec:bayes} eingeführt. 
+Im bisherigen Verlauf dieses Kapitels haben wir gelernt, wie wir zufällige Messfehler anhand der wiederholten Durchführung einer Messung charakterisieren können. Ein wichtiges Resultat dieser Analyse war hierbei das diskrete Histogramm der Ereignishäufigkeiten (siehe Fig.~\ref{fig:messfehler1}), die wir intuitiv als Wahrscheinlichkeiten, die entsprechenden Werte für unsere Messgrösse zu erhalten, interpretiert haben.  Im Folgenden wollen wir diesen Zusammenhang systematischer ergründen und hierzu den frequentistischen Wahrscheinlichkeitsbegriff und Wahrscheinlichkeitsverteilungen diskutieren.  Ein alternativer Ansatz zur Interpretation von Wahrscheinlichkeiten, die sogenannte Bayesische Datenanalyse, wird in Kapitel \ref{chap:estimation:sec:bayes} eingeführt. 
 
 %erhaltene, diskrete Histogramm ist eine Abschätzung der kontinuierlichen Wahrscheinlichkeitsverteilung, die der Messung zugrunde liegt. Die Ergebnisse unserer Messung werden letztendlich von einer Wahrscheinlichkeitsverteilung beschrieben, eine Messgrösse ist eine Zufallsvariable und eine Messung ein Zufallsexperiment. Je grösser die Anzahl unserer Messpunkte ist und je besser unsere vertikale Auflösung ist, umso besser können wir die zugrundeliegende Verteilung beschreiben. Welche Verteilungsfunktion die Messung am besten beschreibt, hängt vom Experiment ab. Wichtige Verteilungen werden in Kapitel \ref{chap:pf} näher behandelt. In der Praxis finden wir sehr häufig normalverteilte Messergebnisse vor. Insbesondere liegt eine Normalverteilung immer dann vor, wenn der Messfehler tatsächlich vollkommen zufällig ist. Im Folgenden wollen wir daher auf die Normalverteilung näher eingehen.  \\
 
@@ -148,7 +148,7 @@ P(A) = \frac{n_A}{n_S}\,
 \end{align}
 wobei $n_S$ die Anzahl der möglichen Ergebnisse des Experiments ist und $n_A$ die Anzahl der Ergebnisse, die zu $A$ führen. Grundsätzlich gilt, dass die frequentistischen Wahrscheinlichkeiten $P$ umso besser aus den experimentellen Daten abgeschätzt werden können, je häufiger das Zufallsexperiment wiederholt wurde. Die heutige Popularität des frequentistischen Ansatzes ist somit zu grossen Teilen auf die gestiegenen technischen Standards und gesteigerten zur Verfügung stehenden Rechenleistungen zurückzuführen.  \\
 
-Ein typisches Beispiel zur Veranschaulichung der frequentistischen Wahrscheinlichkeit ist der Würfelwurf. Hier ist die Anzahl der möglichen Ergebniss $n_S=6$. Die Wahrscheinlichkeit, dass die Augenzahl grösser ist als 4 (d.h. $n_A = 2$) wäre folglich $P(A)=\frac{2}{6}=\frac{1}{3}$. Sofern eine ausreichend hohe Anzahl an Würfelwürfen durchgeführt, sollte somit ungefähr in jeder dritten Messung eine Augenzahl, die grösser ist als 4, auftreten. \\
+Ein typisches Beispiel zur Veranschaulichung der frequentistischen Wahrscheinlichkeit ist der Würfelwurf. Hier ist die Anzahl der möglichen Ergebnisse $n_S=6$. Die Wahrscheinlichkeit, dass die Augenzahl grösser ist als 4 (d.h. $n_A = 2$) wäre folglich $P(A)=\frac{2}{6}=\frac{1}{3}$. Sofern eine ausreichend hohe Anzahl an Würfelwürfen durchgeführt, sollte somit ungefähr in jeder dritten Messung eine Augenzahl, die grösser ist als 4, auftreten. \\
 
 Da ein mögliches Ergebnis $A$ immer eine Teilmenge der Gesamtmenge aller möglichen Ergebnisse $S$ des Experiments darstellt, gilt  stets
 \begin{align}
@@ -158,7 +158,7 @@ und zudem
 \begin{align}
 P(S) =  P(A) + P(\overline{A}) =  1,
 \end{align}
-wobei $P(\overline{A})$ die Wahrscheinlichkeit ist, das Ergebnis $A$ \textit{nicht} eintritt. \\
+wobei $P(\overline{A})$ die Wahrscheinlichkeit ist, dass Ergebnis $A$ \textit{nicht} eintritt. \\
 
 Häufig sind wir gleichzeitig an mehreren möglichen Ergebnissen, z.B. $A$ und $B$, des Experiments interessiert und wollen zusätzlich zu deren individuellen frequentistischen Wahrscheinlichkeiten, $P(A)$ und $P(B)$, auch kompliziertere Wahrscheinlichkeiten berechnen, die beide Ergebnisse betreffen. Zu diesem Zweck ist es hilfreich, sogenannte Venn-Diagramme (auch: Mengendiagramme) zu verwenden, die den Grad an Überlapp der Teilmengen mehrerer Ergebnisse und folglich deren Schnittmengen ($A\cap B$), Vereinigungsmengen ($A \cup B$) sowie Differenzmengen ($A\setminus B $, $B \setminus A$)  graphisch darstellen können. In unserem anfänglichen Beispiel des Würfels könnten wir etwa zusätzlich zum Ergebnis $A:$\glqq Die Augenzahl ist grösser als 4\grqq auch das Ergebnis $B:$\glqq Die Augenzahl ist 6\grqq betrachten. Im entsprechenden Venn-Diagramm überlappen die Teilmengen dieser Ergebnisse, da sie gleichzeitig eintreten können - die Augenzahl ist schliesslich grösser als 4, wenn sie 6 beträgt. 
 
@@ -232,7 +232,7 @@ In Tabelle \ref{tab:pdfs} sind einige der wichtigsten Kennzahlen von Wahrscheinl
 \textbf{Name und Variable} & \textbf{Formel} & \textbf{Bedeutung} \\ \hline \hline
 Modus \gls{gl:xmode} & \begin{align}
 \gls{gl:xmode}: \frac{d f ( x )}{dx}\bigg|_{\gls{gl:xmode}} = 0 
-\end{align} & Der Wert von $x$, bei dem die Verteilung ihr Maximum erreicht. Die hier angegebene Formel zur Berrechnung kann für eine PDF mit einem einzigen Maximum verwendet werden. \\ \hline 
+\end{align} & Der Wert von $x$, bei dem die Verteilung ihr Maximum erreicht. Die hier angegebene Formel zur Berechnung kann für eine PDF mit einem einzigen Maximum verwendet werden. \\ \hline 
 Median $x_{\mathrm{median}}$ & \begin{align}
 \frac{1}{2} = \int_{-\infty}^{x_{\mathrm{median}}} f ( x ) dx\
 \end{align}  & Die Mitte der Verteilung. Der Median wird häufig bei der Darstellung von sozioökonomischen Daten verwendet, etwa zur Angabe des durchschnittlichen Gehalts einer Gesellschaft. \\ \hline
@@ -303,7 +303,7 @@ f ( x ) = \frac{ 1 }{ 2 \pi } \int_{-\infty}^{+\infty} \exp ( -\mathrm{i} \nu x 
 
 \subsection{Die Normalverteilung}
 
-In der Praxis finden wir sehr häufig normalverteilte Messergebnisse vor. Insbesondere liegt eine Normalverteilung immer dann vor, wenn der Messfehler  aus der additiven Überlagerung zahlreicher unabhängiger unabhängiger, zufälliger Ereignisse resultiert und somit selbst tatsächlich vollkommen zufällig ist.  Der Grund hierfür ist der sogenannte \textbf{zentrale Grenzwertsatz}:\\
+In der Praxis finden wir sehr häufig normalverteilte Messergebnisse vor. Insbesondere liegt eine Normalverteilung immer dann vor, wenn der Messfehler  aus der additiven Überlagerung zahlreicher unabhängiger, zufälliger Ereignisse resultiert und somit selbst tatsächlich vollkommen zufällig ist.  Der Grund hierfür ist der sogenannte \textbf{zentrale Grenzwertsatz}:\\
 
 \begin{center}
 \begin{tcolorbox}[enhanced,width=6in,drop fuzzy shadow southwest,
@@ -377,7 +377,7 @@ E(\gls{gl:deltax2}) &= E \left( \frac{1}{N-1} \sum_{n=1}^N ( \bar{x} - x_n )^2 \
 & = \frac{1}{N-1} \left( \sum_{n=1}^N (\text{var}(x) + E(x)^2 - N E(\bar{x}^2) \right)\\
 & = \frac{1}{N-1} \left( \sum_{n=1}^N (\text{var}(x) + E(x)^2) - N \left( \frac{\text{var}(x)}{N} + E(\bar{x})^2 \right) \right)\\
 &= \frac{1}{N-1} ( N \text{var}(x) - N E(x)^2 - \text{var}(x) + N E(\bar{x})^2 )\\
-& \frac{1}{N-1} (\text{var}(x) (N-1) - N E(x)^2 + + N E(x)^2 ) \\
+&= \frac{1}{N-1} (\text{var}(x) (N-1) - N E(x)^2 + N E(x)^2 ) \\
 &= \frac{1}{N-1} \text{var}(x) (N-1) \\
 &= \text{var}(x)\,.
 \end{split}
@@ -410,13 +410,13 @@ Wir analysieren die so erhaltenen Werte analog zu unserem ursprünglichen Datens
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{Figures/messfehler2.pdf}
-\caption{Statistische Analyse einer simulierten Messung von \gls{gl:g} mit höherer Auflösung. \textbf{Links:} Auftragung der gemessenen Datenpunkte (graue Punkte) gegen die Zeit $t$. Die Kanten der ``Bins'' sind als horizontale Linien indiziert.   \textbf{Links:} Das resultierende Histogramm der Stichprobe. Die Anzahl der Messergebniss pro Bins wurden für diese Darstellung bereits mit dem Produkt aus Anzahl der Datenpunkte $n$ und Bin-Breite normalisiert, um eine Wahrscheinlichkeitsdichte zu erhalten. Der empirische Mittelwert und die empirische Standardabweichung (rote Linien), sowie die aus diesen erhaltene Normalverteilung (blaue Linie) sind eingezeichnet.}
+\caption{Statistische Analyse einer simulierten Messung von \gls{gl:g} mit höherer Auflösung. \textbf{Links:} Auftragung der gemessenen Datenpunkte (graue Punkte) gegen die Zeit $t$. Die Kanten der ``Bins'' sind als horizontale Linien indiziert.   \textbf{Rechts:} Das resultierende Histogramm der Stichprobe. Die Anzahl der Messergebniss pro Bins wurden für diese Darstellung bereits mit dem Produkt aus Anzahl der Datenpunkte $n$ und Bin-Breite normalisiert, um eine Wahrscheinlichkeitsdichte zu erhalten. Der empirische Mittelwert und die empirische Standardabweichung (rote Linien), sowie die aus diesen erhaltene Normalverteilung (blaue Linie) sind eingezeichnet.}
 \label{fig:messfehler2}
 \end{figure}
 
 
 \subsection{Binomial- und Poissonverteilung}
-Die Binomialverteilung ist eine der wichtigsten, diskreten Wahrscheinlichkeitsverteilungen. Sie liegt immer dann vor, wenn eine Serie von $n$ unabhängigen und gleichartigen Versuchen zur Messung einer Zufallsvariablen mit lediglich zwei möglichen Ergebnissen, $d$ und $u$, durchgeführt wird. Ein typisches Alltagsbeispiel für eine Binomialverteilung wäre etwa der Münzwurf, ein Beispiel der statistischen Physik die Besetzung eines Zustandes mit einer Reihe von Spins, die sich entweder in einem \glqq up\grqq{} (d.h. $S_z = +\frac{1}{2}\hbar$) oder \glqq down\grqq{} (d.h. $S_z = +\frac{1}{2}\hbar$) Zustand befinden können. Die Wahrscheinlichkeiten für die beiden Ergebnisse sind in jeder Durchführung des Versuchs identisch und  
+Die Binomialverteilung ist eine der wichtigsten, diskreten Wahrscheinlichkeitsverteilungen. Sie liegt immer dann vor, wenn eine Serie von $n$ unabhängigen und gleichartigen Versuchen zur Messung einer Zufallsvariablen mit lediglich zwei möglichen Ergebnissen, $d$ und $u$, durchgeführt wird. Ein typisches Alltagsbeispiel für eine Binomialverteilung wäre etwa der Münzwurf, ein Beispiel der statistischen Physik die Besetzung eines Zustandes mit einer Reihe von Spins, die sich entweder in einem \glqq up\grqq{} (d.h. $S_z = +\frac{1}{2}\hbar$) oder \glqq down\grqq{} (d.h. $S_z = -\frac{1}{2}\hbar$) Zustand befinden können. Die Wahrscheinlichkeiten für die beiden Ergebnisse sind in jeder Durchführung des Versuchs identisch und  
 \begin{align}
 P(u) = p,
 \end{align}
@@ -435,7 +435,7 @@ der angibt, auf wie viele verschiedene Arten man aus einer Menge von $n$ Objekte
 \begin{align}
 M_0 = \sum_{k = 0}^n \begin{pmatrix} n\\ k \end{pmatrix} p^k q^{n-k} = 1
 \end{align}
-erhalten.  Wir wollen nun die höhere Momente ($m \geq 1$) mithilfe der Ableitung der Momenterzeugenden Funktion
+erhalten.  Wir wollen nun die höheren Momente ($m \geq 1$) mithilfe der Ableitung der Momenterzeugenden Funktion
 \begin{align}
 M_m = \frac{ \partial^m M (\zeta) }{ \partial \zeta^m} \bigg|_{\zeta = 0}
 \end{align}
@@ -509,7 +509,7 @@ Um diese Vermutung mathematisch beweisen, berechnen wir den zufälligen Fehler $
 \Delta{\mu}^2 = \text{var} \left( \overline{x} \right) = \text{var} \left( \frac{1}{N} \sum^N_{n=1} x_n \right) = \frac{1}{N^2} \text{var} \left( \sum^N_{n=1} x_n \right) = \frac{1}{N^2} N \sigma^2 = \frac{1}{N} \sigma^2\,.
 \label{eq:vl3-1}
 \end{align}
-Die Wurzel der Varianz zeigt uns die Unsicherheit des Mittelwerts, und somit den Fehler, den wir bei der Abschätzung des Erwartungswertes aus dem Mittelwert von $N$ Messungen machen.  Dieser Fehler ist somit $\Delta \mu = \frac{ \sigma }{ \sqrt{n} }$. Wir können durch wiederholtes Messen also die Genauigkeit des Messergebnisses verbessern. Generell halten wir fest: Die Werte von \gls{gl:mu} und  \gls{gl:sigma} ändern sich nicht systematisch durch wiederholtes Messen. Die zugehörigen Schätzfehler, die wir bei der Annäherung dieser Werte mit den empirischen Werten machen, ändern sich allerdings sehr wohl. Im Limit unendlich vieler Messungen ($N  \rightarrow  \infty)$ entsprechen empirischer Mittelwert und empirische Standardabweichungen den tatsächlichen Parametern der zugrundeliegenden Verteilungen, solange keine systematischen Fehler vorliegen.
+Die Wurzel der Varianz zeigt uns die Unsicherheit des Mittelwerts, und somit den Fehler, den wir bei der Abschätzung des Erwartungswertes aus dem Mittelwert von $N$ Messungen machen.  Dieser Fehler ist somit $\Delta \mu = \frac{ \sigma }{ \sqrt{N} }$. Wir können durch wiederholtes Messen also die Genauigkeit des Messergebnisses verbessern. Generell halten wir fest: Die Werte von \gls{gl:mu} und  \gls{gl:sigma} ändern sich nicht systematisch durch wiederholtes Messen. Die zugehörigen Schätzfehler, die wir bei der Annäherung dieser Werte mit den empirischen Werten machen, ändern sich allerdings sehr wohl. Im Limit unendlich vieler Messungen ($N  \rightarrow  \infty)$ entsprechen empirischer Mittelwert und empirische Standardabweichungen den tatsächlichen Parametern der zugrundeliegenden Verteilungen, solange keine systematischen Fehler vorliegen.
 
 \section{Fehlerfortpflanzung}
 \label{chap:fehler:sec:fehlerfortpflanzung}
@@ -547,7 +547,7 @@ Folglich erhalten wir für den Zusammenhang der Varianzen
 \caption{Veranschaulichung des Prinzips der Gausschen Fehlerfortplanzung im eindimensionalen Fall.}
 \end{figure}
 
-Wir betrachten nun den etwas komplizierteren Fall, in dem unsere Zielgrösse $f(x,y)$ von zwei fehlerbehafteten Messgrössen $x, y$ abhängt.Analog zum eindimensionalen Fall versuchen wir, einen Zusammenhang zwischen der Varianz der Zielgrösse und den Varianzen der Messgrössen $\sigma_x, \sigma_y$ herzustellen. Hierbei verwenden wir die Taylorentwicklung erster Ordnung für beide Variablen. Der Übersichtlichkeit halber verwenden wir $\overline{f} = f(\overline{x}, \overline{y})$, $f_n = f(x_n, y_n)$ und $\frac{\partial f}{\partial x}\bigg|_{\overline{x}, \overline{y}} = \frac{\overline{f}}{\partial x}$:
+Wir betrachten nun den etwas komplizierteren Fall, in dem unsere Zielgrösse $f(x,y)$ von zwei fehlerbehafteten Messgrössen $x, y$ abhängt.Analog zum eindimensionalen Fall versuchen wir, einen Zusammenhang zwischen der Varianz der Zielgrösse und den Varianzen der Messgrössen $\sigma_x, \sigma_y$ herzustellen. Hierbei verwenden wir die Taylorentwicklung erster Ordnung für beide Variablen. Der Übersichtlichkeit halber verwenden wir $\overline{f} = f(\overline{x}, \overline{y})$, $f_n = f(x_n, y_n)$ und $\frac{\partial f}{\partial x}\bigg|_{\overline{x}, \overline{y}} = \frac{\partial \overline{f}}{\partial x}$:
 \begin{align}
 \begin{split}
 \sigma_f^2 = \frac{1}{N-1} \sum_{n=1}^N (f_n - \overline{f})^2 = \frac{1}{N-1}\sum_{n=1}^N \left( \frac{\partial \overline{f}}{\partial x} (x - \overline{x}) + \frac{\partial \overline{f}}{\partial y} (y - \overline{y})\right)^2  \\
@@ -590,15 +590,15 @@ Wir wollen die Gaussche Fehlerfortpflanzung nun für unser Beispiel der Bestimmu
 \end{align*}
 und die Fadenlänge \gls{gl:l}  zu:
 \begin{align*}
-\gls{gl:l} = \bigl( \underarrow[\text{1.55}][\uparrow]{\text{$\Tilde{l}$}} \pm \underarrow[\text{0.02}][\uparrow]{\text{$\sigma_l$}} \bigr) \text{m}\,.
+\gls{gl:l} = \bigl( \underarrow[\text{1.55}][\uparrow]{\text{$\overline{l}$}} \pm \underarrow[\text{0.02}][\uparrow]{\text{$\sigma_l$}} \bigr) \text{m}\,.
 \end{align*}
 
 Mit der Fehlerfortpflanzung nach Gauss ergeben sich folgende partielle Ableitungen:
 \begin{align}
-\frac{\partial \gls{gl:g}}{\partial \gls{gl:T_Periode}} =  \frac{4 \pi^2}{\gls{gl:T_Periode}^2},
+\frac{\partial \gls{gl:g}}{\partial \gls{gl:T_Periode}} = - \frac{8 \pi^2 \gls{gl:l}}{\gls{gl:T_Periode}^3},
 \end{align}
 \begin{align}
-\frac{\partial \gls{gl:g}}{\partial \gls{gl:l}}  = - \frac{8 \pi^2 \gls{gl:l}}{\gls{gl:T_Periode}^3}.
+\frac{\partial \gls{gl:g}}{\partial \gls{gl:l}}  =   \frac{4 \pi^2}{\gls{gl:T_Periode}^2}.
 \label{eq:vl3-7}
 \end{align}
 Damit folgt letztendlich:
@@ -619,7 +619,7 @@ Wir runden Zahlen auf die letzte Ziffer, die vom berechneten Messfehler betroffe
  \begin{enumerate}
      \item[-] Absoluter Fehler $x + \Delta x$, z.B. Die Masse beträgt $m=3.25\text{ kg}\pm 0.02$ kg  
      \item[-] Relativer Fehler  $x + \frac{\Delta x}{x}$, z.B. Die Masse beträgt $m=3.25\text{ kg}\pm 1\%$ 
-     \item[-] Implizite Angabe, z.B Die Masse beträgt $m=3.25\text{ kg}$. Hier wird angenommen, dass die Zahl nicht genauer bekannt ist als die Hälfte der letzten angegebenen Ziffer (d.h. hier $\pm 0.005$).
+     \item[-] Implizite Angabe, z.B. Die Masse beträgt $m=3.25\text{ kg}$. Hier wird angenommen, dass die Zahl nicht genauer bekannt ist als die Hälfte der letzten angegebenen Ziffer (d.h. hier $\pm 0.005$).
  \end{enumerate}
 %\subsection{Mit Monte-Carlo Simulationen }
 %Es sei wieder die Funktion $f ( x_1, x_2, x_3, ..., x_n )$ im nachfolgenden unser Modell mit dem Beispiel der Amplitude eines Resonators: $A = f ( S, g, V_\text{in}, f, ... )$.\\[0.3cm]
@@ -647,7 +647,7 @@ gemessenen Mittelwert und dem «Literaturwert»?
 gemessenen Verteilung von Messwerten?
 \item[3] Wie verändert sich nach wiederholtem Messen der Fehler in der
 Abschätzung des Erwartungswertes ($\Delta\mu$) und die Standardabweichung ($\sigma$)?
-\item[4] Kann der Fehler in der Abschätzung des Erwartungswertes $\Delta\mu$ kleiner werden als die Standardabweichung $\sigma$
+\item[4] Kann der Fehler in der Abschätzung des Erwartungswertes $\Delta\mu$ kleiner werden als die Standardabweichung $\sigma$?
 \end{enumerate}
 \end{tcolorbox}
 

@@ -77,7 +77,7 @@ Abb. \ref{fig:fouriertransformation} zeigt ein Beispiel für eine Fouriertransfo
 \begin{figure}[htbp]
     \centering
         \includegraphics[width=\textwidth]{Figures/psd_fig1.pdf}
-        \caption{Beispiel Fouriertransformation: Das gemessen Signal enthält zwei dominante Frequenzkomponenten, von denen eine mit dem Testsignal übereinstimmt. \textbf{Links:} Signal $x(t)$ and Testsignal $e^{i2\pi f_n t_k}$ \textbf{Rechts:} Fouriertransformation von $x(t_k)$ und vom Testsignal.}
+        \caption{Beispiel Fouriertransformation: Das gemessen Signal enthält zwei dominante Frequenzkomponenten, von denen eine mit dem Testsignal übereinstimmt. \textbf{Links:} Signal $x(t)$ und Testsignal $e^{i2\pi f_n t_k}$ \textbf{Rechts:} Fouriertransformation von $x(t_k)$ und vom Testsignal.}
         \label{fig:fouriertransformation}
 \end{figure}
 % Sei $F(x)$ eine integrierbare kontinuierliche Funktion. Dann ist $\tilde{F}(\xi)$ deren Fouriertransformierte (und umgekehrt). Es gilt:
@@ -151,9 +151,9 @@ Die Fouriertransformation kann entweder nur für positive (einseitig, single-sid
 %\subsection{Die Spektrale Leistungsdichte -- Power Spectral Density (PSD)}
 %\label{subsec:vl7-2}
 
-In vielen Anwendungen sind wir nicht an der Phase oder dem Vorzeichen einer Fourierkomponente interessiert, sonder nur daran, wieviel Leistung in einem bestimmten Frequenzintervall enthalten ist. Beispielsweise kann es wichtig sein, wiviel Leistung eine Lichtquelle im sichtbaren Teil des elektromagnetischen Spektrums abstrahlt. In derartigen Fällen wird das normierte Quadrat der Fouriertransformation verwendet – die sogenannte Leistungsdichte oder power spectral density (PSD):
+In vielen Anwendungen sind wir nicht an der Phase oder dem Vorzeichen einer Fourierkomponente interessiert, sondern nur daran, wieviel Leistung in einem bestimmten Frequenzintervall enthalten ist. Beispielsweise kann es wichtig sein, wieviel Leistung eine Lichtquelle im sichtbaren Teil des elektromagnetischen Spektrums abstrahlt. In derartigen Fällen wird das normierte Quadrat der Fouriertransformation verwendet – die sogenannte Leistungsdichte oder power spectral density (PSD):
 \begin{align}
-S_{xx} (f) = \frac{\Delta_t}{N} \left| \sum_{k=0}^{N-1} x(t_k) e^{-i 2 \pi f_n t_k} \right|^2 = \Delta_t
+S_{xx} (f_n) = \frac{\Delta_t}{N} \left| \sum_{k=0}^{N-1} x(t_k) e^{-i 2 \pi f_n t_k} \right|^2 = \Delta_t
 N \left| X(f_n) \right|^2 \,,
 \label{eq:vl7-3}
 \end{align}
@@ -296,7 +296,7 @@ Diese Eigenschaft können wir uns zunutze machen, um zum Beispiel ein bekanntes 
 
 In Abb. \ref{fig:parseval} ist eine Messdatenreihe und ihre PSD zu sehen. Eine Frequenzkomponente bei 15.75\,Hz sticht im Spektrum heraus. Wir können einen \textit{Tiefpassfilter} anwenden, um das Rauschen bei allen anderen Frequenzen zu dämpfen und so das Signal auch im Zeitraum besser sichbar zu machen. 
 
-Wir implementieren einen einfachen digitalen Tiefpassfilter, indem wir jeden Punkt in $x(t)$ mit seinen 10 Nachbarn zu jeder Seite mitteln. Wie erwartet finedne wir, dass die PSD bei höheren Frequenzen deutlich reduziert wurde.\\ 
+Wir implementieren einen einfachen digitalen Tiefpassfilter, indem wir jeden Punkt in $x(t)$ mit seinen 10 Nachbarn zu jeder Seite mitteln. Wie erwartet finden wir, dass die PSD bei höheren Frequenzen deutlich reduziert wurde.\\ 
 
 Nach Gl. (\ref{eq:vl7-9}) wurde durch das Filtern auch die Varianz des Signals verringert, was wir in Abb. \ref{fig:parseval} (links) anhand der Breite des roten gegenüber des blauen Signals qualitativ abschätzen können. \\
 
@@ -357,7 +357,7 @@ Derartige Filter lassen sich digital als Algorithmen oder analog durch elektroni
     \item High-pass: Kondensator und Widerstand
 \end{itemize}
 
-Wir betrachten Als Beispiel den typischen RC-Tiefpassfilter, der aus einem Widerstand $R$ in der Signalleitung und einer Kapazität $C$ zur Erdung besteht (siehe Zeichnung in Vorlesungs-Slides). Die Impedanzen (``komplexen Widerst\"ande'') der Elemente $R$ und $C$ sind in Abh\"angigkeit der Signalfrequenz $\omega$ gegeben als:
+Wir betrachten als Beispiel den typischen RC-Tiefpassfilter, der aus einem Widerstand $R$ in der Signalleitung und einer Kapazität $C$ zur Erdung besteht (siehe Zeichnung in Vorlesungs-Slides). Die Impedanzen (``komplexen Widerst\"ande'') der Elemente $R$ und $C$ sind in Abh\"angigkeit der Signalfrequenz $\omega$ gegeben als:
 \begin{align}
     \begin{split}
         Z_R &= R\\
@@ -413,7 +413,7 @@ Hierbei ist $\omega_{3\,\text{dB}} = 1/RC$ die Frequenz, bei der $|V_{out}|^2$ d
 \textbf{Antworten:} \\
 \begin{enumerate}
 \item[1] Fouriers Theorem besagt das jede integrierbare Funtion als Summe von trigonometrischen Funktionen dargestellt werden kann. 
-\item[2] Beim Herleiten von analytischen Zusammenhängen verwendet man oft die kontinuierliche Fouriertransformation, und beim analysieren von experimentellen Daten verwendet man im Regelfall die diskrete Fouriertransformation, da eine gespeicherte Messunge aus diskreten Datenpunkten besteht.  
+\item[2] Beim Herleiten von analytischen Zusammenhängen verwendet man oft die kontinuierliche Fouriertransformation, und beim analysieren von experimentellen Daten verwendet man im Regelfall die diskrete Fouriertransformation, da eine gespeicherte Messung aus diskreten Datenpunkten besteht.  
 \item[3] Die Nyquist-Frequenz, $f_{max} = 1/2\delta t$
 \item[4] Das Parseval-Theorem besagt, dass das Integral über die PSD der Varianz entspricht. Dies ist wichtig zur Normierung der PSD. 
 \item[5] Über das Parseval-Theorem lässt sich die Varianz $\sigma_x^2$ aus der PSD berechnen. Die Standardabweichung ist dann $\sqrt{\sigma_x^2}$. 

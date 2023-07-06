@@ -4,7 +4,7 @@
 \section{Bayessche Datananalyse}
 \label{chap:estimation:sec:bayes}
 
-Die Bayessche Analyse präsentiert ein vollkommen anderes Verständnis von Wahrscheinlichkeiten als der frequentistische Ansatz, der in Kapitel \ref{chap:fehler:sec:frequentistisch} behandelt wurde. In diesem Ansatz wird die Unsicherheit als eine subjektive Unsicherheit anstelle einer objektive Unsicherheit des Experiments interpretiert. Während der frequentistische Ansatz eine hohe Anzahl an Wiederholungen eines Experimentes erfordert, um Wahrscheinlichkeiten zu berechnen und aufgrund derer Aussagen über die Zukunft zu treffen, bilden im bayesschen Ansatz subjektive Erfahrungen die Grundlage dafür. Im Fokus der Bayesschen Analyse stehen daher bedingte Wahrscheinlichkeiten und der Satz von Bayes (siehe Gleichung \ref{eq:bayes}) nimmt eine zentrale Stellung ein. Im Folgenden definieren wir
+Die Bayessche Analyse präsentiert ein vollkommen anderes Verständnis von Wahrscheinlichkeiten als der frequentistische Ansatz, der in Kapitel \ref{chap:fehler:sec:frequentistisch} behandelt wurde. In diesem Ansatz wird die Unsicherheit als eine subjektive Unsicherheit anstelle einer objektive Unsicherheit des Experiments interpretiert. Während der frequentistische Ansatz eine hohe Anzahl an Wiederholungen eines Experimentes erfordert, um Wahrscheinlichkeiten zu berechnen und aufgrund derer Aussagen über die Zukunft zu treffen, bilden im Bayesschen Ansatz subjektive Erfahrungen die Grundlage dafür. Im Fokus der Bayesschen Analyse stehen daher bedingte Wahrscheinlichkeiten und der Satz von Bayes (siehe Gleichung \ref{eq:bayes}) nimmt eine zentrale Stellung ein. Im Folgenden definieren wir
 \begingroup
 \setlength{\tabcolsep}{10pt} % Default value: 6pt
 \renewcommand{\arraystretch}{1.5} % Default value: 1
@@ -40,7 +40,7 @@ In Gleichung \ref{eq:bayesrewrittensimple} ist $P(B_i)$ die \textit{a-priori} Wa
 \begin{tcolorbox}[enhanced,width=6in,drop fuzzy shadow southwest,
 colframe=blue!50!black,colback=blue!01]
 \textbf{Beispiel 1}: Die Infektionskrankheit \\
- Nehmen wir an, es gibt eine Infektionskrankheit mit einer Inzidenzrate von 100. Das bedeutet, dass von 100 von 100000 Menschen, also 0.1 \%, infiziert sind.  Die \textit{a-priori} Wahrscheinlichkeiten dafür, ob eine Person infiziert ($B_I$) oder gesund ($B_G$) ist, sind somit
+ Nehmen wir an, es gibt eine Infektionskrankheit mit einer Inzidenzrate von 100. Das bedeutet, dass 100 von 100000 Menschen, also 0.1 \%, infiziert sind.  Die \textit{a-priori} Wahrscheinlichkeiten dafür, ob eine Person infiziert ($B_I$) oder gesund ($B_G$) ist, sind somit
  \begin{align}
  P(B_I) = 0.001 \label{eq:proability-example}
  \end{align}
@@ -76,13 +76,13 @@ Hinter lediglich einem von drei Toren befindet sich eine Ziege. Ziel eines Spiel
 
 Diese Frage lässt sich mithilfe des Satz von Bayes beantworten. Die Wahrscheinlichkeiten $P(B_i)$, das sich die Ziege hinter dem Tor $i$ befindet ist für alle Tore identisch und gleich $\frac{1}{3}$. Nehmen wir nun ein konkretes Szenario an, indem sich der Spieler für ein Tor $k=1$ entscheidet und der Moderator anschliessend das Tor $j=3$ öffnet. Die bedingten Wahrscheinlichkeiten $P(D|B_i)$, dass dieses Ergebnis $D$ eintritt, wenn sich die Ziege hinter einem Tor $i$ befindet, sind somit
 \begin{align}
-P(D|B_1) = \frac{1}{2} \cdot \frac{1}{3} = \frac{1}{6} 
+P(D|B_1)\cdot P(B_1) = \frac{1}{2} \cdot \frac{1}{3} = \frac{1}{6} 
 \end{align}
 \begin{align}
-P(D|B_2) = 1 \cdot \frac{1}{3} = \frac{1}{3}
+P(D|B_2)\cdot P(B_2) = 1 \cdot \frac{1}{3} = \frac{1}{3}
 \end{align}
 \begin{align}
-P(D|B_3) = 0 \cdot \frac{1}{3} = 0
+P(D|B_3)\cdot P(B_3) = 0 \cdot \frac{1}{3} = 0
 \end{align}
 Mithilfe des Satzes von Bayes können wir nun die Wahrscheinlichkeiten $P(B_1|D)$ und $P(B_2|D)$ berechnen:
 \begin{align}
@@ -264,7 +264,7 @@ Bemerkung: Der Wert der Varianz hat einen Bias im Vergleich zu dem Wert f\"ur di
 Wir betrachten nun ein h\"aufiges Szenario. Wir messen mit einer uns bekannten und charakterisierten Messapparatur. Das heisst die Messunsicherheit (die Standardabweichung) $\sigma_i$ jeder Messung ist bekannt. Wir messen den Datensatz $\boldsymbol{x} = (x_1, x_2, ..., x_n)$ und wollen den Mittelwert bestimmen.\\
 Die zugrundeliegende Likelihood-Funktion jeder Messung ist:
 \begin{align}
-f_i(\zeta_i, \sigma_i, a) = \frac{1}{ \sqrt{2 \pi } \sigma_i} \exp \left( - \frac{1}{2} \frac{ (\zeta - a)^2 }{ \sigma_1^2 } \right)\,.
+f_i(\zeta_i, \sigma_i, a) = \frac{1}{ \sqrt{2 \pi } \sigma_i} \exp \left( - \frac{1}{2} \frac{ (\zeta - a)^2 }{ \sigma_i^2 } \right)\,.
 \label{eq:vl8-13}
 \end{align}
 
@@ -276,7 +276,7 @@ L(\boldsymbol{x,\sigma}, a) = \prod_{i=1}^n \frac{1}{ \sqrt{2 \pi } \sigma_i} \e
 
 und die Log-Likelihood-Funktion:
 \begin{align}
-l(x,\sigma, a) = \sum_{i=1}^n \ln \left( \frac{1}{ \sqrt{2 \pi } \sigma_i} \right) - \frac{1}{2} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 }\,.
+l(\boldsymbol{x,\sigma}, a) = \sum_{i=1}^n \ln \left( \frac{1}{ \sqrt{2 \pi } \sigma_i} \right) - \frac{1}{2} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 }\,.
 \label{eq:vl8-15}
 \end{align}
 
@@ -291,7 +291,7 @@ Wir bestimmen das Maximum:
 \end{align}
 
 Hier definieren wir das Gewicht der einzelnen Messwerte als $w_i = \frac{1}{\sigma_i^2}$. 
-Letzteres ist der \textbf{gewichtete Mittelwert}. Das heisst die Einzelnen Werte $x_i$ tragen zum Wert des Mittelwertes mehr bei, wenn sie eine kleinere Unsicherheit haben. Werte mit grosser Unsicherheit haben dementsprechend einen kleineren Beitrag zum Mittelwert.
+Letzteres ist der \textbf{gewichtete Mittelwert}. Das heisst die einzelnen Werte $x_i$ tragen zum Wert des Mittelwertes mehr bei, wenn sie eine kleinere Unsicherheit haben. Werte mit grosser Unsicherheit haben dementsprechend einen kleineren Beitrag zum Mittelwert.
 
 
 
@@ -315,8 +315,8 @@ Bisher haben wir die Likelihood-Funktion maximiert, um Parameter zu bestimmen, d
 \label{eq:vl8-17}
 \end{align}
 
-In diesem Fall ist die Maximierung der Log-Likelihood-Funktion \"aquivalent zur Minimierung der Summer der  Abstandsquadrate der einzelnen Messpunkte zum Erwartungswert (also dem Modell). Dies ist die Methode der kleinsten Quadrate.
-Wir definieren die Summer der Abstandsquadrate $S = \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 }$ und damit schreiben wir:
+In diesem Fall ist die Maximierung der Log-Likelihood-Funktion \"aquivalent zur Minimierung der Summe der  Abstandsquadrate der einzelnen Messpunkte zum Erwartungswert (also dem Modell). Dies ist die Methode der kleinsten Quadrate.
+Wir definieren die Summe der Abstandsquadrate $S = \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 }$ und damit schreiben wir:
 \begin{align}
 \frac{ \partial S }{ \partial a } \bigg|_{\hat{a}} &= \frac{ \partial }{ \partial a } \bigg|_{\hat{a}} \sum_{i=1}^n \frac{ (x_i - a)^2 }{ \sigma_i^2 } = 0\,.
 \label{eq:vl8-18}
@@ -331,7 +331,7 @@ Bemerkung: Wenn die $\sigma_i$ bekannt sind, dann ist dies \"aquivalent zur Mini
 \begin{figure}[tbp]
     \centering
         \includegraphics[width=0.8\textwidth]{Figures/linear_fitting_image.pdf}
-        \caption{Beispiel zum linearen Fitten. \textbf{Links:} Linearer Fit einer Ausgleichsgrade zu fehlerbehafteten Daten. \textbf{Rechts:} Linearer Fit eines Polynoms dritter Ordnung zu fehlerbehafteten Daten. }
+        \caption{Beispiel zum linearen Fitten. \textbf{Links:} Linearer Fit einer Ausgleichsgerade zu fehlerbehafteten Daten. \textbf{Rechts:} Linearer Fit eines Polynoms dritten Grades an fehlerbehafteten Daten. }
         \label{fig:linearFit}
 \end{figure} 
 
@@ -426,7 +426,7 @@ mit der L\"osung:
 \end{align}
 
 In Abb. \ref{fig:linearFit}, links, ist ein fehlerbehafteter Datensatz $y(x)$ zu sehen, der einer linearen Funktion folgt. 
-Minimieren der Abstandsquadrate ergibt eine Auslgleichsgerade, die die Datenpunkte beschreibt. 
+Minimieren der Abstandsquadrate ergibt eine Ausgleichsgerade, die die Datenpunkte beschreibt. 
 
 \subsubsection{Fitten eines Polynoms \texorpdfstring{$m$}{m}-ter Ordnung}
 \label{subsubsec:vl8-2}
@@ -652,7 +652,7 @@ minimieren. Wir k\"onnen nun $S$ als Funktion von ``allen'' $\boldsymbol{a}$ ber
 \subsubsection{Gradientenverfahren}
 \label{subsubsec:vl9-1}
 
-Wir starten mit einer initialen Sch\"atzung der Werte von $\boldsymbol{a}$: $\boldsymbol{a}_\mathrm{g}$ und bewegen uns auf der Fl\"ache $S$ entlang des steilsten Gradienten den wir aus der Linearisierung (Taylor-Entwicklung erster Ordnung) erhalten. Dieser Methode folgen wir iterativ zum Minimum von $S$:
+Wir starten mit einer initialen Sch\"atzung der Werte von $\boldsymbol{a}$: $\boldsymbol{a}_\mathrm{g}$ und bewegen uns auf der Fl\"ache $S$ entlang des steilsten Gradienten, den wir aus der Linearisierung (Taylor-Entwicklung erster Ordnung) erhalten. Dieser Methode folgen wir iterativ zum Minimum von $S$:
 \begin{align}
 S \approx S(\boldsymbol{a}_\mathrm{g}) + \sum_{i=0}^m \frac{ \partial S }{ \partial a_i } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta a_i
 \label{eq:vl9-2}
@@ -700,7 +700,7 @@ Diese Prozedur wird wiederholt bis die Fitfunktion die Daten hinreichend gut bes
 \subsubsection{Newtonverfahren}
 \label{subsubsec:vl9-2}
 
-Anstelle der einfachen Linearisierung von $S$ um $\boldsymbol{a}_\mathrm{g}$ (Taylor-Entwicklung erste Ordnung), k\"onnen wir auch den zweiten Term der Taylor-Entwicklung ber\"ucksichtigen:
+Anstelle der einfachen Linearisierung von $S$ um $\boldsymbol{a}_\mathrm{g}$ (Taylor-Entwicklung erster Ordnung), k\"onnen wir auch den zweiten Term der Taylor-Entwicklung ber\"ucksichtigen:
 \begin{align}
 S \approx S(\boldsymbol{a}_\mathrm{g}) + \sum_{i=0}^m \frac{ \partial S }{ \partial a_i } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta a_i + \frac{1}{2} \sum_{i=0}^m \sum_{j=0}^m \frac{ \partial^2 S }{ \partial a_i \partial a_j } \bigg|_{\boldsymbol{a}_\mathrm{g}} \Delta a_i \Delta a_j = S'(\Delta \boldsymbol{a}) \,.
 \label{eq:vl9-7}
@@ -792,7 +792,7 @@ Wir wollen die Verfahren 1 und 2 kombinieren um schnelle Konvergenz in allen Reg
         \item Wenn wir dem Optimum n\"aher kommen (wenn die 2te Ableitung von $S$ klein wird) m\"ochten wir die Korrektur mit der inversen Hesse-Matrix skalieren.
 \end{itemize}
 
-Eine Methode dies zu erreichen wurde von D. Marquardt vorgeschlagen\footnote{Donald W. Maruardt, An Algorithm for Least-Squares Estimation of Nonlinear Parameters. Journal of the Society for Industrial and Applied Mathematics 11, 431 (1963)}, indem die Matrix $\boldsymbol{H}$ ersetzt wird durch:
+Eine Methode dies zu erreichen wurde von D. Marquardt vorgeschlagen\footnote{Donald W. Marquardt, An Algorithm for Least-Squares Estimation of Nonlinear Parameters. Journal of the Society for Industrial and Applied Mathematics 11, 431 (1963)}, indem die Matrix $\boldsymbol{H}$ ersetzt wird durch:
 \begin{align}
 \boldsymbol{H}_{i,j}' =
     \begin{cases}
@@ -838,7 +838,7 @@ mit $\Delta a_j = a_j - \hat{a}_j$ und von nun an werden alle Ableitungen an der
 S \approx& \sum_{i=0}^n w_i \left( y_i - f(x_i, \boldsymbol{\hat{a}}) - \sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j \right)^2\\
 =& \underbrace{\sum_{i=0}^n w_i \left( y_i - f(x_i, \boldsymbol{\hat{a}}) \right)^2}_{= S_\text{min}} - 2 \underbrace{\sum_{i=0}^n \left( w_i \left( y_i - f(x_i, \boldsymbol{\hat{a}}) \right) \sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j \right)}_{= \frac{ \partial S }{ \partial \Delta a_j} \bigg|_{\Delta a_j = 0} = 0}\\
 &+ \sum_{i=0}^n w_i \biggl( {\underbrace{\sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j}_{\mathclap{= \sum_{j=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \Delta a_j \sum_{k=0}^m \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_k } \Delta a_k}}} \biggr)^2\\
-=& S_\text{min} + \sum_{j=0}^m \sum_{k=0}^m \Delta a_j \Delta a_k \sum_{i=0}^n \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_k }\\
+=& S_\text{min} + \sum_{j=0}^m \sum_{k=0}^m \Delta a_j \Delta a_k \sum_{i=0}^n w_i \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_j } \frac{ \partial f(x_i, \boldsymbol{a}) }{ \partial a_k }\\
 =& S_\text{min} + \Delta \boldsymbol{a}^T N \Delta \boldsymbol{a}\,.
 \label{eq:vl9-21}
 \end{split}
@@ -867,7 +867,7 @@ und somit $\frac{1}{2} \Delta \boldsymbol{a}^T \boldsymbol{H} \Delta \boldsymbol
 \subsection{Qualität des Fits}
 \label{subsec:vl9-3}
 
-Mit diesen Methoden können wir ausgehend von den Anfangswerten für die Fit parameter ein Minimum der Kostenfunktion $S$ bestimmen. Ob dieses Minimum jedoch das Globale, oder ein lokales Minimum ist, ist nicht sicher. Wir könne das Ergebnis des Fits zusammen mit den Daten plotten um beurteilen zu können, ob die Daten gut beschrieben werden und ob nach unserer Vorstellung, das globale Minimum gefunden wurde.
+Mit diesen Methoden können wir ausgehend von den Anfangswerten für die Fit parameter ein Minimum der Kostenfunktion $S$ bestimmen. Ob dieses Minimum jedoch das globale, oder ein lokales Minimum ist, ist nicht sicher. Wir könne das Ergebnis des Fits zusammen mit den Daten plotten um beurteilen zu können, ob die Daten gut beschrieben werden und ob nach unserer Vorstellung, das globale Minimum gefunden wurde.
 
 Darüber hinaus, bietet es sich an die Residuen zu betrachten, um zu evaluieren, wie gut der Fit die Daten beschreibt. Dazu berechnen wir $\epsilon_i =y_i - f(x_i, \boldsymbol{\hat{a}})$ für den gesamten Datensatz um die Modellparameter $\boldsymbol{\hat{a}}$ und $S$ zu minimieren. Idealerweise sollten die Abweichungen $\epsilon_i$ der gemessenen Werte $y_i$ von der Fitfunktion $f(x_i, \boldsymbol{\hat{a}})$ nur durch zufällige (statistische), unkorrelierte Fehler zustande kommen. In diesem Fall beschreibt unser Modell die Daten gut und die Voraussetzungen für die Berechnung der Unsicherheiten der Fitparameter (siehe \cref{eq:vl8-30}) sind erfüllt.\\
 Wenn die Residuen nicht zufällig und symmetrisch um die Null verteilt sind, sondern systematische Abweichungen und Korrelationen aufweisen, dann beschreibt das Modell die Daten nur unzureichend (Wobei hier kleine Abweichungen oft nicht vermieden werden können und in Kauf genommen werden müssen). Diese Abweichung kann durch systematische Fehler in der Messung hervorgerufen werden, die durch eine Optimierung des Messaufbaus bzw. durch Anpassung des Modells reduziert oder vermieden werden können. Andererseits kann auch das physikalische Modell nicht das richtige sein, um den gemessenen Effekt zu beschreiben. Dann muss das Modell erweitert, oder ein anderes Modell gewählt werden. Es ist auf jeden Fall zu beachten, dass die Unsicherheiten der Fitparameter unzuverlässig sind wenn die Residuen zu starke Korrelationen aufweisen.
@@ -879,7 +879,7 @@ Wenn die Residuen nicht zufällig und symmetrisch um die Null verteilt sind, son
 \begin{itemize}
     \setlength\itemsep{0em}
         \item Wir können für jede Funktion die Kostenfunktion $S$ (die Summe der Abstandsquadrate) definieren.
-        \item Minimieren von $S$ erlaubt uns die Funktionsparameter zu finden für die die Funktion die Daten am besten beschreibt.
+        \item Minimieren von $S$ erlaubt uns die Funktionsparameter zu finden, für die die Funktion die Daten am besten beschreibt.
         \item Dazu folgen wir iterativ dem Gradienten von $S$ zum Minimum.
         \item Die Unsicherheit der Fitparameter können wir mit Hilfe der Hesse-Matrix berechnen.
         \item Die meisten Datenanalysewerkzeuge stellen effiziente und zuverlässige Implementationen dieser Methoden zu Verfügung, in Python z.B. ``lmfit''.
@@ -913,7 +913,7 @@ Wenn die Residuen nicht zufällig und symmetrisch um die Null verteilt sind, son
 \item[2] Die Likelihood Funktion ist keine Wahrscheinlichkeiteverteilung, weil sie nicht normiert ist. 
 \item[3] Die Parameter $a_i$, die die Likelihood Funktion maximieren, beschreiben die gemessenen Daten am besten, sodass wir ein aussagekräftigeres Modell erhalten. 
 \item[4] Da die Likelihood Funktion nicht normiert ist, sind für uns nur relative Änderungen relevant. Oft erstrecken sich die Werte der Likelihood Funktion über viele Größenordnungen, sodass der Logarithmus der Likelihood Funktion ihre numerischen Werte besser vergleichbar macht. Zusätzlich können über die Log-Likelihood Funktion verschiedene Ausdrücke wie der Erwartungswert und die Varianz hergeleitet werden. 
-\item[5] Die Residuen beim Fit mit einer Ausgleichsgerade sind die Abstandsquadrate der Datenpunkte vom Fit Modell. Die gewichtete Summe der Residuen gibt an wie weit unsere Gerade von der optimalen Auslgeichsgerade entfernt ist.  
+\item[5] Die Residuen beim Fit mit einer Ausgleichsgerade sind die Abstände der Datenpunkte vom Fit Modell. Die gewichtete Summe der Residuen gibt an wie weit unsere Gerade von der optimalen Auslgeichsgerade entfernt ist.  
 \item[6] Die Normalmatrix ist die Matrixform des linearen Gleichungssystems das man erhält wenn man die Summe der Residuen minimiert. Invertieren der Normalmatrix lässt uns aus den gemessenen Datenpunkten die Parameter eines Polynoms berechnen, das diese Datenpunkte optimal beschreibt. 
 \item[7] Beim Ableiten der Summe der Residuen einer nichtlinearen Funktion ergibt sich nicht unbedingt ein lineares Gleichungssystem welches wir als Normalmatrix schreiben könnten. Daher müssen wir die Summe der Residuen iterativ minimieren.  
 \item[8] Die Unsicherheiten der Parameter bei einem nichtlinearen Fit können abgeschätzt werden, indem man die nichtlineare Funktion entwickelt und dann behandelt wie eine lineare Funktion. 

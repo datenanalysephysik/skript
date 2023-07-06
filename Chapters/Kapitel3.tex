@@ -121,10 +121,10 @@ Als nächstes simulieren wir die Messung unserer quasi-analogen Signale mit eine
 Delta_t = 1 # zeitl. Abstand der Messpunkte in den gewaehlten Einheiten: fuer einen Zeitvektor t mit Abstaenden von je 1 Nanosekunde misst unser ADC einen Datenpunkt alle Delta_t Nanosekunden
 U_max = 10 # maximal messbarer Wert: alle groesseren Werte werden als U_max angezeigt (clipping)
 U_min = 0.01 # minimaler messbarer Spannungsunterschied der Signalwerte: Spannungsaufloesung des ADC
-U_noise = 1 # Standardabweichung des Spannungsrauschens, das dem Signal durch den Messprozess hinzigefuegt wird
+U_noise = 1 # Standardabweichung des Spannungsrauschens, das dem Signal durch den Messprozess hinzugefuegt wird
 
 # Initialisierung der Messvektoren
-n_mess = math.floor(N/Delta_t)-1 # Anzahl gemesener Punkte. floor rundet ab
+n_mess = math.floor(N/Delta_t)-1 # Anzahl gemessener Punkte. floor rundet ab
 n = range(n_mess) # wird fuer for loop benoetigt, enthaelt 0 und n_mess als untere und obere Grenze von n
 t_mess = np.zeros(n_mess) # leerer Vektor, um die Zeitwerte zu erfassen
 U1_mess = np.zeros(n_mess) # leerer Vektor, um die Spannungswerte zu erfassen
@@ -152,7 +152,7 @@ Sowohl die Darstellung in Abbildung~\ref{fig:Umesskorr} als auch die erneute Ber
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth]{Figures/Umesskorrplot.pdf}
-\caption{Korrelationen zwischen den Signalen, nachdem sie von einem simulierten ADC (mit Rauschen) gemessen wurden..\textbf{Links:} $U_2^{\mathrm{mess}}$ als Funktion von $U_1^{\mathrm{mess}}$. \textbf{Rechts:} $U_3^{\mathrm{mess}}$ als Funktion von $U_1^{\mathrm{mess}}$.}
+\caption{Korrelationen zwischen den Signalen, nachdem sie von einem simulierten ADC (mit Rauschen) gemessen wurden.\textbf{Links:} $U_2^{\mathrm{mess}}$ als Funktion von $U_1^{\mathrm{mess}}$. \textbf{Rechts:} $U_3^{\mathrm{mess}}$ als Funktion von $U_1^{\mathrm{mess}}$.}
 \label{fig:Umesskorr}
 \end{figure}
 
