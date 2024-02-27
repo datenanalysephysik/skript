@@ -8,7 +8,7 @@ In der Physik ist es oft weder möglich noch notwendig, die gesamte Komplexität
 \begin{align}
 \ddot{x} + \Gamma \dot{x} + \omega_0^2 x = \frac{F ( t )}{m}\,.
 \end{align}
-Hierbei ist $x$ die Auslenkung, \gls{gl:Gamma} die Abklingkonstante, \gls{gl:omega_0} die Resonanzfrequenz multipliziert mit $2\pi$ (die sogenannte Winkelfrequenz), \gls{gl:F} die Kraft, \gls{gl:t} die Zeit und \gls{gl:m} die Masse. Wenn die Kraft durch eine cosinusförmige Oszillation mit konstanter Amplitude und Phase gegeben ist,
+Hierbei ist $x$ die Auslenkung, \gls{gl:Gamma} die Abklingkonstante, \gls{gl:omega_0} die Resonanzfrequenz multipliziert mit $2\pi$ (die sogenannte Kreisfrequenz), \gls{gl:F} die Kraft, \gls{gl:t} die Zeit und \gls{gl:m} die Masse. Wenn die Kraft durch eine cosinusförmige Oszillation mit konstanter Amplitude und Phase gegeben ist,
 \begin{align}
 F(t) = F_0 \cos(\omega t)\,.
 \end{align}
@@ -205,7 +205,7 @@ Dem frequentistischen Wahrscheinlichkeitsbegriff folgend stellt das aus den Erge
 
 Eine Wahrscheinlichkeitsverteilung ist eine positive und normierte Funktion, die die Verteilung der Wahrscheinlichkeit einer Zufallsvariablen $x$ beschreibt.  Falls die Zufallsvariable nur diskrete Werte annehmen kann, spricht man von einer sogenannten  \textbf{Probability Mass Function} (PMF), die jedem möglichen, diskreten Wert $x_n$ der Zufallsvariable eine Wahrscheinlichkeit $P(x_n)$ zuordnet. Es gilt 
 \begin{align}
-P(x_n) \leq 0,
+0 \leq P(x_n) \leq 1,
 \end{align}
 sowie
 \begin{align}
@@ -213,7 +213,7 @@ sowie
 \end{align}
 Im Falle einer kontunierlichen Zufallsvariablen $x$ sprechen wir von einer  \textbf{Probability Density Function} (PDF) (zu deutsch: Wahrscheinlichkeitsdichtefunktion) $f(x)$ die
 \begin{align}
-f(x) \leq 0
+0 \leq  f(x) 
 \end{align}
 und
 \begin{align}
