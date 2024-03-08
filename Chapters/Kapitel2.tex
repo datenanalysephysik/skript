@@ -77,7 +77,7 @@ und eine \textbf{empirische Varianz}
 \gls{gl:deltax2}  = \frac{1}{N-1} \sum^N_{n = 1} \left( x_n - \gls{gl:xoverline} \right) ^2
 \label{eq:empvar}
 \end{align}
-berechnen. Häufig wird auch die empirische Standardabweichung \gls{gl:deltax}, die Quadratwurzel der empirischen Varianz, verwendet. Die \textbf{Genauigkeit} einer Messung beschreibt die Abweichung des Mittelwerts vom erwarteten Wert \gls{gl:xtilde}. Sie ist somit ein Mass für systematische Fehler. Die \textbf{Präzision} einer Messung beschreibt die zufällige Verteilung der Messwerte um deren Mittelwert und ist somit ein Mass für zufällige Fehler. Beide Fehler lassen sich anschaulich in einem \textbf{Histogramm} darstellen, indem wir den Messbereich in gleich grosse ``Bins'' diskretisieren und die Messergebnisse innerhalb jedes Bins zählen (siehe Fig.~\ref{fig:messfehler1}).  \\
+berechnen. Häufig wird auch die empirische Standardabweichung \gls{gl:deltax}, die Quadratwurzel der empirischen Varianz, verwendet. Sie ist somit ein Mass für systematische Fehler. Die \textbf{Präzision} einer Messung beschreibt die zufällige Verteilung der Messwerte um deren Mittelwert und ist somit ein Mass für zufällige Fehler. Beide Fehler lassen sich anschaulich in einem \textbf{Histogramm} darstellen, indem wir den Messbereich in gleich grosse ``Bins'' diskretisieren und die Messergebnisse innerhalb jedes Bins zählen (siehe Fig.~\ref{fig:messfehler1}).   \\
 
 Kehren wir nun zu unserem anfänglichen Beispiel zurück. Wir führen $N$ Messungen von \gls{gl:g} durch und speichern die Ergebnisse in einem Numpy-Array $g$ ab. Ebenfalls speichern wir die zugehörigen Zeitpunkte $t$ der Messungen. In einem ersten Schritt visualisieren wir diese Daten in einem sehr einfachen Plot
 \begin{lstlisting}[language = Python]
@@ -88,12 +88,12 @@ und bestimmen den empirischen Mittelwert und die empirische Varianz der Stichpro
 mean = np.sum(g)/N
 var = np.sum((g-mean)**2)/(N-1)
 \end{lstlisting}
-oder aber durch Verwendung der Funktionen der numpy-Bibliothek
+oder aber durch Verwendung der Funktionen der numpy-Bibliothek. 
 \begin{lstlisting}[language = Python]
 mean = np.mean(g)
 var = np.var(g)
 \end{lstlisting}
-geschehen.\\
+geschehen. Hierbei ist zu beachten, dass die so berechnete Varianz nicht die empirische Varianz ist. Um die empirische Varianz zu erhalten muss die Varianz mit einem Faktor $\frac{N}{N-1}$ multipliziert werden.\\
 
 Wir generieren nun unsere ``Bins'', um den Messbereich zu diskretisieren, und zählen die Messergebnisse pro Bin. Zur Auswahl der Breite der Bins ist die anfängliche Visualisierung der Daten hilfreich. Da die vertikale Auflösung unserer Messung ohnehin durch die Präzision unseres Messgerätes limitiert ist, wählen wir relativ breite Bins.  
 \begin{lstlisting}[language = Python]
