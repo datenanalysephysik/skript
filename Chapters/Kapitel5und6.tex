@@ -605,7 +605,28 @@ Bemerkung: Tat\"achlich sind die $\sigma_i$ nicht gut genug bekannt. Das heisst 
 \label{eq:vl8-44}
 \end{align}
 
-Hierbei ist $\hat{S}_\text{min} = \sum_{i=1}^n w_i ( y_i - \hat{a}_0 - \hat{a}_1 x_i - ... \hat{a}_m x_i^m)^2$, der minimale Wert von $S$ ausgewertet f\"ur die Werte von $\boldsymbol{\hat{a}}$.
+Hierbei ist $\hat{S}_\text{min} = \sum_{i=1}^n w_i ( y_i - \hat{a}_0 - \hat{a}_1 x_i - ... \hat{a}_m x_i^m)^2$, der minimale Wert von $S$ ausgewertet f\"ur die Werte von $\boldsymbol{\hat{a}}$. Dies entspricht der Skalierung der Kovarianzmatrix mit dem reduzierten $\chi^2_\mathrm{red}$. 
+
+\subsection{Güte des Fits - $\chi^2$ Test}
+\label{subsec:vl8-5-1}
+
+Wir sehen also, dass auch der Wert von $\hat{S}_\text{min}$ eine Bedeutung hat. Im allgemeinen gilt
+\begin{align}
+\hat{S}_\text{min} = \sum_{i=1}^n w_i ( y_i - f(x_i, \boldsymbol{\hat{a}})^2.
+\end{align}
+$S$ ist also eine Zufallsvariable mit einer $\chi^2$ Verteilung mit den Freiheitsgraden $k = n-m-1$. Hier ist $n$ die Anzahl der Datenpunkte und $m-1$ die Anzahl der Fitparameter. Wir erwarten also, dass $E(\hat{S}_\text{min}) = E(\chi^2_k) = k$, mit einer Standardabweichung $\sqrt{2k}$.
+
+Typischerweise wird ein 95\% Konfidenzinterval $\left[\chi^2_{0.025}, \chi^2_{0.975} \right]$ um den Erwartungswert angegeben, in dem der Wert $\hat{S}_\text{min}$ mit 95\% Wahrscheinlichkeit zu finden ist.
+Die Grenzen des Intervalls berechnen sich nach
+\begin{align}
+0.025 = \int_0^{\chi^2_{0.025}} f_k(\chi^2)d\chi^2,\\
+0.975 = \int_{\chi^2_{0.975}}^\infty f_k(\chi^2)d\chi^2.\\
+\end{align}
+Achtung: Hier bezeichnen die Indizes der $\chi^2$ den unteren und oberen Grenzwert, nicht die Anzahl der Freiheitsgrade.
+
+Nun haben wir ein quantitatives Mass, anhand dessen wir entscheiden können, ob unser Modell die Daten gut beschreibt (die Nullhypothese): (A) Für $\hat{S}_\text{min} < \chi^2_{0.025}$ sind die Unsicherheiten ($\sigma_i = \frac{1}{\sqrt(w_i)}$) der Daten zu gross, um sie als statistische Standardabweichung zu interpretieren. Dies kann z.B. darauf hinweisen, dass ein einfacheres Modell die Daten beschreiben kann. Dieser Fall ist als Overfitting bekannt. (B) Für $\hat{S}_\text{min} > \chi^2_{0.975}$ weichen die Daten stärker vom Modell ab, als ihre Unsicherheiten erwarten lassen. Das Modell beschreibt also die Daten nicht gut.
+
+Wie gross das Konfidenzintervall gewählt wird, hängt von der Situation ab und sollte im Rahmen der Analyse angegeben werden.
 
 
 \subsection{Zusammenfassung}
@@ -869,8 +890,9 @@ und somit $\frac{1}{2} \Delta \boldsymbol{a}^T \boldsymbol{H} \Delta \boldsymbol
 
 Mit diesen Methoden können wir ausgehend von den Anfangswerten für die Fit parameter ein Minimum der Kostenfunktion $S$ bestimmen. Ob dieses Minimum jedoch das globale, oder ein lokales Minimum ist, ist nicht sicher. Wir könne das Ergebnis des Fits zusammen mit den Daten plotten um beurteilen zu können, ob die Daten gut beschrieben werden und ob nach unserer Vorstellung, das globale Minimum gefunden wurde.
 
-Darüber hinaus, bietet es sich an die Residuen zu betrachten, um zu evaluieren, wie gut der Fit die Daten beschreibt. Dazu berechnen wir $\epsilon_i =y_i - f(x_i, \boldsymbol{\hat{a}})$ für den gesamten Datensatz um die Modellparameter $\boldsymbol{\hat{a}}$ und $S$ zu minimieren. Idealerweise sollten die Abweichungen $\epsilon_i$ der gemessenen Werte $y_i$ von der Fitfunktion $f(x_i, \boldsymbol{\hat{a}})$ nur durch zufällige (statistische), unkorrelierte Fehler zustande kommen. In diesem Fall beschreibt unser Modell die Daten gut und die Voraussetzungen für die Berechnung der Unsicherheiten der Fitparameter (siehe \cref{eq:vl8-30}) sind erfüllt.\\
+Darüber hinaus, bietet es sich an die Residuen zu betrachten, um zu evaluieren, wie gut der Fit die Daten beschreibt (Siehe auch Abschnitt \ref{subsec:vl8-5-1}). Dazu berechnen wir $\epsilon_i =y_i - f(x_i, \boldsymbol{\hat{a}})$ für den gesamten Datensatz um die Modellparameter $\boldsymbol{\hat{a}}$ und $S$ zu minimieren. Idealerweise sollten die Abweichungen $\epsilon_i$ der gemessenen Werte $y_i$ von der Fitfunktion $f(x_i, \boldsymbol{\hat{a}})$ nur durch zufällige (statistische), unkorrelierte Fehler zustande kommen. In diesem Fall beschreibt unser Modell die Daten gut und die Voraussetzungen für die Berechnung der Unsicherheiten der Fitparameter (siehe \cref{eq:vl8-30}) sind erfüllt.\\
 Wenn die Residuen nicht zufällig und symmetrisch um die Null verteilt sind, sondern systematische Abweichungen und Korrelationen aufweisen, dann beschreibt das Modell die Daten nur unzureichend (Wobei hier kleine Abweichungen oft nicht vermieden werden können und in Kauf genommen werden müssen). Diese Abweichung kann durch systematische Fehler in der Messung hervorgerufen werden, die durch eine Optimierung des Messaufbaus bzw. durch Anpassung des Modells reduziert oder vermieden werden können. Andererseits kann auch das physikalische Modell nicht das richtige sein, um den gemessenen Effekt zu beschreiben. Dann muss das Modell erweitert, oder ein anderes Modell gewählt werden. Es ist auf jeden Fall zu beachten, dass die Unsicherheiten der Fitparameter unzuverlässig sind wenn die Residuen zu starke Korrelationen aufweisen.
+
 
 
 \subsection{Zusammenfassung}
@@ -882,7 +904,7 @@ Wenn die Residuen nicht zufällig und symmetrisch um die Null verteilt sind, son
         \item Minimieren von $S$ erlaubt uns die Funktionsparameter zu finden, für die die Funktion die Daten am besten beschreibt.
         \item Dazu folgen wir iterativ dem Gradienten von $S$ zum Minimum.
         \item Die Unsicherheit der Fitparameter können wir mit Hilfe der Hesse-Matrix berechnen.
-        \item Die meisten Datenanalysewerkzeuge stellen effiziente und zuverlässige Implementationen dieser Methoden zu Verfügung, in Python z.B. ``lmfit''.
+        \item Die meisten Datenanalysewerkzeuge stellen effiziente und zuverlässige Implementationen dieser Methoden zu Verfügung, in Python z.B. ``curve\_fit'' in der ``scipy'' Bibliothek.
 \end{itemize}
 
 

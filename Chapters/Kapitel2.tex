@@ -497,6 +497,86 @@ M_2 = \mu M_1 + \mu \frac{ \partial M_1 }{ \partial \mu } = \mu^2 + \mu\,,\\
 \sigma^2 =  M_2 - M_1^2 = \mu\,.
 \end{align}
 
+\subsection{$\chi^2$ Verteilung}
+Die $\chi^2$ Verteilung ist eine Verteilung, die insbesondere bei der Analyse der Güte von Fits verwendung findet. 
+
+Wir betrachten zunächst zwei unkorrelierte, normalverteilte Zufallsvariablen $\epsilon_1$ und $\epsilon_2$ mit ihren Erwartungswerten $\mu_1 = \mu_2 = 0$ und Varianzen $\sigma_1$ und $\sigma_2$.
+Dann ist die Wahrscheinlichkeit, Werte in den Intervallen $\left[ \epsilon_1, \epsilon_1 + d\epsilon_1 \right]$ und $\left[ \epsilon_2, \epsilon_2 + d\epsilon_2 \right]$ zu finden, gegeben durch:
+\begin{align}
+f(\epsilon_1, \epsilon_2)d\epsilon_1 d\epsilon_2 = \frac{1}{\sqrt{2 \pi} \sigma_1} \exp{ \left( - \frac{ \epsilon_1^2}{2 \sigma_1^2} \right)} \frac{1}{\sqrt{2 \pi} \sigma_2} \exp{ \left( - \frac{ \epsilon_2^2}{2 \sigma_2^2} \right)}d\epsilon_1 d\epsilon_2.
+\label{eq:vl2-3}
+\end{align}
+
+Wir definieren neue Variablen $x_1 = \frac{\epsilon_1}{\sigma_1}$ und $x_2 = \frac{\epsilon_2}{\sigma_2}$, damit wird \ref{eq:vl2-3} zu:
+
+\begin{align}
+f(\epsilon_1, \epsilon_2)dx_1 dx_2 = \frac{1}{2 \pi} \exp{ \left( - \frac{1}{2} \left( x_1^2 + x_2^2\right) \right)} dx_1 dx_2.
+\end{align}
+
+Weiterhin definieren wir die Summe der Quadrate: $S = x_1^2 + x_2^2$.
+
+Die Wahrscheinlichkeit, dass $S$ in einem Intervall $\left[ S, S + dS \right]$ liegt, entspricht also der Fläche eines Rings um den Ursprung mit Radius $\chi$ und Breite $d\chi$. Um dies zu berechnen, wechseln wir in Polarkoordinaten:
+
+\begin{align}
+x_1 = \chi \cos{(\theta)}\\
+x_2 = \chi \sin{(\theta)}\\
+\chi^2 = S = x_1^2 + x_2^2\\
+\end{align}
+
+Damit finden wir:
+
+\begin{align}
+f(\epsilon_1, \epsilon_2)dx_1 dx_2 = f(\chi, \theta) \chi d\chi d\theta = \frac{1}{2 \pi} \exp{ \left( - \frac{1}{2} \chi^2 \right)} \chi d\chi d\theta,
+\end{align}
+
+und nach Integration über $\theta$:
+
+\begin{align}
+f(\chi) \chi d\chi = \exp{ \left( - \frac{1}{2} \chi^2 \right)} \chi d\chi.
+\end{align}
+
+Dies können wir ausdrücken als Funktion von $\chi^2$:
+
+\begin{align}
+f(\chi^2) d\chi^2 = \frac{1}{2}\exp{ \left( - \frac{1}{2} \chi^2 \right)} d\chi^2,
+\end{align}
+
+und ohne die Differentiale finden wir die PDF der Zufallsvariable $\chi^2$:
+
+\begin{align}
+f_2(\chi^2) = \frac{1}{2}\exp{ \left( - \frac{1}{2} \chi^2 \right)}.
+\end{align}
+
+Dies ist die $\chi^2$ Verteilung für zwei Variablen, also für zwei Freiheitsgrade. Verallgemeinert für $k$ Freiheitsgrade (bzw. $k$ unabhängige, normalverteilte Zufallsvariablen) ergibt sich:
+
+\begin{align}
+f_k(\chi^2) = \frac{(\chi^2)^\frac{k-2}{2}}{s^\frac{k}{2} \left( \frac{k}{2}-1 \right)!} \exp{ \left( - \frac{1}{2} \chi^2 \right)}.
+\end{align}
+
+Diese Funktion ist mühsam zu berechnen. Man findet ihre Werte in Tabellen oder in Python in der Bibilothek SciPy:
+\begin{lstlisting}[language = Python]
+from scipy.stats import chi2
+\end{lstlisting}
+Um $f_n(\chi^2)$ zu berechnen, kann dann die folgende Funktion verwendet werden:
+\begin{lstlisting}[language = Python]
+f_X2_k = chi2.pdf(X2, k)
+\end{lstlisting}
+
+Wir listen hier einige Eigenschaften der $\chi^2$ Verteilung auf, ohne diese herzuleiten. Die Mode der $\chi^2$ Verteilung, also ihr Maximum, wird erreicht für: 
+\begin{align}
+\chi^2_\mathrm{mode} = k-2.
+\end{align}
+Der Erwartungswert der Verteilung ist:
+\begin{align}
+E(\chi^2) = k,
+\end{align}
+und ihre Varianz ist
+\begin{align}
+\mathrm{var}(\chi^2) = 2k.
+\end{align}
+
+Oft ist es praktisch, die reduzierte $\chi^2$-Verteilung zu verwenden: $\chi^2_\mathrm{red}=\frac{1}{k}\chi^2$. Dies hat den Vorteil, dass $E(\chi^2_\mathrm{red}) = 1$ ist, unabhängig von $k$. Dies gilt jedoch nicht für ihre Varianz: $\mathrm{var}(\chi^2_\mathrm{red}) = \frac{2}{k}$.
+
 
 \section{Fehler des Mittelwertes und die Integrationszeit}
 
