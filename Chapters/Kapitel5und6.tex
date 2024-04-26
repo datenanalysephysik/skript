@@ -553,7 +553,7 @@ S = ( \boldsymbol{y} - \boldsymbol{ X a } )^T \boldsymbol{W}( \boldsymbol{y} - \
 
 Die Normalform hat folgende Gestalt:
 \begin{align}
-( \boldsymbol{X}^T \boldsymbol{WX} ) \boldsymbol{a} = ( \boldsymbol{X}^T \boldsymbol{Wy} )
+( \boldsymbol{X}^T \boldsymbol{WX} ) \boldsymbol{\hat{a}} = ( \boldsymbol{X}^T \boldsymbol{Wy} )
 \label{eq:vl8-37}
 \end{align}
 
@@ -562,6 +562,8 @@ mit der L\"osung:
 \boldsymbol{\hat{a}} = ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{Wy}\,.
 \label{eq:vl8-38}
 \end{align}
+
+
 
 Die Unsicherheiten der Parameter $\boldsymbol{\hat{a}}$ sind gegeben durch deren Varianz:
 \begin{align}
@@ -587,19 +589,37 @@ relativ zu den (unbekannten) tats\"achlichen Werten $\boldsymbol{a}$. Das k\"onn
 \label{eq:vl8-41}
 \end{align}
 
-Mit den Ausdr\"ucken und Definitionen die wir eingef\"uhrt haben finden wir:
+Wir können Ausdruck \ref{eq:vl8-38} umformen:
+
 \begin{align}
-\boldsymbol{C} = \left\langle \left( ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon} \right) \left( ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon} \right)^T \right\rangle 
+\boldsymbol{\hat{a}} = ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{Wy} = \\
+= \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W} \left( \boldsymbol{X} \boldsymbol{a} + \boldsymbol{\epsilon} \right) = \\
+= \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W} \boldsymbol{X} \boldsymbol{a} + \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W} \boldsymbol{\epsilon} =\\
+= \boldsymbol{N}^{-1} \boldsymbol{N} \boldsymbol{a} + \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W} \boldsymbol{\epsilon} = \\
+= \boldsymbol{a} + \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W} \boldsymbol{\epsilon} = \\
+\boldsymbol{a} + ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W} \boldsymbol{\epsilon}\,.
+\end{align}
+
+Damit finden wir:
+\begin{align}
+\boldsymbol{C} = \left\langle \left( ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon} \right) \left( ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon} \right)^T \right\rangle = \\
+\left\langle \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W \epsilon}  \boldsymbol{\epsilon}^T  \boldsymbol{W}^T \boldsymbol{X} \left( \boldsymbol{N}^{-1}\right)^T \right\rangle
 \label{eq:vl8-42}
 \end{align}
 
-und mit $\langle \boldsymbol{ \epsilon \epsilon}^T \rangle  = \boldsymbol{W}^{-1} $ wird das zu:
+und mit $\langle \boldsymbol{ \epsilon \epsilon}^T \rangle  = \boldsymbol{W}^{-1} $ (der einzigen verbleibenden Zufallsvariable) wird das zu:
 \begin{align}
-\boldsymbol{C} = ( \boldsymbol{X}^T \boldsymbol{WX} )^{-1} = \boldsymbol{N}^{-1}\,.
+\boldsymbol{C} = \boldsymbol{N}^{-1} \boldsymbol{X}^T \boldsymbol{W}  \boldsymbol{W}^{-1}  \boldsymbol{W}^T \boldsymbol{X} \left( \boldsymbol{N}^{-1}\right)^T\,.
+\end{align}
+
+Da sowohl $\boldsymbol{N}$, als auch $\boldsymbol{W}$ symmatrisch sind gilt: $\boldsymbol{N} = \boldsymbol{N}^T$ und $\boldsymbol{W} = \boldsymbol{W}^T$ und wir finden für die Kovarianzmatrix:
+
+\begin{align}
+\boldsymbol{C} = \boldsymbol{N}^{-1}\,.
 \label{eq:vl8-43}
 \end{align}
 
-Bemerkung: Tat\"achlich sind die $\sigma_i$ nicht gut genug bekannt. Das heisst $\sigma_i \neq \langle \epsilon_i^2 \rangle$. Das kann korrigiert werden und man findet nach langer Rechnung:
+Bemerkung: Tat\"achlich sind oft die $\sigma_i$ nicht gut genug bekannt. Das heisst $\sigma_i \neq \langle \epsilon_i^2 \rangle$. Das kann korrigiert werden und man findet nach langer Rechnung:
 \begin{align}
 \boldsymbol{C} = \frac{ \hat{S}_\text{min} }{ n - m -1 } \boldsymbol{N}^{-1}\,.
 \label{eq:vl8-44}
