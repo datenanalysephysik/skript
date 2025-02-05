@@ -196,7 +196,7 @@ print(os.getcwd())
 \end{lstlisting}
 Wenn unsere Text-Datei, auf die wir zugreifen können, in unserem Arbeitsverzeichnis liegt, können wir sie direkt laden. Falls die Datei an einem Speicherort ausserhalb unseres Arbeitsverzeichnisses gespeichert ist, müssen wir den Pfad zu diesem Speicherort berücksichtigen und den folgenden modizifierten Code verwenden.
 \begin{lstlisting}[language = Python]
-#in der Datei Data.txt sind unsere Daten abgespeichert
+#in der Datei DataOut.txt sind unsere Daten abgespeichert
 #der Pfad zu dieser Datei ist in der Variable path gespeichert 
 np.loadtxt(os.path.join(path, 'DataOut.txt'))
 \end{lstlisting}
