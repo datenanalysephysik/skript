@@ -5,12 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Advance autorelease tag
-      uses: actions/github-script@v3
+      uses: actions/github-script@v7
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}          
         script: |
           try {
-              await github.git.deleteRef({
+              await github.rest.git.deleteRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: "tags/autorelease"
@@ -18,7 +18,7 @@ jobs:
           } catch (e) {
             console.log("The autorelease tag doesn't exist yet: " + e)
           }
-          await github.git.createRef({
+          await github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
             ref: "refs/tags/autorelease",
@@ -28,18 +28,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
       - name: Upload PDF file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: PDF
           path: main.pdf
       - name: Upload artifact to release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: main.pdf
           tag_name: autorelease
