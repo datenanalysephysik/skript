@@ -1,5 +1,13 @@
 name: Build LaTeX document
-on: [push]
+on: 
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+
 jobs:
   advanceAutoreleaseTag:
     runs-on: ubuntu-latest
