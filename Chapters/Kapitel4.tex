@@ -120,16 +120,17 @@ Die Fouriertransformation kann entweder nur für positive (einseitig, single-sid
            Diese Limite für korrekt gemessene Frequenzen nennt man das Nyquist-Kriterium.
         \end{tcolorbox}
         \end{center}
-        \item \textbf{Frequenzaufl\"osung}: Frequenzen können unterschieden werden, wenn über die gesamte Messzeit $t_\mr{tot}=N\Delta t$ mindestens eine volle Oszillation Unterschied entsteht, also $\Delta_t \leq 1/t_\mr{tot}$. Damit erhalten wir die Aufl\"osung:
+        \item \textbf{Frequenzaufl\"osung}: Die DFT hat $N$ Frequenzwerte von $-f_{max}$ bis $+f_{max}$. Diese Frequenzwerte $f_n$ entsprechen einer ganzen Zahl $n$ mal der Aufl\"osung:
         \begin{align}
-        \delta f  = \frac{ 1 }{t_{tot}} = \frac{ 1 }{ N \Delta_t} = \frac{ 2 f_{max} }{ N }
+        \Delta f  = \frac{ 1 }{t_{tot}} = \frac{ 1 }{ N \Delta_t} = \frac{ 2 f_{max} }{ N },
         \label{eq:vl7-6}
         \end{align}
-        mit $N$ Punkten von $-f_{max}$ bis $+f_{max}$. Die Frequenzwerte, an denen die DFT ausgwertet wird, entsprechen einer ganzen Zahl $n$ mal der Aufl\"osung:
+        also
         \begin{align}
         f_n = n \times \Delta_f\,.
         \label{eq:vl7-7}
         \end{align}
+        Anschaulich k\"onnen wir uns merken, dass über die gesamte Messzeit $t_\mr{tot}=N\Delta t$ mindestens eine volle Oszillation Unterschied zwischen den Frequenzwerten entsteht, also $\Delta_t \leq 1/t_\mr{tot}$.
         \item Die PSD einer perfekten, unendlich lange gemessenen Sinuswelle hat einen einzelnen Peak bei der Wellenfrequenz und ist überall sonst gleich null. Perfektes weisses Rauschen hat über das gesamte Spektrum denselben Wert.
 \end{itemize}
 
