@@ -45,11 +45,17 @@ Für Entscheidungsbäume wäre der Anteil von falschen Klassifizierungen eine m�
 \subsection{Training}
 Das Training minimiert die Verlustfunktion anhand von Trainingsdaten. Wie man dies spezifisch schafft, ist abhängig von dem Modell und der Verlustfunktion. Es ist oft in Python Packages für verschiedene Modelle implementiert.
 
+\subsection{Evaluation des Modells}
+Um ein Modell zu evaluieren, verwenden wir einen Testdatensatz $D'$. Dieser darf kein Teil des Trainingsdatensatzes sein 
+und darf nicht für das Training verwendet worden sein. Auf dem Testdatensatz $D'$
+überprüfen wir, wie gut das Modell auf Daten funktioniert, die es noch nie gesehen hat. 
+
 \subsection{Validierung}
-Für Validierung verwenden wir einen anderen Datensatz $D'$ (also nicht den Trainingsdatensatz und überprüfen, 
-dass die von Training ausgewählte $f^* \in \mathcal{H}$ auch für andere Datensätze funktioniert. 
-Es kann sein, dass unser Modell nur den Datensatz D auswendig gelernt hat und keine Aussagen über andere Datensätze machen kann. 
-Wie müssen deshalb sicherstellen, dass dies nicht der Fall ist.
+Oft verwendet man noch einen Dritten Datensatz, den Validierungsdatensatz $D''$ im Training.
+Der Trainingsdatensatz $D$ wird nochmals in zwei Datensätze aufgeteilt: Den eigentlichen Trainingsdatensatz und 
+den Validierungsdatensatz. Beim Trainieren des Modells müssen wir oft Parameter wählen, die das Modell beeinflussen.
+Diese Parameter werden Hyperparameter genannt. Da wir oft nicht wissen, wie sich die Hyperparameter auf das Modell auswirken,
+müssen wir verschiedene Hyperparameter ausprobieren. Um den Einfluss der Hyperparameter zu testen, verwenden wir den Validierungsdatensatz $D''$. Beachten Sie, dass wir auch für das Ausprobieren der Hyperparameter den Testdatensatz $D'$ nicht verwenden dürfen. Ansonsten könnte es passieren, dass wir ein Modell trainieren, das auf dem Testdatensatz gut funktioniert, aber auf neuen Daten schlecht abschneidet. 
 
 
 \section{Ausgewählte Modelle}
@@ -246,7 +252,83 @@ analytische Lösungen, die ähnlich der Normalgleichungen durch
 Linearen Gleichungssysteme gegeben sind. Die Details und ausführliche Diskussion dieser 
 Methoden gehen aber über das Ziel dieser Vorlesung hinaus. 
 
-.
+\subsection{Logistische Regression}
+
+Bisher haben wir uns nur mit Regressionsmodellen beschäftigt. Bei Regressionsmodellen sind die Vorhersagen 
+reelle Zahlen. Eine wichtige Klasse von Problemen im Maschinellen Lernen sind aber Klassifikationsprobleme.
+Hier sind die Vorhersagen binäre Werte, also entweder 0 oder 1.
+Ein Beispiel ist die Vorhersage, ob ein Bild eine Katze oder einen Hund zeigt. In diesem Fall könnten wir Katzen 
+mit dem Wert 0 und Hunde mit dem Wert 1 kodieren.
+
+Ein einfaches Modell, um binäre Vorhersagen zu machen, ist die \emph{logistische Regression}.
+Im einfachsten Fall haben ist unsere Eingabe $x$ ein Skalarwert, $x \in \mathbb{R}$ und die Vorhersage $y$ nimmt die Werte 0 oder 1 an.
+Logistische Regression versucht genau wie die lineare Regression, die Daten durch eine parametrische, lineare 
+Funktion der Form $ax + b$ zu erklären. Diese Funktion wird dann aber nicht direkt als Vorhersage verwendet. Stattdessen wird sie als Eingabe für die Logistische Funktion verwendet, die die Werte auf den Bereich $[0,1]$ abbildet. Die logistische Funktion ist wie folgt definiert:
+\[
+    \sigma(x) = \frac{1}{1 + e^{-x}}.
+\]
+
+Logistische Regression ist also ein Modell der Form:
+\[
+    f(x, a, b) = \sigma(ax +b).
+\]
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/ML-logreg.png}
+    \caption{Logistische Regression in einem 1D Raum. . }
+    \label{fig:ml-logreg}
+\end{figure}
+Abbildung \ref{fig:ml-logreg} illustriert die Situation. Die Datenpunkte nehmen y-Werte an, die entweder 0 oder 1 sind.
+Gelernt werden die Parameter einer linearen Funktion $ax+b$, die in grün eingezeichnet ist. Diese bestimmt die Werte der logistischen Funktion $\sigma(x)$, die in blau eingezeichnet ist und nach dem Trainieren des Modells gut an die Daten angepasst ist. Die Vorhersagen des Modells können als Wahrscheinlichkeit interpretiert werden, dass der Punkt $x$ zur Klasse 1 gehört: 
+\[
+P(y=1 | X=x) = f(x, a, b).
+\] 
+
+Um die Klasse vorherzusagen, wird ein Schwellenwert $t$ (z.B. $t=0.5$) gewählt. Wenn die Vorhersage grösser als $t$ ist, wird die Klasse 1 vorhergesagt, andernfalls die Klasse 0. 
+
+
+\paragraph{Loss Funktionen für die Klassifizierung}
+
+Wie oben besprochen benötigen wir für das Anpassen eines Modells an die Daten eine Verlustfunktion, welche die Differenz zwischen der Vorhersage des Modells $\hat{y} = f(x, a, b)$ und dem
+tatsächlichen Wert  $y$ misst. Für die Regression haben wir die quadratische Verlustfunktion $L(\hat{y}, y) = (f(x, a, b) - y)^2$ kennengelernt. Für die Logistische Regression, bei denen das Modell nur Vorhersagen muss, ob eine Eingabe $x$ 
+zu einer bestimmten Klasse gehört, ist die Grösse des Abstands meist nicht von Interesse. Stattdessen wollen 
+wir nur messen, ob wir die dem Label $y$ entsprechende Klasse gewählt haben. 
+
+Wenn $y$ nur die Werte $0$ oder $1$ annehmen kann, verwenden wir dafür oft die \emph{Cross Entropy Loss Funktion}.
+Die Cross Entropy Loss Funktion ist dann definiert als:
+\[
+    L(y, \hat{y}) = L(y, \sigma(f(x, a, b))) = -y \log(\sigma(f(x, a, b))) - (1-y)\log(1-\sigma(f(x, a, b)))
+\]
+Dabei ist $\sigma(x)=\frac{1}{1+\exp(-x)}$ die Sigmoidfunktion, die den Wert von $f(x, a, b)$ auf das 
+Interval $[0,1]$ abbildet. Beachten Sie, dass der Verlust nur dann genau 0 wird wenn das Label mit der Vorhersage übereinstimmt. Ansonsten wird der Verlust positiv. 
+
+
+%Wir können diese Funktion wieder durch einen Maximum Likelihood Schätzer motivieren.
+
+% Dabei definieren wir die Likelihood Funktion als Bernoulliverteilung mit Parameter $\lambda$:
+% \[
+% p(y|\lambda) = (1-\lambda)^{1-y} \cdot \lambda^y      
+% \]
+% Der Parameter $\lambda$ soll dabei durch das Neuronale Netz bestimmt werden. 
+% Da der Parameter $\lambda$ nur Werte zwischen 0 und 1 annehmen kann,
+% verwenden wir als Aktivierungsfunkton im letzten Layer die Sigmoidfunktion $\sigma(x)=\frac{1}{1+\exp(-x)}$. 
+
+\paragraph{Höher-dimensionale Eingaben und Basisfunktionen für die logistische Regression}
+
+Selbstverständlich können nicht nur 1D-Daten mittels logistischer Regression klassifiziert werden. Wie bei der linearen Regression können auch hier die Eingaben $x$ mehrdimensional sein. In diesem Fall ist die Vorhersage des Modells
+\[
+    f(x, \textbf{w}) = \sigma(w_0 + \sum_{i=1}^m w_i x_i),
+\]
+wobei $x_i$ die $i$-te Dimension der Eingabe $x$ ist und $w_i$ der entsprechende Parameter.
+
+Während in dieser einfachen Form der logistischen Regression die Vorhersage immer noch linear in den Eingaben ist, können wir auch hier Basisfunktionen verwenden, um nicht-lineare Zusammenhänge zu modellieren.
+
+Analog zum Fall der Regression, hat unser Modell hat dann die Form:
+\[
+    f(x, \textbf{w}) = \sigma(w_0 + \sum_{i=1}^m w_i \phi_i(x)).
+\] 
+wobei $\phi_i(x)$ die Basisfunktionen sind.
 
 \subsection{Neuronale Netze}
 
@@ -313,30 +395,6 @@ In unserer Interpretation von Neuronalen Netzen als Basisfunktionsmodelle, entsp
 Die Eingaben, die die letzte Schicht erreichen sollten nach erfolgreichem Lernen so transformiert sein, 
 dass eine einfache Linearkombination der Eingaben das in den Daten erhaltene Muster erklären kann. 
 
-\subsubsection{Loss Funktionen für die Klassifizierung}
-
-Wie oben besprochen benötigen wir für das Anpassen eines Modells an die Daten eine Verlustfunktion, welche die Differenz zwischen der Vorhersage des Modells $\hat{y} = f(x, \textbf{w})$ und dem
-tatsächlichen Wert  $y$ misst. Für die Regression haben wir die quadratische Verlustfunktion $L(\hat{y}, y) = (f(x,\textbf{w}) - y)^2$ kennengelernt. Für Klassifizierungsprobleme, bei denen das Modell nur Vorhersagen muss, ob eine Eingabe $x$ 
-zu einer bestimmten Klasse gehört, ist die Grösse des Abstands meist nicht von Interesse. Stattdessen wollen 
-wir nur messen, ob wir die dem Label $y$ entsprechende Klasse gewählt haben. 
-
-Wenn $y$ nur die Werte $0$ oder $1$ annehmen kann, verwenden wir dafür oft die \emph{Cross Entropy Loss Funktion}.
-Die Cross Entropy Loss Funktion ist dann definiert als:
-\[
-    L(y, \hat{y}) = L(y, \sigma(f(x, \textbf{w}))) = -y \log(\sigma(f(x, \textbf{w}))) - (1-y)\log(1-\sigma(f(x, \textbf{w})))
-\]
-Dabei ist $\sigma(x)=\frac{1}{1+\exp(-x)}$ die Sigmoidfunktion, die den Wert von $f(x, \textbf{w})$ auf das 
-Interval $[0,1]$ abbildet. Beachten Sie, dass der Verlust nur dann genau 0 wird wenn das Label mit der Vorhersage übereinstimmt. Ansonsten wird der Verlust positiv. 
-
-%Wir können diese Funktion wieder durch einen Maximum Likelihood Schätzer motivieren.
-
-% Dabei definieren wir die Likelihood Funktion als Bernoulliverteilung mit Parameter $\lambda$:
-% \[
-% p(y|\lambda) = (1-\lambda)^{1-y} \cdot \lambda^y      
-% \]
-% Der Parameter $\lambda$ soll dabei durch das Neuronale Netz bestimmt werden. 
-% Da der Parameter $\lambda$ nur Werte zwischen 0 und 1 annehmen kann,
-% verwenden wir als Aktivierungsfunkton im letzten Layer die Sigmoidfunktion $\sigma(x)=\frac{1}{1+\exp(-x)}$. 
 
 
 
