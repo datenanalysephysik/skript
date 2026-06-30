@@ -77,7 +77,7 @@ und eine \textbf{empirische Varianz}
 \gls{gl:deltax2}  = \frac{1}{N-1} \sum^N_{n = 1} \left( x_n - \gls{gl:xoverline} \right) ^2
 \label{eq:empvar}
 \end{align}
-berechnen. Häufig wird auch die empirische Standardabweichung \gls{gl:deltax}, die Quadratwurzel der empirischen Varianz, verwendet. Sie ist somit ein Mass für systematische Fehler. Die \textbf{Präzision} einer Messung beschreibt die zufällige Verteilung der Messwerte um deren Mittelwert und ist somit ein Mass für zufällige Fehler. Beide Fehler lassen sich anschaulich in einem \textbf{Histogramm} darstellen, indem wir den Messbereich in gleich grosse ``Bins'' diskretisieren und die Messergebnisse innerhalb jedes Bins zählen (siehe Fig.~\ref{fig:messfehler1}).   \\
+berechnen. Häufig wird auch die empirische Standardabweichung \gls{gl:deltax}, die Quadratwurzel der empirischen Varianz, verwendet. Sie ist somit ein Mass für statistische Fehler, beziehungsweise die \textbf{Präzision} einer Messung, welche die zufällige Verteilung der Messwerte um deren Mittelwert beschreibt. Dieser Fehler lässt sich anschaulich in einem \textbf{Histogramm} darstellen, indem wir den Messbereich in gleich grosse ``Bins'' diskretisieren und die Messergebnisse innerhalb jedes Bins zählen (siehe Fig.~\ref{fig:messfehler1}).   \\
 
 Kehren wir nun zu unserem anfänglichen Beispiel zurück. Wir führen $N$ Messungen von \gls{gl:g} durch und speichern die Ergebnisse in einem Numpy-Array $g$ ab. Ebenfalls speichern wir die zugehörigen Zeitpunkte $t$ der Messungen. In einem ersten Schritt visualisieren wir diese Daten in einem sehr einfachen Plot
 \begin{lstlisting}[language = Python]
